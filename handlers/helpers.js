@@ -74,20 +74,6 @@ exports.create = function (model) {
   }
 }
 
-exports.createMany = function (model) {
-  return async function (req, res, next) {
-    try {
-      const documents = await model.insertMany(req.body);
-      return res.status(200).send(documents);
-    } catch (err) {
-      return next({
-        status: 500,
-        message: err.message
-      })
-    }
-  }
-}
-
 exports.update = function (model) {
   return async function (req, res, next) {
     try {
@@ -137,8 +123,3 @@ exports.deleteById = function (model) {
     }
   }
 }
-
-// Regex function for search functionality
-exports.escapeRegex = function (string) {
-  return string.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};

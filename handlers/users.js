@@ -11,7 +11,7 @@ exports.validateUsername = () => {
             message: err,
           });
         }
-        return res.status(200).json({ message: 'Todo all right', result });
+        return res.status(200).json({ message: 'The user does exist', result });
       });
     } catch (err) {
       return next({
