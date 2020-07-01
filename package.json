@@ -2,7 +2,7 @@
   "name": "postapp-backend",
   "version": "1.0.0",
   "description": "backend based on nodejs and expressjs for a post application",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +22,12 @@
     "typescript": "^3.9.5"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/cors": "^2.8.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.6",
+    "@types/mongoose": "^5.7.29",
+    "@types/node": "^14.0.14",
     "dotenv": "^8.2.0"
   }
 }

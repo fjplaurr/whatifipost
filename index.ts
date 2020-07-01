@@ -1,20 +1,25 @@
+import * as dotenv from 'dotenv';
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: `${__dirname}/.env` });
+  dotenv.config({ path: `${__dirname}/.env` });
 } else {
-  require('dotenv').config();
+  dotenv.config();
 }
-const express = require('express');
-const cors = require('cors');
+import {
+  NextFunction,
+  Request,
+  Response
+} from 'express';
+import * as mongoose from 'mongoose';
+import * as express from 'express';
+import * as cors from 'cors';
+import { postsRoutes, usersRoutes } from './routes';
+
 const app = express();
-// const authRoutes = require('./routes/auth');
-const postsRoutes = require('./routes/posts');
-const usersRoutes = require('./routes/users');
 
 // Database connection
-const mongoose = require('mongoose');
 const uri = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : process.env.MLAB_URI
 
-mongoose.connect(uri, {
+uri && mongoose.connect(uri, {
   keepAlive: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -30,9 +35,8 @@ app.use('/api/users', usersRoutes);
 app.use('/api/posts', postsRoutes);
 
 // Error handling
-app.use(function (req, res, next) {
+app.use(function (req: Request, res: Response, next: NextFunction) {
   let err = new Error('Not found');
-  err.status = 404;
   next(err);
 });
 
