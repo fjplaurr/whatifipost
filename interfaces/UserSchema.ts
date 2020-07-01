@@ -1,7 +1,8 @@
-import PostSchema from './PostSchema';
 import { Document } from 'mongoose';
+import { PostSchema } from '.';
 
-interface UserSchema extends Document {
+export interface UserSchema extends Document {
+  _id: string,
   email: string,
   password: string,
   profileImage: {
@@ -14,5 +15,3 @@ interface UserSchema extends Document {
   verificationCode: string,
   posts: PostSchema[],
 }
-
-export default UserSchema;

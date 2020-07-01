@@ -1,10 +1,9 @@
-import UserSchema from './UserSchema';
 import { Document } from 'mongoose';
+import { UserSchema } from '.';
 
-interface PostSchema extends Document {
+export interface PostSchema extends Document {
+  _id: string,
   text: string,
   date: Date,
-  author: UserSchema,
+  author: UserSchema['id'],
 }
-
-export default PostSchema;

@@ -1,10 +1,8 @@
-import { UserSchema } from './';
 import { Model } from 'mongoose';
+import { UserSchema } from '.';
 
-interface UserModel extends Model<UserSchema> {
+export interface UserModel extends Model<UserSchema> {
   comparePassword: () => boolean;
   validateUsername: () => any;
   getUsersPosts: () => any;
 }
-
-export default UserModel;

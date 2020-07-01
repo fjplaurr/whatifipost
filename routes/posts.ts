@@ -1,7 +1,8 @@
 import * as express from 'express';
-const router = express.Router();
 import { Post } from '../models';
-import * as db from '../handlers/helpers'
+import * as db from '../handlers/helpers';
+
+const router = express.Router();
 
 // get
 router.get('/', db.getAll(Post));

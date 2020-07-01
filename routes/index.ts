@@ -3,5 +3,5 @@ import postsRoutes from './posts';
 
 export {
   usersRoutes,
-  postsRoutes
+  postsRoutes,
 };

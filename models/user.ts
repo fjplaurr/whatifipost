@@ -1,12 +1,12 @@
 import * as mongoose from 'mongoose';
 import { compare } from 'bcrypt';
-import { Post } from './';
-import { UserSchema, UserModel } from '../interfaces';
 import {
   NextFunction,
   Request,
-  Response
+  Response,
 } from 'express';
+import { Post } from '.';
+import { UserSchema, UserModel } from '../interfaces';
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -31,10 +31,11 @@ const userSchema = new mongoose.Schema({
   },
   posts: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
-  ]
+  ],
 });
 
-userSchema.methods.comparePassword = async function (candidatePassword: string, next: NextFunction) {
+userSchema.methods.comparePassword = async function
+comparePassword(candidatePassword: string, next: NextFunction) {
   try {
     const isMatch = await compare(candidatePassword, this.password);
     return isMatch;
@@ -43,42 +44,35 @@ userSchema.methods.comparePassword = async function (candidatePassword: string, 
   }
 };
 
-userSchema.statics.validateUsername = () => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await User.exists(req.query, (err, result) => {
-        if (err) {
-          console.log('Error: ', err);
-          return next({
-            status: 400,
-            message: err,
-          });
-        }
-        return res.status(200).json({ message: 'The user does exist', result });
-      });
-    } catch (err) {
-      return next({
-        status: 400,
-        message: err.message,
-      });
+userSchema.statics.validateUsername = async function
+validateUsername(req: Request, res: Response, next: NextFunction) {
+  try {
+    const exist: boolean = await this.exists(req.query);
+    if (exist) {
+      return res.status(200).json({ message: 'The user does exist' });
     }
-  };
+    return res.status(404).json({ message: 'The user does not exist' });
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
+  }
 };
 
-userSchema.statics.getUsersPosts = () => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      const usersPost = await Post.find({ author: id }).sort('date');
-      return res.status(200).json(usersPost);
-    } catch (err) {
-      return next({
-        status: 400,
-        message: err.message,
-      });
-    }
+userSchema.statics.getUsersPosts = async function
+getUsersPosts(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { id } = req.params;
+    const usersPost = await Post.find({ author: id }).sort('date');
+    return res.status(200).json(usersPost);
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
   }
-}
+};
 
 const User = mongoose.model<UserSchema, UserModel>('User', userSchema);
 
