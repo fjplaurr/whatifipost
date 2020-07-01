@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
-var router = express.Router();
 var models_1 = require("../models");
 var db = require("../handlers/helpers");
+var router = express.Router();
 // get
 router.get('/exists-user', models_1.User.validateUsername());
 router.get('/', db.getAll(models_1.User));

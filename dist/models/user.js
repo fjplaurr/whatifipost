@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
 var bcrypt_1 = require("bcrypt");
-var _1 = require("./");
+var _1 = require(".");
 var userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -62,9 +62,9 @@ var userSchema = new mongoose.Schema({
     },
     posts: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
-    ]
+    ],
 });
-userSchema.methods.comparePassword = function (candidatePassword, next) {
+userSchema.methods.comparePassword = function comparePassword(candidatePassword, next) {
     return __awaiter(this, void 0, void 0, function () {
         var isMatch, err_1;
         return __generator(this, function (_a) {
@@ -83,26 +83,20 @@ userSchema.methods.comparePassword = function (candidatePassword, next) {
         });
     });
 };
-userSchema.statics.validateUsername = function () {
-    return function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var err_2;
+userSchema.statics.validateUsername = function validateUsername(req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var exist, err_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, User.exists(req.query, function (err, result) {
-                            if (err) {
-                                console.log('Error: ', err);
-                                return next({
-                                    status: 400,
-                                    message: err,
-                                });
-                            }
-                            return res.status(200).json({ message: 'The user does exist', result: result });
-                        })];
+                    return [4 /*yield*/, this.exists(req.query)];
                 case 1:
-                    _a.sent();
-                    return [3 /*break*/, 3];
+                    exist = _a.sent();
+                    if (exist) {
+                        return [2 /*return*/, res.status(200).json({ message: 'The user does exist' })];
+                    }
+                    return [2 /*return*/, res.status(404).json({ message: 'The user does not exist' })];
                 case 2:
                     err_2 = _a.sent();
                     return [2 /*return*/, next({
@@ -112,10 +106,10 @@ userSchema.statics.validateUsername = function () {
                 case 3: return [2 /*return*/];
             }
         });
-    }); };
+    });
 };
-userSchema.statics.getUsersPosts = function () {
-    return function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+userSchema.statics.getUsersPosts = function getUsersPosts(req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
         var id, usersPost, err_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -135,7 +129,7 @@ userSchema.statics.getUsersPosts = function () {
                 case 3: return [2 /*return*/];
             }
         });
-    }); };
+    });
 };
 var User = mongoose.model('User', userSchema);
 exports.default = User;

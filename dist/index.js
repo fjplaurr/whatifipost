@@ -1,29 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var dotenv = require("dotenv");
+var mongoose = require("mongoose");
+var express = require("express");
+var cors = require("cors");
+var routes_1 = require("./routes");
 if (process.env.NODE_ENV !== 'production') {
     dotenv.config({ path: __dirname + "/.env" });
 }
 else {
     dotenv.config();
 }
-var mongoose = require("mongoose");
-var express = require("express");
-var cors = require("cors");
-var routes_1 = require("./routes");
 var app = express();
 // Database connection
 var uri = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : process.env.MLAB_URI;
 uri && mongoose.connect(uri, {
     keepAlive: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 });
 // Middlewares
 app.use(cors());
 app.use(express.json());
 // Routes
-// app.use('/api/auth', authRoutes);
 app.use('/api/users', routes_1.usersRoutes);
 app.use('/api/posts', routes_1.postsRoutes);
 // Error handling

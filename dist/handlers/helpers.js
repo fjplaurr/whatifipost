@@ -36,130 +36,130 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAll = function (model) {
-    return function (req, res, next) {
-        return __awaiter(this, void 0, void 0, function () {
-            var document_1, err_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, model.find({})];
-                    case 1:
-                        document_1 = _a.sent();
-                        return [2 /*return*/, res.status(200).send(document_1)];
-                    case 2:
-                        err_1 = _a.sent();
-                        return [2 /*return*/, next({
-                                status: 500,
-                                message: err_1.message
-                            })];
-                    case 3: return [2 /*return*/];
-                }
-            });
+function getAll(model) {
+    var _this = this;
+    return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        var document_1, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, model.find({})];
+                case 1:
+                    document_1 = _a.sent();
+                    return [2 /*return*/, res.status(200).send(document_1)];
+                case 2:
+                    err_1 = _a.sent();
+                    return [2 /*return*/, next({
+                            status: 500,
+                            message: err_1.message,
+                        })];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
-};
-exports.getById = function (model) {
-    return function (req, res, next) {
-        return __awaiter(this, void 0, void 0, function () {
-            var document_2, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, model.findById(req.params.id)];
-                    case 1:
-                        document_2 = _a.sent();
-                        return [2 /*return*/, res.status(200).send(document_2)];
-                    case 2:
-                        err_2 = _a.sent();
-                        return [2 /*return*/, next({
-                                status: 500,
-                                message: err_2.message
-                            })];
-                    case 3: return [2 /*return*/];
-                }
-            });
+    }); };
+}
+exports.getAll = getAll;
+function getById(model) {
+    var _this = this;
+    return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        var document_2, err_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, model.findById(req.params.id)];
+                case 1:
+                    document_2 = _a.sent();
+                    return [2 /*return*/, res.status(200).send(document_2)];
+                case 2:
+                    err_2 = _a.sent();
+                    return [2 /*return*/, next({
+                            status: 500,
+                            message: err_2.message,
+                        })];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
-};
-exports.create = function (model) {
-    return function (req, res, next) {
-        return __awaiter(this, void 0, void 0, function () {
-            var document_3, newDocument, err_3;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        document_3 = req.body;
-                        return [4 /*yield*/, new model(document_3).save()];
-                    case 1:
-                        newDocument = _a.sent();
-                        return [2 /*return*/, res.status(200).send(newDocument)];
-                    case 2:
-                        err_3 = _a.sent();
-                        return [2 /*return*/, next({
-                                status: 500,
-                                message: err_3.message
-                            })];
-                    case 3: return [2 /*return*/];
-                }
-            });
+    }); };
+}
+exports.getById = getById;
+function create(GenericModel) {
+    var _this = this;
+    return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        var document_3, newDocument, err_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    document_3 = req.body;
+                    return [4 /*yield*/, new GenericModel(document_3).save()];
+                case 1:
+                    newDocument = _a.sent();
+                    return [2 /*return*/, res.status(200).send(newDocument)];
+                case 2:
+                    err_3 = _a.sent();
+                    return [2 /*return*/, next({
+                            status: 500,
+                            message: err_3.message,
+                        })];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
-};
-exports.update = function (model) {
-    return function (req, res, next) {
-        return __awaiter(this, void 0, void 0, function () {
-            var document_4, updatedDocument, err_4;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        document_4 = req.body;
-                        return [4 /*yield*/, model.findOneAndUpdate({ _id: req.params.id }, document_4)];
-                    case 1:
-                        updatedDocument = _a.sent();
-                        return [2 /*return*/, res.status(200).send(updatedDocument)];
-                    case 2:
-                        err_4 = _a.sent();
-                        return [2 /*return*/, next({
-                                status: 500,
-                                message: err_4.message
-                            })];
-                    case 3: return [2 /*return*/];
-                }
-            });
+    }); };
+}
+exports.create = create;
+function update(GenericModel) {
+    var _this = this;
+    return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        var document_4, updatedDocument, err_4;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    document_4 = req.body;
+                    return [4 /*yield*/, GenericModel.findOneAndUpdate({ _id: req.params.id }, document_4)];
+                case 1:
+                    updatedDocument = _a.sent();
+                    return [2 /*return*/, res.status(200).send(updatedDocument)];
+                case 2:
+                    err_4 = _a.sent();
+                    return [2 /*return*/, next({
+                            status: 500,
+                            message: err_4.message,
+                        })];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
-};
-exports.deleteById = function (model) {
-    return function (req, res, next) {
-        return __awaiter(this, void 0, void 0, function () {
-            var key, deletedDocument, err_5;
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        key = Object.keys(req.params)[0];
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, model.deleteOne((_a = {}, _a[key] = req.params[key], _a))];
-                    case 2:
-                        deletedDocument = _b.sent();
-                        return [2 /*return*/, res.status(200).send(deletedDocument)];
-                    case 3:
-                        err_5 = _b.sent();
-                        return [2 /*return*/, next({
-                                status: 500,
-                                message: err_5.message
-                            })];
-                    case 4: return [2 /*return*/];
-                }
-            });
+    }); };
+}
+exports.update = update;
+function deleteById(GenericModel) {
+    var _this = this;
+    return function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+        var key, deletedDocument, err_5;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    key = Object.keys(req.params)[0];
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, GenericModel.deleteOne((_a = {}, _a[key] = req.params[key], _a))];
+                case 2:
+                    deletedDocument = _b.sent();
+                    return [2 /*return*/, res.status(200).send(deletedDocument)];
+                case 3:
+                    err_5 = _b.sent();
+                    return [2 /*return*/, next({
+                            status: 500,
+                            message: err_5.message,
+                        })];
+                case 4: return [2 /*return*/];
+            }
         });
-    };
-};
+    }); };
+}
+exports.deleteById = deleteById;
 //# sourceMappingURL=helpers.js.map
