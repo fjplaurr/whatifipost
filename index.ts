@@ -41,9 +41,9 @@ app.use('/api/users', usersRoutes);
 app.use('/api/posts', postsRoutes);
 
 // Error handling
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const err = new Error('Not found');
-  next(err);
+// eslint-disable-next-line no-unused-vars
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).render('error', { error });
 });
 
 // Server listening
