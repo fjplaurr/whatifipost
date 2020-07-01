@@ -43,9 +43,9 @@ app.use(express.json());
 app.use('/api/users', routes_1.usersRoutes);
 app.use('/api/posts', routes_1.postsRoutes);
 // Error handling
-app.use((req, res, next) => {
-    const err = new Error('Not found');
-    next(err);
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
+    res.status(500).render('error', { error });
 });
 // Server listening
 const PORT = process.env.PORT || 5000;
