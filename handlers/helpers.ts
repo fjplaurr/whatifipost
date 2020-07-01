@@ -33,6 +33,19 @@ export function getById(model: Model<any>) {
   };
 }
 
+export function test() {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.status(200).send('test completed');
+    } catch (err) {
+      return next({
+        status: 500,
+        message: err.message,
+      });
+    }
+  };
+}
+
 export function create(GenericModel: Model<any>) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
