@@ -1,0 +1,59 @@
+{
+    "env": {
+        "es2020": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "ignorePatterns": "node_modules/",
+    "rules": {
+        // no-console rule off for nodejs server
+        "no-console": "off",
+        "no-unused-expressions": "off",
+        "no-underscore-dangle": "off",
+        "linebreak-style": 0,
+        //Next is a workaround until there is a fix for: https://github.com/benmosher/eslint-plugin-import/issues/1558
+        "import/extensions": [
+            "error",
+            "always",
+            {
+                "ts": "never",
+                "tsx": "never"
+            }
+        ]
+    },
+    //Next is workaround to avoid no-unused-vars rule for types in typescript. https://github.com/typescript-eslint/typescript-eslint/issues/46#issuecomment-470486034
+    "overrides": [
+        {
+            "files": [
+                "*.ts"
+            ],
+            "rules": {
+                "@typescript-eslint/no-unused-vars": [
+                    2,
+                    {
+                        "args": "none"
+                    }
+                ]
+            }
+        }
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".ts"
+                ]
+            }
+        }
+    }
+}
