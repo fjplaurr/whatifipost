@@ -19,11 +19,18 @@ const app = express();
 
 // Database connection
 const uri = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : process.env.MLAB_URI;
-uri && mongoose.connect(uri, {
-  keepAlive: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const startMongoConnection = async () => {
+  try {
+    uri && await mongoose.connect(uri, {
+      keepAlive: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  } catch (error) {
+    console.log('The connection to Mongodb was not successful');
+  }
+};
+startMongoConnection();
 
 // Middlewares
 app.use(cors());
@@ -31,7 +38,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/users', usersRoutes);
-//app.use('/api/posts', postsRoutes);
+app.use('/api/posts', postsRoutes);
 
 // Error handling
 app.use((req: Request, res: Response, next: NextFunction) => {
