@@ -74,6 +74,8 @@ getUsersPosts(req: Request, res: Response, next: NextFunction) {
   }
 };
 
+userSchema.statics.lol = async function lol() { return () => { console.log('lol'); }; };
+
 const User = mongoose.model<UserSchema, UserModel>('User', userSchema);
 
 export default User;

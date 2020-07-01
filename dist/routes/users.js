@@ -5,9 +5,9 @@ var models_1 = require("../models");
 var db = require("../handlers/helpers");
 var router = express.Router();
 // get
-router.get('/exists-user', models_1.User.validateUsername());
+router.get('/exists-user', models_1.User.validateUsername);
 router.get('/', db.getAll(models_1.User));
-router.get('/:id/posts', models_1.User.getUsersPosts());
+router.get('/:id/posts', models_1.User.getUsersPosts);
 router.get('/:id', db.getById(models_1.User));
 // post
 router.post('/', db.create(models_1.User));

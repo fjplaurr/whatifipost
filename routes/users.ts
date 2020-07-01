@@ -5,9 +5,9 @@ import * as db from '../handlers/helpers';
 const router = express.Router();
 
 // get
-router.get('/exists-user', User.validateUsername());
+router.get('/exists-user', User.validateUsername);
 router.get('/', db.getAll(User));
-router.get('/:id/posts', User.getUsersPosts());
+router.get('/:id/posts', User.getUsersPosts);
 router.get('/:id', db.getById(User));
 
 // post

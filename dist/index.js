@@ -24,7 +24,7 @@ app.use(cors());
 app.use(express.json());
 // Routes
 app.use('/api/users', routes_1.usersRoutes);
-app.use('/api/posts', routes_1.postsRoutes);
+//app.use('/api/posts', postsRoutes);
 // Error handling
 app.use(function (req, res, next) {
     var err = new Error('Not found');

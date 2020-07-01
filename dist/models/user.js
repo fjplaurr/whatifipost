@@ -131,6 +131,11 @@ userSchema.statics.getUsersPosts = function getUsersPosts(req, res, next) {
         });
     });
 };
+userSchema.statics.lol = function lol() {
+    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
+        return [2 /*return*/, function () { console.log('lol'); }];
+    }); });
+};
 var User = mongoose.model('User', userSchema);
 exports.default = User;
 //# sourceMappingURL=user.js.map

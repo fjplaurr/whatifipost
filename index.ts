@@ -31,7 +31,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/users', usersRoutes);
-app.use('/api/posts', postsRoutes);
+//app.use('/api/posts', postsRoutes);
 
 // Error handling
 app.use((req: Request, res: Response, next: NextFunction) => {
