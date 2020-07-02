@@ -5,6 +5,7 @@ const models_1 = require("../models");
 const db = require("../handlers/helpers");
 const router = express.Router();
 // get
+router.get('/test', db.test());
 router.get('/exists-user', models_1.User.validateUsername);
 router.get('/', db.getAll(models_1.User));
 router.get('/:id/posts', models_1.User.getUsersPosts);

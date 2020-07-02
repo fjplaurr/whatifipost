@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteById = exports.update = exports.create = exports.getById = exports.getAll = void 0;
+exports.deleteById = exports.update = exports.create = exports.test = exports.getById = exports.getAll = void 0;
 function getAll(model) {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
@@ -40,6 +40,20 @@ function getById(model) {
     });
 }
 exports.getById = getById;
+function test() {
+    return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            return res.status(200).send('test completed');
+        }
+        catch (err) {
+            return next({
+                status: 500,
+                message: err.message,
+            });
+        }
+    });
+}
+exports.test = test;
 function create(GenericModel) {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
