@@ -12,6 +12,5 @@ export interface UserSchema extends Document {
     url: string,
   },
   nick: string,
-  verificationCode: string,
   posts: PostSchema[],
 }

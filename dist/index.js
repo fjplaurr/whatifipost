@@ -20,6 +20,7 @@ if (process.env.NODE_ENV !== 'production') {
 else {
     dotenv.config();
 }
+// Initializes express application
 const app = express();
 // Database connection
 const uri = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : process.env.MLAB_URI;
@@ -42,6 +43,7 @@ app.use(express.json());
 // Routes
 app.use('/api/users', routes_1.usersRoutes);
 app.use('/api/posts', routes_1.postsRoutes);
+app.use('/api/auth', routes_1.authRoutes);
 // Error handling
 // eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {

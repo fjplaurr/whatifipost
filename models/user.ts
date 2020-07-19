@@ -25,10 +25,6 @@ const userSchema = new mongoose.Schema({
     url: String,
   },
   nick: String,
-  verificationCode: {
-    type: String,
-    required: true,
-  },
   posts: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
   ],
@@ -73,8 +69,6 @@ getUsersPosts(req: Request, res: Response, next: NextFunction) {
     });
   }
 };
-
-userSchema.statics.lol = async function lol() { return () => { console.log('lol'); }; };
 
 const User = mongoose.model<UserSchema, UserModel>('User', userSchema);
 

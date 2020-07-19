@@ -29,10 +29,6 @@ const userSchema = new mongoose.Schema({
         url: String,
     },
     nick: String,
-    verificationCode: {
-        type: String,
-        required: true,
-    },
     posts: [
         { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
     ],
@@ -79,9 +75,6 @@ userSchema.statics.getUsersPosts = function getUsersPosts(req, res, next) {
             });
         }
     });
-};
-userSchema.statics.lol = function lol() {
-    return __awaiter(this, void 0, void 0, function* () { return () => { console.log('lol'); }; });
 };
 const User = mongoose.model('User', userSchema);
 exports.default = User;

@@ -7,7 +7,7 @@ import {
 import * as mongoose from 'mongoose';
 import * as express from 'express';
 import * as cors from 'cors';
-import { postsRoutes, usersRoutes } from './routes';
+import { postsRoutes, usersRoutes, authRoutes } from './routes';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: `${__dirname}/.env` });
@@ -15,6 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 
+// Initializes express application
 const app = express();
 
 // Database connection
@@ -39,6 +40,7 @@ app.use(express.json());
 // Routes
 app.use('/api/users', usersRoutes);
 app.use('/api/posts', postsRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error handling
 // eslint-disable-next-line no-unused-vars
