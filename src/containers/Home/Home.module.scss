@@ -1,0 +1,23 @@
+@import '../../variables.scss';
+
+.horizontalContainer{
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.verticalContainer{
+  display: flex;
+  flex-direction: column;
+  margin-left: 25px;
+}
+
+.postSectionWrapper{
+  margin-bottom: 25px;
+}
+
+.followSectionWrapper{
+  position: sticky;
+  top: 140px;
+  max-height: 500px;
+}

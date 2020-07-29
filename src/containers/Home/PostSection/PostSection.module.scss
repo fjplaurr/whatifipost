@@ -1,0 +1,28 @@
+@import '../../../variables.scss';
+
+.textArea{
+  font-weight: 400;
+  font-size: 18px;
+  width: 450px;
+  height: 100%;
+  resize: none;
+}
+
+.postSection{
+  border: 1px solid rgba($blue, 0.3);
+  padding: 30px;
+  width: 610px;
+  height: 110px;
+}
+
+.container{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonWrapper{
+  align-self: flex-end;
+}
