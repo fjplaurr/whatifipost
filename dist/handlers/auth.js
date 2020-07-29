@@ -19,16 +19,16 @@ function signin(req, res, next) {
             const user = yield db.User.findOne({ email: req.body.email }).exec();
             // if email found
             if (user) {
-                const { _id, email } = user;
+                const { id, email } = user;
                 const isMatch = yield user.comparePassword(req.body.password);
                 // if password is correct
                 if (isMatch) {
                     const token = jwt.sign({
-                        _id,
+                        id,
                         email,
                     }, process.env.SECRET_KEY);
                     return res.status(200).json({
-                        _id,
+                        user,
                         token,
                     });
                 }
@@ -43,18 +43,16 @@ function signin(req, res, next) {
 exports.signin = signin;
 function signup(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Signup body: ', req.body);
         try {
             const hashedPassword = yield bcrypt_1.hash(req.body.password, 10);
             const newUser = Object.assign(Object.assign({}, req.body), { password: hashedPassword });
             const user = yield db.User.create(newUser);
-            const { _id, email } = user;
             const token = jwt.sign({
-                _id,
-                email,
+                id: user.id,
+                email: user.email,
             }, process.env.SECRET_KEY);
             return res.status(200).json({
-                _id,
+                user,
                 token,
             });
         }
