@@ -1,0 +1,21 @@
+@import '../../variables.scss';
+
+.textInputWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: solid 1px $blue;
+  padding: 10px;
+  width: 400px;
+  height: 50px;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.input{
+  margin-left: 10px;
+  height: 100%;
+  width: 100%;
+}

@@ -1,0 +1,43 @@
+@import '../../variables.scss';
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50px;
+}
+
+.nameDescriptionWrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  align-items: flex-start;
+  margin-left: 20px;
+}
+
+.imageWrapper {
+  min-width: 50px;
+  min-height: 50px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.name{
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: left;
+}
+
+.description{
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+}
+
+.buttonWrapper{
+  margin-left: auto;
+}
