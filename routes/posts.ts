@@ -15,6 +15,6 @@ router.post('/', db.create(Post));
 router.put('/:id', db.update(Post));
 
 // delete
-router.delete('/:_id', db.deleteById(Post));
+router.delete('/:id', db.deleteById(Post));
 
 export default router;

@@ -6,10 +6,13 @@ const router = express.Router();
 
 // get
 router.get('/test', db.test());
-router.get('/exists-user', User.validateUsername);
 router.get('/', db.getAll(User));
 router.get('/:id/posts', User.getUsersPosts);
+router.get('/:id/following/posts', User.getPostsFromFollowedUsers);
 router.get('/:id', db.getById(User));
+router.get('/following/:id', User.getFollowing);
+router.get('/followers/:id', User.getFollowers);
+router.get('/term/:term', User.getFilteredUsers);
 
 // post
 router.post('/', db.create(User));
@@ -18,6 +21,6 @@ router.post('/', db.create(User));
 router.put('/:id', db.update(User));
 
 // delete
-router.delete('/:_id', db.deleteById(User));
+router.delete('/:id', db.deleteById(User));
 
 export default router;
