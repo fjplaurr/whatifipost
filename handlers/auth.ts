@@ -12,19 +12,19 @@ export async function signin(req: Request, res: Response, next: NextFunction) {
     const user = await db.User.findOne({ email: req.body.email }).exec();
     // if email found
     if (user) {
-      const { _id, email } = user;
+      const { id, email } = user;
       const isMatch = await user.comparePassword(req.body.password);
       // if password is correct
       if (isMatch) {
         const token = jwt.sign(
           {
-            _id,
+            id,
             email,
           },
           process.env.SECRET_KEY!,
         );
         return res.status(200).json({
-          _id,
+          user,
           token,
         });
       }
@@ -36,7 +36,6 @@ export async function signin(req: Request, res: Response, next: NextFunction) {
 }
 
 export async function signup(req: Request, res: Response, next: NextFunction) {
-  console.log('Signup body: ', req.body);
   try {
     const hashedPassword = await hash(req.body.password, 10);
     const newUser = {
@@ -44,16 +43,15 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
       password: hashedPassword,
     };
     const user = await db.User.create(newUser);
-    const { _id, email } = user;
     const token = jwt.sign(
       {
-        _id,
-        email,
+        id: user.id,
+        email: user.email,
       },
       process.env.SECRET_KEY!,
     );
     return res.status(200).json({
-      _id,
+      user,
       token,
     });
   } catch (err) {
