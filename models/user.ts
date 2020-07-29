@@ -18,20 +18,33 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  name: String,
+  surname: String,
   profileImage: {
     name: String,
     size: Number,
     mimetype: String,
     url: String,
   },
-  nick: String,
   posts: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+  ],
+  following: [
+    {
+      _id: false,
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    },
+  ],
+  followers: [
+    {
+      _id: false,
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    },
   ],
 });
 
 userSchema.methods.comparePassword = async function
-comparePassword(candidatePassword: string, next: NextFunction) {
+  comparePassword(candidatePassword: string, next: NextFunction) {
   try {
     const isMatch = await compare(candidatePassword, this.password);
     return isMatch;
@@ -40,14 +53,16 @@ comparePassword(candidatePassword: string, next: NextFunction) {
   }
 };
 
-userSchema.statics.validateUsername = async function
-validateUsername(req: Request, res: Response, next: NextFunction) {
+userSchema.statics.getUsersPosts = async function
+  getUsersPosts(req: Request, res: Response, next: NextFunction) {
   try {
-    const exist: boolean = await this.exists(req.query);
-    if (exist) {
-      return res.status(200).json({ message: 'The user does exist' });
-    }
-    return res.status(404).json({ message: 'The user does not exist' });
+    const { id } = req.params;
+    const usersPosts = Post.find({ author: id });
+    const postsWithUser = await usersPosts.populate({
+      path: 'author',
+      model: 'User',
+    });
+    return res.status(200).json(postsWithUser);
   } catch (err) {
     return next({
       status: 400,
@@ -56,12 +71,66 @@ validateUsername(req: Request, res: Response, next: NextFunction) {
   }
 };
 
-userSchema.statics.getUsersPosts = async function
-getUsersPosts(req: Request, res: Response, next: NextFunction) {
+userSchema.statics.getPostsFromFollowedUsers = async function
+  getPostsFromFollowedUsers(req: Request, res: Response, next: NextFunction) {
   try {
     const { id } = req.params;
-    const usersPost = await Post.find({ author: id }).sort('date');
-    return res.status(200).json(usersPost);
+    const user = await User.findById(id);
+    const idsFollowedUsers = user?.following.map((followed) => followed.user);
+    const posts = Post.find({ author: { $in: idsFollowedUsers } });
+    const postsWithUsers = await posts.populate({
+      path: 'author',
+      model: 'User',
+    });
+    return res.status(200).json(postsWithUsers);
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+userSchema.statics.getFollowing = async function
+  getFollowing(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).populate({
+      path: 'following.user',
+    });
+    return res.status(200).json(user?.following);
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+userSchema.statics.getFollowers = async function
+  getFollowers(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).populate({
+      path: 'followers.user',
+    });
+    return res.status(200).json(user?.followers);
+  } catch (err) {
+    return next({
+      status: 400,
+      message: err.message,
+    });
+  }
+};
+
+userSchema.statics.getFilteredUsers = async function
+  getFilteredUsers(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { term } = req.params;
+    const regex = new RegExp(`${term}`, 'i');
+    const conditions = { $or: [{ name: { $regex: regex } }, { surname: { $regex: regex } }] };
+    const users = await User.find(conditions);
+    return res.status(200).json(users);
   } catch (err) {
     return next({
       status: 400,
