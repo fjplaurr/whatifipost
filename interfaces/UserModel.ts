@@ -5,6 +5,9 @@ export interface User extends UserSchema {
   comparePassword: (password: string) => boolean;
 }
 export interface UserModel extends Model<User> {
-  validateUsername: () => any;
   getUsersPosts: () => any;
+  getFollowing: () => any;
+  getFollowers: () => any;
+  getPostsFromFollowedUsers: () => any;
+  getFilteredUsers: () => any;
 }
