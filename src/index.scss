@@ -1,0 +1,35 @@
+@import "./variables.scss";
+
+html,
+body,
+#root,
+.Home {
+  width: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  min-height: 100vh; /*So that the spacer can work*/
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+}
+
+body {
+  color: $black;
+  text-align: center;
+}
+
+.spacer {
+  flex: 1;
+}
