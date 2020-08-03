@@ -1,4 +1,5 @@
-import * as dotenv from 'dotenv';
+// eslint-disable-next-line import/order
+import config from './config';
 import {
   NextFunction,
   Request,
@@ -7,19 +8,16 @@ import {
 import * as mongoose from 'mongoose';
 import * as express from 'express';
 import * as cors from 'cors';
-import { postsRoutes, usersRoutes, authRoutes } from './routes';
-
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config({ path: `${__dirname}/.env` });
-} else {
-  dotenv.config();
-}
+import { serializeError } from 'serialize-error';
+import {
+  postsRoutes, usersRoutes, authRoutes, fileRoutes,
+} from './routes';
 
 // Initializes express application
 const app = express();
 
 // Database connection
-const uri = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : process.env.MLAB_URI;
+const uri = config.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : config.MLAB_URI;
 const startMongoConnection = async () => {
   try {
     uri && await mongoose.connect(uri, {
@@ -41,14 +39,20 @@ app.use(express.json());
 app.use('/api/users', usersRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/image-upload', fileRoutes);
 
-// Error handling
-// eslint-disable-next-line no-unused-vars
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).render('error', { error });
-});
+// Express default error handling
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+  // Handles errors for headers that have already been sent to the client
+  if (res.headersSent) {
+    return next(err);
+  }
+  const serializedError = serializeError(err);
+  return res.status(500).send({ error: serializedError });
+};
+app.use(errorHandler);
 
 // Server listening
-const PORT = process.env.PORT || 5000;
-app.listen(PORT,
-  () => console.log(`Listening on port ${PORT}`));
+const port = config.PORT || 5000;
+app.listen(port,
+  () => console.log(`Server listening on port ${port}`));
