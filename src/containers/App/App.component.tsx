@@ -7,6 +7,9 @@ import * as userEndpoints from '../../endpoints/user';
 
 const App = () => {
   const [user, setUser] = useState<User>();
+  const [isSearching, setIsSearching] = useState(false);
+  const [isPosting, setIsPosting] = useState(false);
+  const [watchingOtherProfileId, setWatchingOtherProfileId] = useState('');
 
   useEffect(() => {
     user && saveUser(user._id!);
@@ -26,7 +29,18 @@ const App = () => {
 
   return (
     <React.StrictMode>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider
+        value={{
+          user,
+          setUser,
+          isSearching,
+          setIsSearching,
+          isPosting,
+          setIsPosting,
+          watchingOtherProfileId,
+          setWatchingOtherProfileId,
+        }}
+      >
         <Routes />
       </UserContext.Provider>
     </React.StrictMode>
