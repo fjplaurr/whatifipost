@@ -1,0 +1,27 @@
+@import '../../../variables.scss';
+
+.container{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputWrapper{
+  margin-bottom: 20px;
+}
+
+.titleWrapper{
+  margin-bottom: 25px;
+}
+
+.titleWrapper{
+  margin-bottom: 25px;
+}
+
+.title{
+  font-weight: 600;
+  color: $black;
+  font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+}

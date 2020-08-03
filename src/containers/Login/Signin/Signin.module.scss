@@ -1,0 +1,32 @@
+@import '../../../variables.scss';
+
+.inputWrapper{
+  margin-bottom: 20px;
+}
+
+.signinContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title{
+  font-weight: 600;
+  color: $black;
+  font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+}
+
+.inputWrapper{
+  margin-bottom: 20px;
+}
+
+.titleWrapper{
+  margin-bottom: 25px;
+}
+
+.error {
+  font-size: calc(12px + (15 - 12) * ((100vw - 300px) / (1600 - 300)));
+  color: $red;
+  margin-bottom: 20px;
+}
