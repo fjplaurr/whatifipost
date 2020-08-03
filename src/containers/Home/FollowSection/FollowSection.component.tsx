@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+  useState, useEffect, useContext, useCallback,
+} from 'react';
 import ProfileCard from '../../../components/ProfileCard';
 import styles from './FollowSection.module.scss';
 import * as userEndpoints from '../../../endpoints/user';
@@ -15,22 +17,24 @@ const FollowSection = () => {
   const [followers, setFollowers] = useState<{ user: User }[]>([]);
 
   // Loads followed users from database
-  async function loadFollowing() {
+  const loadFollowing = useCallback(async () => {
     const data = await userEndpoints.getFollowing(contextUser.user?._id!);
     data && setFollowing(data);
-  }
+  },
+  [contextUser.user]);
 
   // Loads followers from database
-  async function loadFollowers() {
+  const loadFollowers = useCallback(async () => {
     const data = await userEndpoints.getFollowers(contextUser.user?._id!);
     data && setFollowers(data);
-  }
+  },
+  [contextUser.user]);
 
   // Loads followed users and followers after first render
   useEffect(() => {
     loadFollowing();
     loadFollowers();
-  }, [contextUser.user]);
+  }, [contextUser.user, loadFollowing, loadFollowers]);
 
   const tabFollowingClick = () => {
     if (!followingTabActive) {
@@ -46,26 +50,49 @@ const FollowSection = () => {
     }
   };
 
-  const unfollowUser = async (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
-    const { user: currentUser } = contextUser;
-    const followingModified = currentUser!.following!.filter((el) => el.user !== clickedUser._id);
-    const modifiedUser: User = { ...currentUser!, following: followingModified };
-    // Modify user in context
-    await contextUser.setUser(modifiedUser);
-    // Modify list of followed users in database
-    await userEndpoints.update(modifiedUser);
+  const handleUnfollow = (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
+    const updateFollowing = async () => {
+      const followingModified = contextUser.user!.following!
+        .filter((el: { user: string }) => el.user !== clickedUser._id);
+      const modifiedUser: User = { ...contextUser.user!, following: followingModified };
+      // Modify user in context
+      await contextUser.setUser(modifiedUser);
+      // Modify list of followed users in database
+      await userEndpoints.update(modifiedUser);
+    };
+
+    const updateFollowers = async () => {
+      const followersModified = clickedUser.followers!
+        .filter((el: { user: string }) => el.user !== contextUser.user!._id);
+      const modifiedUser: User = { ...clickedUser!, followers: followersModified };
+      // Modify list of followers in database
+      await userEndpoints.update(modifiedUser);
+    };
+    updateFollowing();
+    updateFollowers();
     // Loads followed users
     loadFollowing();
   };
 
-  const followUser = async (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
-    const contextUserCopy: User = { ...contextUser!.user! };
-    contextUserCopy.following!.push({ user: clickedUser._id! });
-    // Modify user in context
-    await contextUser.setUser(contextUserCopy);
-    // Modify list of followed users in database
-    await userEndpoints.update(contextUserCopy);
-    // Loads followed users
+  const handleFollow = async (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
+    const updateFollowing = async () => {
+      const contextUserCopy: User = { ...contextUser!.user! };
+      contextUserCopy.following!.push({ user: clickedUser._id! });
+      // Modify user in context
+      await contextUser.setUser(contextUserCopy);
+      // Modify list of followed users in database
+      await userEndpoints.update(contextUserCopy);
+      // Loads followed users
+      loadFollowing();
+    };
+    const updateFollowers = async () => {
+      const clickedUserCopy: User = { ...clickedUser };
+      clickedUserCopy.followers!.push({ user: contextUser!.user!._id! });
+      // Modify list of followers in database
+      await userEndpoints.update(clickedUserCopy);
+    };
+    await updateFollowing();
+    await updateFollowers();
     loadFollowing();
   };
 
@@ -80,8 +107,9 @@ const FollowSection = () => {
           description={user.description}
           name={user.name}
           surname={user.surname}
-          pictureUrl={user.profileImage?.url}
-          onClick={(e) => unfollowUser(e, user)}
+          id={user._id!}
+          picture={user.profileImage}
+          onClick={(e) => handleUnfollow(e, user)}
           textButton="Unfollow"
           colorButton="red"
         />
@@ -104,8 +132,9 @@ const FollowSection = () => {
             description={follower.description}
             name={follower.name}
             surname={follower.surname}
-            pictureUrl={follower.profileImage?.url}
-            onClick={(e) => unfollowUser(e, follower)}
+            picture={follower.profileImage}
+            id={follower._id!}
+            onClick={(e) => handleUnfollow(e, follower)}
             textButton="Unfollow"
             colorButton="red"
           />
@@ -121,8 +150,9 @@ const FollowSection = () => {
           description={follower.description}
           name={follower.name}
           surname={follower.surname}
-          pictureUrl={follower.profileImage?.url}
-          onClick={(e) => followUser(e, follower)}
+          picture={follower.profileImage}
+          id={follower._id!}
+          onClick={(e) => handleFollow(e, follower)}
           textButton="Follow"
           colorButton="blue"
         />

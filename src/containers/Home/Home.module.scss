@@ -1,23 +1,43 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
-.horizontalContainer{
+.homeContainer {
   display: flex;
   justify-content: center;
   margin-top: 40px;
 }
 
-.verticalContainer{
+.opacity {
+  filter: opacity(0.5);
+}
+
+.verticalContainer {
   display: flex;
   flex-direction: column;
   margin-left: 25px;
+  justify-content: center;
+  align-items: center;
 }
 
-.postSectionWrapper{
+.postSectionWrapper {
   margin-bottom: 25px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
 }
 
-.followSectionWrapper{
+.followSectionWrapper {
   position: sticky;
   top: 140px;
   max-height: 500px;
+}
+
+@media only screen and (max-width: 767px) {
+  .homeContainer {
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  .verticalContainer {
+    margin-left: 0px;
+  }
 }

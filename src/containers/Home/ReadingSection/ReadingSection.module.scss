@@ -1,7 +1,16 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
-.readingSection{
+.readingSection {
   border: 1px solid rgba($blue, 0.3);
   padding: 30px;
   width: 610px;
+  position: relative;
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 767px) {
+  .readingSection {
+    padding: 15px;
+    width: 90%;
+  }
 }

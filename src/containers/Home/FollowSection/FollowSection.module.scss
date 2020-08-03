@@ -4,11 +4,10 @@
   border: 1px solid rgba($blue, 0.3);
   padding: 30px;
   width: 400px;
-  box-sizing: border-box;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 5px;
 }
 
 .tabList{
@@ -23,19 +22,19 @@
 }
 
 .activeTab{
-  font-size: 18px;
+  font-size: calc(14px + (18 - 14) * ((100vw - 300px) / (1600 - 300)));
   color: $blue;
   font-weight: 400;
   border-bottom: 2px solid $blue;
 }
 
 .notActiveTab{
-  font-size: 18px;
+  font-size: calc(14px + (18 - 14) * ((100vw - 300px) / (1600 - 300)));
   color: $lightBlack;
   font-weight: 400;
 }
 
 .targetWrapper{
-  width: 300px;
+  width: 350px;
   margin-top: 30px;
 }

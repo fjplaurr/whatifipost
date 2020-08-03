@@ -13,7 +13,7 @@ const PostSection = () => {
   // Reads current connected user from Context
   const contextUser = useContext(UserContext);
 
-  // Function triggered when submiting sign up
+  // Function triggered when sending a post
   const handlePost = async (event: React.FormEvent<HTMLFormElement>) => {
     setPost('');
     event.preventDefault();
@@ -24,7 +24,8 @@ const PostSection = () => {
     };
     const res: { post: Post } = await postEndpoints.create(newPost);
     if (res) {
-      // Reloads reading section TODO
+      contextUser.setIsPosting(true);
+      contextUser.setIsPosting(false);
     }
   };
 
@@ -51,7 +52,7 @@ const PostSection = () => {
           />
         </div>
       </form>
-    </section >
+    </section>
   );
 };
 

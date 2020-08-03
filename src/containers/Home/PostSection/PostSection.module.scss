@@ -1,21 +1,22 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
-.textArea{
+.textArea {
   font-weight: 400;
-  font-size: 18px;
+  font-size: calc(14px + (18 - 14) * ((100vw - 300px) / (1600 - 300)));
   width: 450px;
   height: 100%;
   resize: none;
 }
 
-.postSection{
+.postSection {
   border: 1px solid rgba($blue, 0.3);
   padding: 30px;
   width: 610px;
   height: 110px;
+  border-radius: 5px;
 }
 
-.container{
+.container {
   height: 100%;
   width: 100%;
   display: flex;
@@ -23,6 +24,17 @@
   align-items: center;
 }
 
-.buttonWrapper{
+.buttonWrapper {
   align-self: flex-end;
+}
+
+@media only screen and (max-width: 767px) {
+  .postSection {
+    padding: 15px;
+    width: 90%;
+    height: 55px;
+  }
+  .textArea {
+    width: 100%;
+  }
 }
