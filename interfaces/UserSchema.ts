@@ -7,12 +7,7 @@ export interface UserSchema extends Document {
   password: string,
   name: string,
   surname: string,
-  profileImage: {
-    name: string,
-    size: number,
-    mimetype: string,
-    url: string,
-  },
+  profileImage: string,
   description: string,
   posts: PostSchema[],
   following: {

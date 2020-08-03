@@ -18,14 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: String,
   name: String,
   surname: String,
-  profileImage: {
-    name: String,
-    size: Number,
-    mimetype: String,
-    url: String,
-  },
+  profileImage: String,
   posts: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
   ],
