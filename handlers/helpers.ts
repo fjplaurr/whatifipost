@@ -65,7 +65,11 @@ export function update(GenericModel: Model<any>) {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const document = req.body;
-      const updatedDocument = await GenericModel.findOneAndUpdate({ _id: req.params.id }, document);
+      const updatedDocument = await GenericModel.findByIdAndUpdate(
+        { _id: req.params.id },
+        document,
+        { new: true },
+      );
       return res.status(200).send(updatedDocument);
     } catch (err) {
       return next({
