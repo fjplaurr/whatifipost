@@ -11,10 +11,5 @@ export interface User {
     user: string
   }[],
   description?: string,
-  profileImage?: {
-    name: string,
-    size: number,
-    mimetype: string,
-    url: string,
-  },
+  profileImage?: string,
 }
