@@ -20,5 +20,5 @@ const update = (message: Post) => put(`${baseUrl}${message._id}`, message);
 const deleteSingle = (id: string) => deleteById(`${baseUrl}${id}`);
 
 export {
-  getAll, getSingle, create, update, deleteSingle
+  getAll, getSingle, create, update, deleteSingle,
 };

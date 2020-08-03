@@ -23,6 +23,5 @@ const deleteSingle = (id: string) => deleteById(`${baseUrl}${id}`);
 
 export {
   getAll, getSingle, update, deleteSingle, getFollowing,
-  getFollowers, getPostsFromFollowedUsers, getUsersPosts,
-  getFilteredUsers,
+  getFollowers, getPostsFromFollowedUsers, getUsersPosts, getFilteredUsers,
 };
