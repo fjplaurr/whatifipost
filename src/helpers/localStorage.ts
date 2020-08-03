@@ -1,6 +1,3 @@
-import * as userEndpoints from '../endpoints/user';
-import { User } from '../interfaces';
-
 const loadUser = () => {
   const serializedState = localStorage.getItem('user');
   const parsedObject: {
