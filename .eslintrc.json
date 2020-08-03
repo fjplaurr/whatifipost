@@ -15,7 +15,10 @@
         "@typescript-eslint"
     ],
     "ignorePatterns": "node_modules/",
+    
     "rules": {
+        "no-use-before-define": "off",
+        "import/prefer-default-export": "off",
         // no-console rule off for nodejs server
         "no-console": "off",
         "no-unused-expressions": "off",
