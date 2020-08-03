@@ -7,10 +7,11 @@ type ButtonProps = {
   color: 'blue' | 'red';
   type?: 'submit' | 'button' | 'reset';
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  small?: boolean,
 }
 
 const Button = ({
-  backgroundFull = false, text, color, type = 'button', onClick,
+  backgroundFull = false, text, color, type = 'button', onClick, small,
 }: ButtonProps) => {
   let style = '';
   if (backgroundFull && color === 'blue') {
@@ -24,6 +25,9 @@ const Button = ({
   }
   if (!backgroundFull && color === 'red') {
     style = styles.emptyRedButton;
+  }
+  if (small) {
+    style = `${style} ${styles.smallButton}`;
   }
   return (
     <button

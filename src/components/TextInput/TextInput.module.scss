@@ -4,18 +4,29 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  box-sizing: border-box;
-  border-radius: 8px;
+  border-radius: 5px;
   border: solid 1px $blue;
   padding: 10px;
   width: 400px;
-  height: 50px;
+  height: 40px;
   font-weight: 400;
-  font-size: 18px;
+  font-size: calc(14px + (18 - 14) * ((100vw - 300px) / (1600 - 300)));
 }
 
-.input{
+.inputWhite, .inputSmokeWhite{
   margin-left: 10px;
   height: 100%;
   width: 100%;
+  background-color: $white;
+}
+
+.inputSmokeWhite{
+  background-color: $smokeWhite;
+}
+
+@media only screen and (max-width: 767px){
+  .textInputWrapper {
+    padding: 5px;
+    width: 200px;
+  }
 }

@@ -1,0 +1,95 @@
+@import "../../../variables.scss";
+
+.profileIcon {
+  width: 28px;
+  height: 28px;
+  background-color: $lightBlack;
+  border-radius: 50%;
+  color: $white;
+}
+
+.iconButton{
+  background: none;
+  cursor: pointer;
+}
+
+.hiddenInput{
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
+}
+
+.imageButton{
+  background: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.changeImageText{
+  color: #44717A;
+  font-size: calc(12px + (14 - 12) * ((100vw - 300px) / (1600 - 300)));
+  font-weight: 600;
+}
+
+.imageWrapper {
+  margin-bottom: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.smallImageWrapper {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.configurationTargetShow, .configurationTargetHide{
+  border: 1px solid rgba($blue, 0.3);
+  width: 200px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $white;
+  position: absolute;
+}
+
+.configurationTargetHide{
+  visibility: hidden;
+  width: 0px;
+  height: 0px;
+}
+
+.configureProfileContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-left: 10px;
+}
+
+.buttonWrapper{
+  align-self: flex-end;
+  margin-top: 5px;
+}
+
+.formWrapper{
+  margin-top: 10px;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media only screen and (max-width: 767px){
+  .configurationTargetShow, .configurationTargetHide{
+    margin-left: -300px;
+  }
+}

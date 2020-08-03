@@ -1,7 +1,5 @@
 import React, { useState, ReactNode } from 'react';
 import styles from './TextInput.module.scss';
-import { Search } from '../../assets/icons';
-
 
 type TextInputProps = {
   type: 'text' | 'email' | 'password';
@@ -9,21 +7,23 @@ type TextInputProps = {
   placeholder?: string;
   minLength?: number;
   children?: ReactNode;
+  color?: 'white' | 'smokeWhite';
 }
 
 const TextInput = ({
-  type, onChange, placeholder, minLength, children,
+  type, onChange, placeholder, minLength, children, color = 'smokeWhite',
 }: TextInputProps) => {
   const [value, setValue] = useState('');
   const stateChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange && onChange(event);
     setValue(event.target.value);
   };
+  const inputClass = color === 'white' ? styles.inputWhite : styles.inputSmokeWhite;
   return (
     <div className={styles.textInputWrapper}>
       {children && children}
       <input
-        className={styles.input}
+        className={inputClass}
         placeholder={placeholder}
         required
         onChange={stateChange}

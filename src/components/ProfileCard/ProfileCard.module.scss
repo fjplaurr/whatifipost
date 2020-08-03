@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  height: 50px;
 }
 
 .nameDescriptionWrapper{
@@ -14,6 +13,12 @@
   height: 100%;
   align-items: flex-start;
   margin-left: 20px;
+  margin-right: 10px;
+}
+
+.buttonImageWrapper{
+  background: none;
+  cursor: pointer;
 }
 
 .imageWrapper {
@@ -26,16 +31,16 @@
 }
 
 .name{
-  font-size: 14px;
+  font-size: calc(10px + (14 - 10) * ((100vw - 300px) / (1600 - 300)));
   font-weight: 600;
-  line-height: 17px;
   text-align: left;
 }
 
 .description{
-  font-size: 12px;
+  margin-top: 3px;
+  font-size: calc(10px + (12 - 10) * ((100vw - 300px) / (1600 - 300)));
   font-weight: 400;
-  line-height: 15px;
+  text-align: left;
 }
 
 .buttonWrapper{

@@ -1,35 +1,42 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
-.fullBlueButton, .emptyBlueButton, .fullRedButton, .emptyRedButton{
-    width: 80px;
-    height: 40px;
-    font-size: 14px;
+.fullBlueButton,
+.emptyBlueButton,
+.fullRedButton,
+.emptyRedButton {
+    width: 70px;
+    height: 30px;
+    font-size: calc(14px + (16 - 14) * ((100vw - 300px) / (1600 - 300)));
     font-weight: bold;
-    line-height: 17px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.fullBlueButton{
+.fullBlueButton {
     color: $white;
     background-color: $blue;
     border: 1px solid $blue;
 }
 
-.emptyBlueButton{
+.emptyBlueButton {
     background-color: $white;
     color: $blue;
     border: 1px solid $blue;
 }
 
-.fullRedButton{
+.fullRedButton {
     color: $white;
     background-color: $red;
     border: 1px solid $red;
 }
 
-.emptyRedButton{
+.emptyRedButton {
     color: $red;
     background-color: $white;
     border: 1px solid $red;
+}
+
+.smallButton {
+    width: 50px;
+    height: 22px;
 }
