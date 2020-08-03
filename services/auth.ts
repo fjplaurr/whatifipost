@@ -5,9 +5,10 @@ import {
 } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { hash } from 'bcrypt';
+import config from '../config';
 import * as db from '../models';
 
-export async function signin(req: Request, res: Response, next: NextFunction) {
+async function signin(req: Request, res: Response, next: NextFunction) {
   try {
     const user = await db.User.findOne({ email: req.body.email }).exec();
     // if email found
@@ -21,7 +22,7 @@ export async function signin(req: Request, res: Response, next: NextFunction) {
             id,
             email,
           },
-          process.env.SECRET_KEY!,
+          config.AUTHENTICATION_SECRET_KEY!,
         );
         return res.status(200).json({
           user,
@@ -35,7 +36,7 @@ export async function signin(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function signup(req: Request, res: Response, next: NextFunction) {
+async function signup(req: Request, res: Response, next: NextFunction) {
   try {
     const hashedPassword = await hash(req.body.password, 10);
     const newUser = {
@@ -48,7 +49,7 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
         id: user.id,
         email: user.email,
       },
-      process.env.SECRET_KEY!,
+      config.AUTHENTICATION_SECRET_KEY!,
     );
     return res.status(200).json({
       user,
@@ -58,3 +59,5 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
     return next();
   }
 }
+
+export { signup, signin };
