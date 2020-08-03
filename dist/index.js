@@ -9,21 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = require("dotenv");
+// eslint-disable-next-line import/order
+const config_1 = require("./config");
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
+const serialize_error_1 = require("serialize-error");
 const routes_1 = require("./routes");
-if (process.env.NODE_ENV !== 'production') {
-    dotenv.config({ path: `${__dirname}/.env` });
-}
-else {
-    dotenv.config();
-}
 // Initializes express application
 const app = express();
 // Database connection
-const uri = process.env.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : process.env.MLAB_URI;
+const uri = config_1.default.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : config_1.default.MLAB_URI;
 const startMongoConnection = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         uri && (yield mongoose.connect(uri, {
@@ -44,12 +40,18 @@ app.use(express.json());
 app.use('/api/users', routes_1.usersRoutes);
 app.use('/api/posts', routes_1.postsRoutes);
 app.use('/api/auth', routes_1.authRoutes);
-// Error handling
-// eslint-disable-next-line no-unused-vars
-app.use((error, req, res, next) => {
-    res.status(500).render('error', { error });
-});
+app.use('/api/image-upload', routes_1.fileRoutes);
+// Express default error handling
+const errorHandler = (err, req, res, next) => {
+    // Handles errors for headers that have already been sent to the client
+    if (res.headersSent) {
+        return next(err);
+    }
+    const serializedError = serialize_error_1.serializeError(err);
+    return res.status(500).send({ error: serializedError });
+};
+app.use(errorHandler);
 // Server listening
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+const port = config_1.default.PORT || 5000;
+app.listen(port, () => console.log(`Server listening on port ${port}`));
 //# sourceMappingURL=index.js.map

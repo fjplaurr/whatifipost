@@ -74,7 +74,7 @@ function update(GenericModel) {
     return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         try {
             const document = req.body;
-            const updatedDocument = yield GenericModel.findOneAndUpdate({ _id: req.params.id }, document);
+            const updatedDocument = yield GenericModel.findByIdAndUpdate({ _id: req.params.id }, document, { new: true });
             return res.status(200).send(updatedDocument);
         }
         catch (err) {
