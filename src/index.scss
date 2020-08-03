@@ -12,10 +12,16 @@ body,
   flex-direction: column;
   margin: auto;
   min-height: 100vh; /*So that the spacer can work*/
+  background-color: $smokeWhite;
+}
+
+section {
+  background-color: $white;
 }
 
 * {
   font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
 }
 
 * {
@@ -23,6 +29,10 @@ body,
   padding: 0;
   border: 0;
   outline: none;
+}
+
+li {
+  list-style-type: none;
 }
 
 body {
