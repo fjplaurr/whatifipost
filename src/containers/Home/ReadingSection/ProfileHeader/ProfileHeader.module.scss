@@ -1,0 +1,84 @@
+@import '../../../../variables.scss';
+
+.container{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  margin-right: 80px;
+  margin-left: 40px;
+}
+
+.backArrow{
+  color: $blue;
+  background-color: $white;
+  height: 60px;
+  width: 60px;
+}
+
+.backArrowButton{
+  background-color: $white;
+  align-self: flex-start;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.profileHeaderWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  margin: 30px 0px;
+}
+
+.infoWrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.name{
+  font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
+  font-weight: 400;
+}
+
+.description{
+  font-size: calc(12px + (15 - 12) * ((100vw - 300px) / (1600 - 300)));
+  font-weight: 400;
+  text-align: left;
+}
+
+.imageWrapper {
+  min-width: 120px;
+  min-height: 120px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.listItem{
+  margin-right: 40px;
+  font-size: calc(12px + (15 - 12) * ((100vw - 300px) / (1600 - 300)));
+  font-weight: 400;
+}
+
+.spanlistItem{
+  font-weight: 600;
+  font-size: calc(16px + (20 - 16) * ((100vw - 300px) / (1600 - 300)));
+}
+
+.postsHeader{
+  text-align: left;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid $lightBlack;
+  font-size: calc(16px + (20 - 16) * ((100vw - 300px) / (1600 - 300)));
+  font-weight: 600;
+}
+
+
