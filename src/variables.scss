@@ -1,8 +1,9 @@
 $white: #ffffff;
-$black: #222222;
+$black: #333333;
 $lightBlack: #666666;
 $red: #C14747;
 $blue: #44717A;
+$smokeWhite: #fafafa;
 
 // export to use in js files
 :export {
@@ -11,4 +12,5 @@ $blue: #44717A;
   lightBlack: $lightBlack;
   red: $red;
   blue: $blue;
+  smokeWhite: $smokeWhite;
 }
