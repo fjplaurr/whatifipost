@@ -17,12 +17,18 @@
   "license": "MIT",
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/multer": "^1.4.3",
+    "@types/multer-s3": "^2.7.7",
+    "aws-sdk": "^2.725.0",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
+    "serialize-error": "^7.0.1",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
   },
