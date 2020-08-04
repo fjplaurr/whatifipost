@@ -2,24 +2,24 @@ import {
   get, put, deleteById,
 } from '../helpers/fetch';
 import { User } from '../interfaces';
+import { baseUrl } from '../config';
 
-// const baseUrl = 'https://backend-post-application.herokuapp.com/api/users/';
-const baseUrl = 'http://localhost:5000/api/users/';
+const url = `${baseUrl}image-upload/users/`;
 
 // Get
-const getAll = () => get(`${baseUrl}`);
-const getSingle = (id: string) => get(`${baseUrl}${id}`);
-const getFollowing = (id: string) => get(`${baseUrl}following/${id}`);
-const getFollowers = (id: string) => get(`${baseUrl}followers/${id}`);
-const getPostsFromFollowedUsers = (userId: string) => get(`${baseUrl}${userId}/following/posts`);
-const getUsersPosts = (userId: string) => get(`${baseUrl}${userId}/posts`);
-const getFilteredUsers = (term: string) => get(`${baseUrl}term/${term}`);
+const getAll = () => get(`${url}`);
+const getSingle = (id: string) => get(`${url}${id}`);
+const getFollowing = (id: string) => get(`${url}following/${id}`);
+const getFollowers = (id: string) => get(`${url}followers/${id}`);
+const getPostsFromFollowedUsers = (userId: string) => get(`${url}${userId}/following/posts`);
+const getUsersPosts = (userId: string) => get(`${url}${userId}/posts`);
+const getFilteredUsers = (term: string) => get(`${url}term/${term}`);
 
 // Put
-const update = (user: User) => put(`${baseUrl}${user._id}`, user);
+const update = (user: User) => put(`${url}${user._id}`, user);
 
 // Delete
-const deleteSingle = (id: string) => deleteById(`${baseUrl}${id}`);
+const deleteSingle = (id: string) => deleteById(`${url}${id}`);
 
 export {
   getAll, getSingle, update, deleteSingle, getFollowing,

@@ -2,22 +2,22 @@ import {
   get, post, put, deleteById,
 } from '../helpers/fetch';
 import { Post } from '../interfaces';
+import { baseUrl } from '../config';
 
-// const baseUrl = 'https://backend-post-application.herokuapp.com/api/posts/';
-const baseUrl = 'http://localhost:5000/api/posts/';
+const url = `${baseUrl}posts/`;
 
 // Get
-const getAll = () => get(`${baseUrl}`);
-const getSingle = (id: string) => get(`${baseUrl}${id}`);
+const getAll = () => get(`${url}`);
+const getSingle = (id: string) => get(`${url}${id}`);
 
 // Post
-const create = (message: Post) => post(`${baseUrl}`, message);
+const create = (message: Post) => post(`${url}`, message);
 
 // Put
-const update = (message: Post) => put(`${baseUrl}${message._id}`, message);
+const update = (message: Post) => put(`${url}${message._id}`, message);
 
 // Delete
-const deleteSingle = (id: string) => deleteById(`${baseUrl}${id}`);
+const deleteSingle = (id: string) => deleteById(`${url}${id}`);
 
 export {
   getAll, getSingle, create, update, deleteSingle,

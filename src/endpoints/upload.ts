@@ -1,9 +1,9 @@
 import { postFile } from '../helpers/fetch';
+import { baseUrl } from '../config';
 
-// const baseUrl = 'https://backend-post-application.herokuapp.com/api/posts/';
-const baseUrl = 'http://localhost:5000/api/image-upload/';
+const url = `${baseUrl}image-upload/`;
 
 // Post
-const postPicture = (picture: File) => postFile(baseUrl, picture);
+const postPicture = (picture: File) => postFile(url, picture);
 
 export { postPicture };
