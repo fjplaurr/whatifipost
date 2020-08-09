@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 import styles from './PostSection.module.scss';
 import Button from '../../../components/Button';
 import { Post } from '../../../interfaces';
@@ -35,13 +36,13 @@ const PostSection = () => {
         onSubmit={handlePost}
         className={styles.container}
       >
-        <textarea
+        <TextareaAutosize
           placeholder="What do you want to write?"
           className={styles.textArea}
           required
           onChange={onChangeTextHandler}
           value={post}
-          maxLength={200}
+          maxLength={300}
         />
         <div className={styles.buttonWrapper}>
           <Button

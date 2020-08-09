@@ -8,7 +8,10 @@ import UserContext from '../../helpers/context';
 
 const Home = () => {
   const contextUser = useContext(UserContext);
-  const classContainer = contextUser.isSearching ? `${styles.homeContainer} ${styles.opacity}` : styles.homeContainer;
+  // If the user is using the bar to search or is configuring profile,
+  // then make the background darker
+  const classContainer = contextUser.isSearching || contextUser.isConfiguringProfile
+    ? `${styles.homeContainer} ${styles.opacity}` : styles.homeContainer;
   return (
     <div className={classContainer}>
       {!isMobile && (

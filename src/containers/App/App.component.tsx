@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
 import { User } from '../../interfaces';
 import Routes from '../Routes';
 import UserContext from '../../helpers/context';
@@ -8,6 +11,7 @@ import * as userEndpoints from '../../endpoints/user';
 const App = () => {
   const [user, setUser] = useState<User>();
   const [isSearching, setIsSearching] = useState(false);
+  const [isConfiguringProfile, setIsConfiguringProfile] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [watchingOtherProfileId, setWatchingOtherProfileId] = useState('');
 
@@ -39,9 +43,13 @@ const App = () => {
           setIsPosting,
           watchingOtherProfileId,
           setWatchingOtherProfileId,
+          setIsConfiguringProfile,
+          isConfiguringProfile,
         }}
       >
-        <Routes />
+        <Router>
+          <Routes />
+        </Router>
       </UserContext.Provider>
     </React.StrictMode>
   );

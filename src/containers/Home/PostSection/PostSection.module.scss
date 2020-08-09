@@ -3,21 +3,22 @@
 .textArea {
   font-weight: 400;
   font-size: calc(14px + (18 - 14) * ((100vw - 300px) / (1600 - 300)));
-  width: 450px;
-  height: 100%;
+  line-height: calc(1.5 * calc(14px + (18 - 14) * ((100vw - 300px) / (1600 - 300))));
   resize: none;
+  overflow: hidden;
+  padding: 20px;
+  width: 100%;
+  color: $black;
 }
 
 .postSection {
   border: 1px solid rgba($blue, 0.3);
-  padding: 30px;
+  padding: 10px;
   width: 610px;
-  height: 110px;
   border-radius: 5px;
 }
 
 .container {
-  height: 100%;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -32,7 +33,6 @@
   .postSection {
     padding: 15px;
     width: 90%;
-    height: 55px;
   }
   .textArea {
     width: 100%;

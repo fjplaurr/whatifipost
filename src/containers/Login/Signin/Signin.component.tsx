@@ -64,13 +64,14 @@ const Signin = () => {
   }, [contextUser.user, history]);
 
   return (
-    <div className={styles.signinContainer}>
+    <div className={styles.signinContainer} data-testid="signinContainer">
       <div className={styles.titleWrapper}>
         <h1 className={styles.title}>Already have an account?</h1>
       </div>
       <form onSubmit={onSigninSubmit}>
         <div className={styles.inputWrapper}>
           <TextInput
+            idInput="email"
             onChange={onSigninEmailChangeHandler}
             type="email"
             placeholder="Email"
@@ -78,6 +79,7 @@ const Signin = () => {
         </div>
         <div className={styles.inputWrapper}>
           <TextInput
+            idInput="password"
             onChange={onSigninPasswordChangeHandler}
             type="password"
             placeholder="Password"

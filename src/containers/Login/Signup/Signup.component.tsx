@@ -56,6 +56,10 @@ const Signup = () => {
       name: state.signupName,
       surname: state.signupSurname,
     };
+    createUser(newUser);
+  };
+
+  const createUser = async (newUser: User) => {
     try {
       const res: { user: User, token: string } = await authEndpoints.signup(newUser);
       if (res) {
@@ -70,19 +74,34 @@ const Signup = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="signupContainer">
       <div className={styles.titleWrapper}>
         <h1 className={styles.title}>Don&apos;t have an account?</h1>
       </div>
       <form onSubmit={onSignupSubmit}>
         <div className={styles.inputWrapper}>
-          <TextInput onChange={(e) => onstateHandler(e, 'supName')} type="text" placeholder="Name" />
+          <TextInput
+            onChange={(e) => onstateHandler(e, 'supName')}
+            type="text"
+            placeholder="Name"
+            idInput="name"
+          />
         </div>
         <div className={styles.inputWrapper}>
-          <TextInput onChange={(e) => onstateHandler(e, 'supSurname')} type="text" placeholder="Surname" />
+          <TextInput
+            onChange={(e) => onstateHandler(e, 'supSurname')}
+            type="text"
+            placeholder="Surname"
+            idInput="surname"
+          />
         </div>
         <div className={styles.inputWrapper}>
-          <TextInput onChange={(e) => onstateHandler(e, 'supEmail')} type="email" placeholder="Email" />
+          <TextInput
+            onChange={(e) => onstateHandler(e, 'supEmail')}
+            type="email"
+            placeholder="Email"
+            idInput="email"
+          />
         </div>
         <div className={styles.inputWrapper}>
           <TextInput
@@ -90,6 +109,7 @@ const Signup = () => {
             type="password"
             placeholder="Password"
             minLength={6}
+            idInput="password"
           />
         </div>
         <Button

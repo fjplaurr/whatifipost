@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -24,14 +23,14 @@ const PrivateRoute = ({ isLoggedIn, ...rest }: PrivateRouteProps) => {
 const Routes = () => {
   const contextUser = useContext(UserContext);
   return (
-    <Router>
+    <div>
       <NavBar />
       <Switch>
         <Route exact path="/" component={Login} />
         <PrivateRoute isLoggedIn={!!contextUser.user} path="/home" component={Home} />
         <Route path="/notfound" component={NotFound} />
       </Switch>
-    </Router>
+    </div>
   );
 };
 
