@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "jest/globals": true
     },
     "extends": [
         "plugin:react/recommended",
@@ -79,7 +80,9 @@
                 "js": "never",
                 "jsx": "never"
             }
-        ]
+        ],
+        // Allows to import dev dependencies into test files.
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.ts", "**/*.test.tsx"]}]
     },
     //Next is workaround to avoid no-unused-vars rule for types in typescript. https://github.com/typescript-eslint/typescript-eslint/issues/46#issuecomment-470486034
     "overrides": [
@@ -96,6 +99,22 @@
                     }
                 ]
             }
+        },
+        {
+            "plugins": [
+                "jest"
+            ],
+            "rules": {
+                "jest/no-disabled-tests": "warn",
+                "jest/no-focused-tests": "error",
+                "jest/no-identical-title": "error",
+                "jest/prefer-to-have-length": "warn",
+                "jest/valid-expect": "error"
+            },
+            "files": [
+                "**/*.test.tsx",
+                "**/*.test.ts"
+            ]
         }
     ],
     "settings": {
