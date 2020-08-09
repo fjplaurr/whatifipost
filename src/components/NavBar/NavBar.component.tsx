@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { isMobile } from 'react-device-detect';
 import Logo from '../Logo';
 import styles from './NavBar.module.scss';
 import { UserContext } from '../../containers/App';
@@ -13,7 +14,7 @@ const NavBar = () => {
   return (
     <div className={navBarClass}>
       {/* When clicking the logo, it will redirect to login */}
-      <Logo />
+      {isMobile ? <Logo small /> : <Logo />}
       {contextUser.user && <SearchBar />}
       {contextUser.user && <ConfigureProfile />}
     </div>

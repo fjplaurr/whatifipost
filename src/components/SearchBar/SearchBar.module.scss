@@ -10,6 +10,8 @@
   background-color: $white;
   position: absolute;
   border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.55);
+  margin-top: 40px;
 }
 
 .resultsWrapperHide {
@@ -48,4 +50,18 @@
 
 .searchBarWrapper {
   position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .cardWrapper {
+    width: 100%;
+  }
+  .resultsWrapperShow{
+    width: 100vw;
+    padding-right: 10%;
+    padding-left: 10%;
+
+  }
 }

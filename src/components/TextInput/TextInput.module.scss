@@ -1,32 +1,61 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .textInputWrapper {
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border-radius: 5px;
-  border: solid 1px $blue;
-  padding: 10px;
-  width: 400px;
-  height: 40px;
-  font-weight: 400;
-  font-size: calc(14px + (18 - 14) * ((100vw - 300px) / (1600 - 300)));
 }
 
-.inputWhite, .inputSmokeWhite{
-  margin-left: 10px;
-  height: 100%;
-  width: 100%;
+%input {
+  font-size: calc(10px + (14 - 10) * ((100vw - 300px) / (1600 - 300)));
+  padding: 10px 10px 10px 5px;
+  width: 300px;
+  border: 1px solid $lightBlack;
+  border-radius: 3px;
   background-color: $white;
 }
 
-.inputSmokeWhite{
+%input:focus ~ .label,
+%input:valid ~ .label {
+  top: -18px;
+  font-size: calc(8px + (10 - 8) * ((100vw - 300px) / (1600 - 300)));
+  color: $blue;
+}
+
+.label {
+  color: $darkWhite;
+  font-size: calc(10px + (14 - 10) * ((100vw - 300px) / (1600 - 300)));
+  font-weight: 300;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  transition: 0.2s ease;
+}
+
+.labelOnTop {
+  top: -18px;
+  font-size: 14px;
+  color: $blue;
+}
+
+%input:focus {
+  border-color: $blue;
+}
+
+.inputWhite {
+  @extend %input;
+  background-color: $white;
+}
+
+.inputSmokeWhite {
+  @extend %input;
   background-color: $smokeWhite;
 }
 
-@media only screen and (max-width: 767px){
+@media only screen and (max-width: 767px) {
   .textInputWrapper {
-    padding: 5px;
     width: 200px;
   }
 }

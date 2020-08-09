@@ -9,11 +9,12 @@ type TextInputSettingsProps = {
   initialValue?: string;
   idInput: string,
   textLabel: string,
+  maxLength?: number,
 }
 
 const TextInputSettings = ({
   type, onChange, placeholder, minLength,
-  initialValue, idInput, textLabel,
+  initialValue, idInput, textLabel, maxLength,
 }: TextInputSettingsProps) => {
   const [value, setValue] = useState('');
 
@@ -45,6 +46,7 @@ const TextInputSettings = ({
           value={value}
           type={type}
           minLength={minLength}
+          maxLength={maxLength}
         />
       </div>
     </>

@@ -1,7 +1,7 @@
 import React, {
   useState, useEffect, useContext, useRef,
 } from 'react';
-import TextInput from '../TextInput';
+import SearchBarTextInput from './SearchBarTextInput';
 import ProfileCard from '../ProfileCard';
 import { User } from '../../interfaces/User';
 import * as userEndpoints from '../../endpoints/user';
@@ -189,14 +189,16 @@ const SearchBar = () => {
 
   return (
     <div className={styles.searchBarWrapper}>
-      <TextInput
+      <SearchBarTextInput
+        idInput="searchBar"
         type="text"
         placeholder="Search"
         onChange={handleChange}
         color="white"
+        maxLength={50}
       >
         <Search />
-      </TextInput>
+      </SearchBarTextInput>
       {/* Show div with results when the results array has data */}
       {brokenDownSearch()}
     </div>

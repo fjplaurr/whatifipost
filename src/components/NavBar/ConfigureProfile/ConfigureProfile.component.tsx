@@ -2,17 +2,16 @@ import React, {
   useState, useEffect, useRef, useContext,
 } from 'react';
 import { FiUser } from 'react-icons/fi';
+import TextareaAutosize from 'react-textarea-autosize';
 import styles from './ConfigureProfile.module.scss';
 import { UserContext } from '../../../containers/App';
 import profileImage from '../../../assets/images/profileImage.png';
 import { User } from '../../../interfaces/User';
 import * as userEndpoints from '../../../endpoints/user';
 import * as uploadEndpoints from '../../../endpoints/upload';
-import TextInputsettings from '../../TextInputSettings';
 import Button from '../../Button';
 
 const ConfigureProfile = () => {
-  const [showConfiguration, setShowConfiguration] = useState(false);
   const [description, setDescription] = useState<string | undefined>('');
 
   // Reads current connected user from Context
@@ -28,9 +27,10 @@ const ConfigureProfile = () => {
   useEffect(() => {
     // Detects if clicked on outside of element
     const handleClickOutside = (event: MouseEvent) => {
-      // As Node used since event.target cannot be inferred to be a Node. It could have other types
+      // If the event.target is not in the wrapper, it means it is another html element
+      // the one that was clicked
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setShowConfiguration(false);
+        contextUser.setIsConfiguringProfile(false);
       }
     };
     // Bind the event listener
@@ -41,7 +41,7 @@ const ConfigureProfile = () => {
     };
   }, [wrapperRef]);
 
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setDescription(event.target.value);
   };
 
@@ -66,7 +66,7 @@ const ConfigureProfile = () => {
     // Updates description in context user
     contextUser.setUser(modifiedUser);
     // Closes configuration window
-    setShowConfiguration(false);
+    contextUser.setIsConfiguringProfile(false);
   };
 
   const imagePicker = (
@@ -93,23 +93,31 @@ const ConfigureProfile = () => {
     </>
   );
 
+  // Sets if the user is writing in the search input or not
+  const handleClick = () => {
+    contextUser.setIsConfiguringProfile(true);
+  };
+
+  useEffect(() => {
+    console.log('user is isConfiguringProfile: ')
+    console.log(contextUser.isConfiguringProfile)
+
+  }, [contextUser.isConfiguringProfile]);
+
   const configurationForm = (
     <>
       <form
         onSubmit={onConfigurationSubmit}
         className={styles.formWrapper}
       >
-        <TextInputsettings
-          placeholder="Description"
-          textLabel="Description"
-          idInput="descriptionInput"
-          type="text"
-          initialValue={contextUser?.user?.description || 'What is going on?'}
+        <TextareaAutosize
+          className={styles.textArea}
+          id="descriptionInput"
+          defaultValue={contextUser?.user?.description || 'What is going on?'}
           onChange={handleDescriptionChange}
+          maxLength={100}
         />
-        <div
-          className={styles.buttonWrapper}
-        >
+        <div className={styles.buttonWrapper}>
           <Button
             backgroundFull
             text="Save"
@@ -124,31 +132,30 @@ const ConfigureProfile = () => {
 
   return (
     <div className={styles.configureProfileContainer}>
-      <div>
-        <button
-          className={styles.iconButton}
-          onClick={() => setShowConfiguration(true)}
-        >
-          {
-            contextUser?.user?.profileImage ? (
-              <img
-                className={styles.smallImageWrapper}
-                src={contextUser?.user?.profileImage || profileImage}
-                alt="Profile"
-              />
-            )
-              : <FiUser className={styles.profileIcon} />
-          }
-        </button>
-        <div
-          ref={wrapperRef}
-          className={
-            showConfiguration ? styles.configurationTargetShow : styles.configurationTargetHide
-          }
-        >
-          {imagePicker}
-          {configurationForm}
-        </div>
+      <button
+        className={styles.iconButton}
+        onClick={handleClick}
+      >
+        {
+          contextUser?.user?.profileImage ? (
+            <img
+              className={styles.smallImageWrapper}
+              src={contextUser?.user?.profileImage || profileImage}
+              alt="Profile"
+            />
+          )
+            : <FiUser className={styles.profileIcon} />
+        }
+      </button>
+      <div
+        ref={wrapperRef}
+        className={
+          contextUser.isConfiguringProfile
+            ? styles.configurationTargetShow : styles.configurationTargetHide
+        }
+      >
+        {imagePicker}
+        {configurationForm}
       </div>
     </div>
   );

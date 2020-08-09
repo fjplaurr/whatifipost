@@ -8,18 +8,18 @@
   color: $white;
 }
 
-.iconButton{
+.iconButton {
   background: none;
   cursor: pointer;
 }
 
-.hiddenInput{
+.hiddenInput {
   width: 0px;
   height: 0px;
   visibility: hidden;
 }
 
-.imageButton{
+.imageButton {
   background: none;
   cursor: pointer;
   display: flex;
@@ -28,10 +28,11 @@
   align-items: center;
 }
 
-.changeImageText{
-  color: #44717A;
+.changeImageText {
+  color: #44717a;
   font-size: calc(12px + (14 - 12) * ((100vw - 300px) / (1600 - 300)));
   font-weight: 600;
+  margin-top: 5px;
 }
 
 .imageWrapper {
@@ -42,12 +43,13 @@
 }
 
 .smallImageWrapper {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
-.configurationTargetShow, .configurationTargetHide{
+.configurationTargetShow,
+.configurationTargetHide {
   border: 1px solid rgba($blue, 0.3);
   width: 200px;
   padding: 10px;
@@ -56,30 +58,44 @@
   align-items: center;
   background-color: $white;
   position: absolute;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.55);
+  margin-top: 40px;
 }
 
-.configurationTargetHide{
+.configurationTargetHide {
   visibility: hidden;
   width: 0px;
   height: 0px;
 }
 
-.configureProfileContainer{
+.configureProfileContainer {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
   position: relative;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
-.buttonWrapper{
+.buttonWrapper {
   align-self: flex-end;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
-.formWrapper{
-  margin-top: 10px;
+.textArea {
+  font-weight: 400;
+  font-size: calc(12px + (14 - 12) * ((100vw - 300px) / (1600 - 300)));
+  line-height: calc(1.5 * calc(12px + (14 - 12) * ((100vw - 300px) / (1600 - 300))));
+  resize: none;
+  overflow: hidden;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid rgba($blue, 0.3);
+  border-radius: 5px;
+  color: $black;
+}
+
+.formWrapper {
+  margin-top: 20px;
   width: 100%;
   height: 100%;
   flex-direction: column;
@@ -88,8 +104,9 @@
   align-items: center;
 }
 
-@media only screen and (max-width: 767px){
-  .configurationTargetShow, .configurationTargetHide{
+@media only screen and (max-width: 767px) {
+  .configurationTargetShow,
+  .configurationTargetHide {
     margin-left: -300px;
   }
 }
