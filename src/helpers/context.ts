@@ -10,6 +10,8 @@ const UserContext = createContext<Context>({
   setIsPosting: () => { },
   watchingOtherProfileId: '',
   setWatchingOtherProfileId: () => { },
+  isConfiguringProfile: false,
+  setIsConfiguringProfile: () => { },
 });
 
 export default UserContext;

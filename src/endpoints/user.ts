@@ -4,7 +4,7 @@ import {
 import { User } from '../interfaces';
 import { baseUrl } from '../config';
 
-const url = `${baseUrl}image-upload/users/`;
+const url = `${baseUrl}users/`;
 
 // Get
 const getAll = () => get(`${url}`);

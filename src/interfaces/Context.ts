@@ -10,4 +10,6 @@ export interface Context {
   setIsPosting: React.Dispatch<React.SetStateAction<boolean>>,
   watchingOtherProfileId: string,
   setWatchingOtherProfileId: React.Dispatch<React.SetStateAction<string>>,
+  isConfiguringProfile: boolean,
+  setIsConfiguringProfile: React.Dispatch<React.SetStateAction<boolean>>,
 }
