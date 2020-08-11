@@ -21,8 +21,8 @@ console.log(buildFolder)
 
 // Routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(buildFolder, 'index.html'));
+  res.sendFile(path.join(buildFolder, 'public', 'index.html'));
 });
 
 // Server listening
-app.listen(PORT);
+app.listen(PORT, () => console.log('listening '));

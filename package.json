@@ -5,13 +5,12 @@
   "private": true,
   "scripts": {
     "start": "node server",
-    "build": "cd frontend/ && npm install && tsc"
+    "build": "cd frontend/ && npm install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  },
+  "dependencies": {},
   "engines": {
     "node": "12.x"
   }
