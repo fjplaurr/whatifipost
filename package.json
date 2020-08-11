@@ -4,8 +4,7 @@
   "description": "PostApp's Frontend",
   "private": true,
   "scripts": {
-    "build": "cd frontend/ && npx tsc && npm install && npm run build",
-    "heroku-postbuild": "cd frontend/ && tsc && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "dev": "cd frontend/ && npx tsc && npm install && npm run build",
     "start": "node server"
   },
   "keywords": [],
