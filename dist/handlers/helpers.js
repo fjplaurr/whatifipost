@@ -17,10 +17,7 @@ function getAll(model) {
             return res.status(200).send(document);
         }
         catch (err) {
-            return next({
-                status: 500,
-                message: err.message,
-            });
+            return next(err);
         }
     });
 }
@@ -32,10 +29,7 @@ function getById(model) {
             return res.status(200).send(document);
         }
         catch (err) {
-            return next({
-                status: 500,
-                message: err.message,
-            });
+            return next(err);
         }
     });
 }
@@ -46,10 +40,7 @@ function test() {
             return res.status(200).send('test completed');
         }
         catch (err) {
-            return next({
-                status: 500,
-                message: err.message,
-            });
+            return next(err);
         }
     });
 }
@@ -62,10 +53,7 @@ function create(GenericModel) {
             return res.status(200).send(newDocument);
         }
         catch (err) {
-            return next({
-                status: 500,
-                message: err.message,
-            });
+            return next(err);
         }
     });
 }
@@ -78,10 +66,7 @@ function update(GenericModel) {
             return res.status(200).send(updatedDocument);
         }
         catch (err) {
-            return next({
-                status: 500,
-                message: err.message,
-            });
+            return next(err);
         }
     });
 }
@@ -94,10 +79,7 @@ function deleteById(GenericModel) {
             return res.status(200).send(deletedDocument);
         }
         catch (err) {
-            return next({
-                status: 500,
-                message: err.message,
-            });
+            return next(err);
         }
     });
 }

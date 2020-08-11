@@ -37,7 +37,7 @@ function signin(req, res, next) {
             return res.status(400).send({ message: 'Invalid email or password' });
         }
         catch (err) {
-            return next();
+            return next(err);
         }
     });
 }
@@ -58,7 +58,7 @@ function signup(req, res, next) {
             });
         }
         catch (err) {
-            return next();
+            return next(err);
         }
     });
 }

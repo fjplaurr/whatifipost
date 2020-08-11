@@ -41,6 +41,10 @@ app.use('/api/users', routes_1.usersRoutes);
 app.use('/api/posts', routes_1.postsRoutes);
 app.use('/api/auth', routes_1.authRoutes);
 app.use('/api/image-upload', routes_1.fileRoutes);
+app.get('/api/error-test', (req, res, next) => {
+    const error = new Error('el que sea');
+    next(error);
+});
 // Express default error handling
 const errorHandler = (err, req, res, next) => {
     // Handles errors for headers that have already been sent to the client

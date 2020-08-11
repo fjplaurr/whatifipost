@@ -32,7 +32,7 @@ async function signin(req: Request, res: Response, next: NextFunction) {
     }
     return res.status(400).send({ message: 'Invalid email or password' });
   } catch (err) {
-    return next();
+    return next(err);
   }
 }
 
@@ -56,7 +56,7 @@ async function signup(req: Request, res: Response, next: NextFunction) {
       token,
     });
   } catch (err) {
-    return next();
+    return next(err);
   }
 }
 

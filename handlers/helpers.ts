@@ -11,10 +11,7 @@ export function getAll(model: Model<any>) {
       const document = await model.find({});
       return res.status(200).send(document);
     } catch (err) {
-      return next({
-        status: 500,
-        message: err.message,
-      });
+      return next(err);
     }
   };
 }
@@ -25,10 +22,7 @@ export function getById(model: Model<any>) {
       const document = await model.findById(req.params.id);
       return res.status(200).send(document);
     } catch (err) {
-      return next({
-        status: 500,
-        message: err.message,
-      });
+      return next(err);
     }
   };
 }
@@ -38,10 +32,7 @@ export function test() {
     try {
       return res.status(200).send('test completed');
     } catch (err) {
-      return next({
-        status: 500,
-        message: err.message,
-      });
+      return next(err);
     }
   };
 }
@@ -53,10 +44,7 @@ export function create(GenericModel: Model<any>) {
       const newDocument = await new GenericModel(document).save();
       return res.status(200).send(newDocument);
     } catch (err) {
-      return next({
-        status: 500,
-        message: err.message,
-      });
+      return next(err);
     }
   };
 }
@@ -72,10 +60,7 @@ export function update(GenericModel: Model<any>) {
       );
       return res.status(200).send(updatedDocument);
     } catch (err) {
-      return next({
-        status: 500,
-        message: err.message,
-      });
+      return next(err);
     }
   };
 }
@@ -87,10 +72,7 @@ export function deleteById(GenericModel: Model<any>) {
       const deletedDocument = await GenericModel.deleteOne({ [key]: req.params[key] });
       return res.status(200).send(deletedDocument);
     } catch (err) {
-      return next({
-        status: 500,
-        message: err.message,
-      });
+      return next(err);
     }
   };
 }
