@@ -1,0 +1,52 @@
+@import "../../variables.scss";
+
+.textInputWrapper {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+%input {
+  font-size: calc(10px + (14 - 10) * ((100vw - 300px) / (1600 - 300)));
+  padding: 10px 10px 10px 5px;
+  width: 300px;
+  border: 1px solid rgba($blue, 0.3);
+  border-radius: 3px;
+  background-color: $white;
+}
+
+%input:focus ~ .label,
+%input:valid ~ .label {
+  top: -16px;
+  color: $blue;
+}
+
+.label {
+  color: $darkWhite;
+  font-size: calc(10px + (12 - 10) * ((100vw - 300px) / (1600 - 300)));
+  font-weight: 300;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+}
+
+%input:focus {
+  border-color: $blue;
+}
+
+.inputWhite {
+  @extend %input;
+  background-color: $white;
+}
+
+.inputSmokeWhite {
+  @extend %input;
+  background-color: $smokeWhite;
+}
+
+@media only screen and (max-width: 767px) {
+  .textInputWrapper {
+    width: 200px;
+  }
+}

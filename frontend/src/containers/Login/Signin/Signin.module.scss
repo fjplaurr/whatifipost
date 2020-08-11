@@ -1,0 +1,32 @@
+@import '../../../variables.scss';
+
+.inputWrapper{
+  margin-bottom: 22px;
+}
+
+.signinContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba($blue, 0.3);
+  padding: 30px;
+  background-color: $white;
+  border-radius: 5px;
+}
+
+.title{
+  font-weight: 500;
+  color: $black;
+  font-size: calc(20px + (26 - 22) * ((100vw - 300px) / (1600 - 300)));
+}
+
+.titleWrapper{
+  margin-bottom: 30px;
+}
+
+.error {
+  font-size: calc(12px + (15 - 12) * ((100vw - 300px) / (1600 - 300)));
+  color: $red;
+  margin-bottom: 20px;
+}
