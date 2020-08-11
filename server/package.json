@@ -4,7 +4,7 @@
   "description": "Server for frontend of PostApp",
   "private": true,
   "scripts": {
-    "start": "node server"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

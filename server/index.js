@@ -15,13 +15,9 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static('client/build'));
-
-// Middlewares
-app.use(cors());
-app.use(express.json());
-const buildFolder = path.join(__dirname, '/frontend', '/dist');
+const buildFolder = path.join(__dirname, '..', '/frontend', '/dist');
 app.use(express.static(buildFolder));
+console.log(buildFolder)
 
 // Routes
 app.get('*', (req, res) => {
