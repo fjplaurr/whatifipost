@@ -4,14 +4,22 @@
   "description": "PostApp's Frontend",
   "private": true,
   "scripts": {
-    "start": "node server",
-    "build": "cd frontend/ && npm install"
+    "build": "cd frontend/ && npx tsc && npm install && npm run build",
+    "heroku-postbuild": "cd frontend/ && tsc && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "start": "node server"
   },
   "keywords": [],
-  "author": "",
+  "author": "fjplaurr",
   "license": "ISC",
-  "dependencies": {},
   "engines": {
     "node": "12.x"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
   }
 }

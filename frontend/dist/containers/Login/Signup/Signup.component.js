@@ -134,9 +134,9 @@ var Signup = function () {
             React.createElement("div", { className: styles.inputWrapper },
                 React.createElement(TextInput, { onChange: function (e) { return onstateHandler(e, 'supSurname'); }, type: "text", placeholder: "Surname", idInput: "surname" })),
             React.createElement("div", { className: styles.inputWrapper },
-                React.createElement(TextInput, { onChange: function (e) { return onstateHandler(e, 'supEmail'); }, type: "email", placeholder: "Email", idInput: "email" })),
+                React.createElement(TextInput, { onChange: function (e) { return onstateHandler(e, 'supEmail'); }, type: "email", placeholder: "Email", idInput: "signupEmail" })),
             React.createElement("div", { className: styles.inputWrapper },
-                React.createElement(TextInput, { onChange: function (e) { return onstateHandler(e, 'supPassword'); }, type: "password", placeholder: "Password", minLength: 6, idInput: "password" })),
+                React.createElement(TextInput, { onChange: function (e) { return onstateHandler(e, 'supPassword'); }, type: "password", placeholder: "Password", minLength: 6, idInput: "signupPassword" })),
             React.createElement(Button, { backgroundFull: true, text: "Join", color: "blue", type: "submit" }))));
 };
 export default Signup;

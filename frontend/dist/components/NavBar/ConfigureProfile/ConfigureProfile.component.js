@@ -79,7 +79,7 @@ var ConfigureProfile = function () {
             // Unbind the event listener on clean up
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [wrapperRef]);
+    }, [wrapperRef, contextUser]);
     var handleDescriptionChange = function (event) {
         setDescription(event.target.value);
     };

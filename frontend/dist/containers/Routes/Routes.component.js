@@ -36,7 +36,7 @@ var PrivateRoute = function (_a) {
 };
 var Routes = function () {
     var contextUser = useContext(UserContext);
-    return (React.createElement("div", null,
+    return (React.createElement(React.Fragment, null,
         React.createElement(NavBar, null),
         React.createElement(Switch, null,
             React.createElement(Route, { exact: true, path: "/", component: Login }),

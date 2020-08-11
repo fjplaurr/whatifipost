@@ -110,9 +110,9 @@ var Signin = function () {
             React.createElement("h1", { className: styles.title }, "Already have an account?")),
         React.createElement("form", { onSubmit: onSigninSubmit },
             React.createElement("div", { className: styles.inputWrapper },
-                React.createElement(TextInput, { idInput: "email", onChange: onSigninEmailChangeHandler, type: "email", placeholder: "Email" })),
+                React.createElement(TextInput, { idInput: "signinEmail", onChange: onSigninEmailChangeHandler, type: "email", placeholder: "Email" })),
             React.createElement("div", { className: styles.inputWrapper },
-                React.createElement(TextInput, { idInput: "password", onChange: onSigninPasswordChangeHandler, type: "password", placeholder: "Password" })),
+                React.createElement(TextInput, { idInput: "signinPassword", onChange: onSigninPasswordChangeHandler, type: "password", placeholder: "Password" })),
             incorrectUserPasswordError && React.createElement("p", { className: styles.error }, incorrectUserPasswordError),
             React.createElement(Button, { backgroundFull: true, text: "Sign in", color: "blue", type: "submit" }))));
 };
