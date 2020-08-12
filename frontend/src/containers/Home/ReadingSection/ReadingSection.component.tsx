@@ -25,23 +25,21 @@ const ReadingSection = () => {
   // changes (for instance, when following/unfollowing users).
   // It also reloads when the user sends a post
   useEffect(() => {
-    const getPostsFromAllFollowedusers = async () => {
-      const followedUsersPosts:
-        Post[] = await userEndpoints.getPostsFromFollowedUsers(contextUser.user!._id!);
-      const ownPosts: Post[] = await userEndpoints.getUsersPosts(contextUser.user!._id!);
-      ownPosts.forEach((post, index) => {
-        const postCopy = { ...post };
-        postCopy.date = new Date(postCopy.date);
-        ownPosts[index] = postCopy;
-      });
-      setPosts([...parseDate(followedUsersPosts), ...parseDate(ownPosts)]);
+    const getAllPosts = async () => {
+      const allposts:
+        Post[] = await userEndpoints.getOwnAndOthersPosts(contextUser.user!._id!);
+      // Parse each date string to Date type
+      allposts.forEach(post => post.date = new Date(post.date));
+      setPosts(allposts);
     };
     const getPostsFromOneUser = async () => {
       const usersPosts:
         Post[] = await userEndpoints.getUsersPosts(contextUser.watchingOtherProfileId);
+      // Parse each date string to Date type
+      usersPosts.forEach(post => post.date = new Date(post.date));
       setPosts([...parseDate(usersPosts)]);
     };
-    contextUser.watchingOtherProfileId ? getPostsFromOneUser() : getPostsFromAllFollowedusers();
+    contextUser.watchingOtherProfileId ? getPostsFromOneUser() : getAllPosts();
   }, [contextUser]);
 
   const getPosts = posts.map((post: Post, index: number) => {

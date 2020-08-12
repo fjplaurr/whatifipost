@@ -35,6 +35,7 @@ const FollowSection = () => {
       await loadFollowers();
     }
     loadFollowingAndFollowers();
+    // eslint-disable-next-line
   }, [contextUser.user?.following?.length]);
 
   // Set following tab active

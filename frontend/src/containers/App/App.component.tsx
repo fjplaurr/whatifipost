@@ -18,12 +18,7 @@ const App = () => {
   useEffect(() => {
     user && saveUser(user._id!);
   });
-
-  useEffect(() => {
-    console.log('user')
-    console.log(user)
-  }, [user])
-
+  
   // Loads user after first render
   useEffect(() => {
     const getUser = async () => {
