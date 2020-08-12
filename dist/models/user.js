@@ -82,7 +82,7 @@ userSchema.statics.getPostsFromFollowedUsers = function getPostsFromFollowedUser
             const postsWithUsers = yield posts.populate({
                 path: 'author',
                 model: 'User',
-            });
+            }).sort({ date: 1 });
             return res.status(200).json(postsWithUsers);
         }
         catch (err) {

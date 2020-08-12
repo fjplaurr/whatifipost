@@ -77,7 +77,7 @@ userSchema.statics.getPostsFromFollowedUsers = async function
     const postsWithUsers = await posts.populate({
       path: 'author',
       model: 'User',
-    });
+    }).sort({ date: -1 });
     return res.status(200).json(postsWithUsers);
   } catch (err) {
     return next({
