@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/test', db.test());
 router.get('/', db.getAll(models_1.User));
 router.get('/:id/posts', models_1.User.getUsersPosts);
-router.get('/:id/following/posts', models_1.User.getPostsFromFollowedUsers);
+router.get('/:id/following/posts', models_1.User.getOwnAndOthersPosts);
 router.get('/:id', db.getById(models_1.User));
 router.get('/following/:id', models_1.User.getFollowing);
 router.get('/followers/:id', models_1.User.getFollowers);

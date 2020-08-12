@@ -8,6 +8,6 @@ export interface UserModel extends Model<User> {
   getUsersPosts: () => any;
   getFollowing: () => any;
   getFollowers: () => any;
-  getPostsFromFollowedUsers: () => any;
+  getOwnAndOthersPosts: () => any;
   getFilteredUsers: () => any;
 }

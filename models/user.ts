@@ -57,7 +57,7 @@ userSchema.statics.getUsersPosts = async function
     const postsWithUser = await usersPosts.populate({
       path: 'author',
       model: 'User',
-    });
+    }).sort({ date: -1 });
     return res.status(200).json(postsWithUser);
   } catch (err) {
     return next({
@@ -67,13 +67,15 @@ userSchema.statics.getUsersPosts = async function
   }
 };
 
-userSchema.statics.getPostsFromFollowedUsers = async function
-  getPostsFromFollowedUsers(req: Request, res: Response, next: NextFunction) {
+userSchema.statics.getOwnAndOthersPosts = async function
+  getOwnAndOthersPosts(req: Request, res: Response, next: NextFunction) {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
-    const idsFollowedUsers = user?.following.map((followed) => followed.user);
-    const posts = Post.find({ author: { $in: idsFollowedUsers } });
+    const allUsers = user!.following.map((followed) => followed.user);
+    // include the own user
+    allUsers.push(user!);
+    const posts = Post.find({ author: { $in: allUsers } });
     const postsWithUsers = await posts.populate({
       path: 'author',
       model: 'User',

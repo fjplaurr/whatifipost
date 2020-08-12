@@ -61,7 +61,7 @@ userSchema.statics.getUsersPosts = function getUsersPosts(req, res, next) {
             const postsWithUser = yield usersPosts.populate({
                 path: 'author',
                 model: 'User',
-            });
+            }).sort({ date: -1 });
             return res.status(200).json(postsWithUser);
         }
         catch (err) {
@@ -72,17 +72,19 @@ userSchema.statics.getUsersPosts = function getUsersPosts(req, res, next) {
         }
     });
 };
-userSchema.statics.getPostsFromFollowedUsers = function getPostsFromFollowedUsers(req, res, next) {
+userSchema.statics.getOwnAndOthersPosts = function getOwnAndOthersPosts(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const user = yield User.findById(id);
-            const idsFollowedUsers = user === null || user === void 0 ? void 0 : user.following.map((followed) => followed.user);
-            const posts = _1.Post.find({ author: { $in: idsFollowedUsers } });
+            const allUsers = user.following.map((followed) => followed.user);
+            // include the own user
+            allUsers.push(user);
+            const posts = _1.Post.find({ author: { $in: allUsers } });
             const postsWithUsers = yield posts.populate({
                 path: 'author',
                 model: 'User',
-            }).sort({ date: 1 });
+            }).sort({ date: -1 });
             return res.status(200).json(postsWithUsers);
         }
         catch (err) {
