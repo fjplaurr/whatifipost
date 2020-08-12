@@ -1,4 +1,4 @@
-  
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: `${__dirname}/.env` });
 } else {
@@ -26,4 +26,4 @@ app.get('*', (req, res) => {
 });
 
 // Server listening
-app.listen(PORT, () => console.log('listening '));
+app.listen(PORT, () => console.log(`listening on port ${PORT}`));

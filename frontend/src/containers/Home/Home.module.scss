@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   margin-top: 40px;
+  align-items: flex-start;
 }
 
 .opacity {
@@ -27,8 +28,6 @@
 }
 
 .followSectionWrapper {
-  position: sticky;
-  top: 140px;
   max-height: 500px;
 }
 
@@ -36,6 +35,7 @@
   .homeContainer {
     flex-direction: column;
     margin-top: 20px;
+    align-items: normal;
   }
   .verticalContainer {
     margin-left: 0px;

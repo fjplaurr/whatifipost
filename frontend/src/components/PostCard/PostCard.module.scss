@@ -51,12 +51,14 @@
   font-size: calc(12px + (16 - 12) * ((100vw - 300px) / (1600 - 300)));
   font-weight: 600;
   margin-right: 20px;
+  text-align: left;
 }
 
 .time{
   font-size: calc(10px + (12 - 10) * ((100vw - 300px) / (1600 - 300)));
   font-weight: 400;
   color: $lightBlack;
+  text-align: left;
 }
 
 .message{

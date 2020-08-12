@@ -98,12 +98,6 @@ const ConfigureProfile = () => {
     contextUser.setIsConfiguringProfile(true);
   };
 
-  useEffect(() => {
-    console.log('user is isConfiguringProfile: ')
-    console.log(contextUser.isConfiguringProfile)
-
-  }, [contextUser.isConfiguringProfile]);
-
   const configurationForm = (
     <>
       <form

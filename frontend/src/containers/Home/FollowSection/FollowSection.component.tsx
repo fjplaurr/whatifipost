@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useContext, useCallback,
+  useState, useEffect, useContext,
 } from 'react';
 import ProfileCard from '../../../components/ProfileCard';
 import styles from './FollowSection.module.scss';
@@ -17,25 +17,27 @@ const FollowSection = () => {
   const [followers, setFollowers] = useState<{ user: User }[]>([]);
 
   // Loads followed users from database
-  const loadFollowing = useCallback(async () => {
+  const loadFollowing = async () => {
     const data = await userEndpoints.getFollowing(contextUser.user?._id!);
     data && setFollowing(data);
-  },
-  [contextUser.user]);
+  }
 
   // Loads followers from database
-  const loadFollowers = useCallback(async () => {
+  const loadFollowers = async () => {
     const data = await userEndpoints.getFollowers(contextUser.user?._id!);
     data && setFollowers(data);
-  },
-  [contextUser.user]);
+  }
 
   // Loads followed users and followers after first render
   useEffect(() => {
-    loadFollowing();
-    loadFollowers();
-  }, [contextUser.user, loadFollowing, loadFollowers]);
+    const loadFollowingAndFollowers = async () => {
+      await loadFollowing();
+      await loadFollowers();
+    }
+    loadFollowingAndFollowers();
+  }, [contextUser.user?.following?.length]);
 
+  // Set following tab active
   const tabFollowingClick = () => {
     if (!followingTabActive) {
       setFollowingTabActive(true);
@@ -43,6 +45,7 @@ const FollowSection = () => {
     }
   };
 
+  // Set followers tab active
   const tabFollowersClick = () => {
     if (!followersTabActive) {
       setFollowersTabActive(true);
@@ -55,10 +58,10 @@ const FollowSection = () => {
       const followingModified = contextUser.user!.following!
         .filter((el: { user: string }) => el.user !== clickedUser._id);
       const modifiedUser: User = { ...contextUser.user!, following: followingModified };
-      // Modify user in context
-      await contextUser.setUser(modifiedUser);
       // Modify list of followed users in database
       await userEndpoints.update(modifiedUser);
+      // Modify user in context
+      await contextUser.setUser(modifiedUser);
     };
 
     const updateFollowers = async () => {
@@ -70,20 +73,16 @@ const FollowSection = () => {
     };
     updateFollowing();
     updateFollowers();
-    // Loads followed users
-    loadFollowing();
   };
 
   const handleFollow = async (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
     const updateFollowing = async () => {
       const contextUserCopy: User = { ...contextUser!.user! };
       contextUserCopy.following!.push({ user: clickedUser._id! });
-      // Modify user in context
-      await contextUser.setUser(contextUserCopy);
       // Modify list of followed users in database
       await userEndpoints.update(contextUserCopy);
-      // Loads followed users
-      loadFollowing();
+      // Modify user in context
+      await contextUser.setUser(contextUserCopy);
     };
     const updateFollowers = async () => {
       const clickedUserCopy: User = { ...clickedUser };
@@ -93,7 +92,6 @@ const FollowSection = () => {
     };
     await updateFollowing();
     await updateFollowers();
-    loadFollowing();
   };
 
   const followingList = following.map((data) => {

@@ -44,10 +44,10 @@ const SearchBar = () => {
       const followingModified = contextUser.user!.following!
         .filter((el: { user: string }) => el.user !== clickedUser._id);
       const modifiedUser: User = { ...contextUser.user!, following: followingModified };
-      // Modify user in context
-      await contextUser.setUser(modifiedUser);
       // Modify list of followed users in database
       await userEndpoints.update(modifiedUser);
+      // Modify user in context
+      await contextUser.setUser(modifiedUser);
     };
     const updateFollowers = async () => {
       const followersModified = clickedUser.followers!
@@ -64,10 +64,10 @@ const SearchBar = () => {
     const updateFollowing = async () => {
       const contextUserCopy: User = { ...contextUser!.user! };
       contextUserCopy.following!.push({ user: clickedUser._id! });
-      // Modify user in context
-      await contextUser.setUser(contextUserCopy);
       // Modify list of followed users in database
       await userEndpoints.update(contextUserCopy);
+      // Modify user in context
+      await contextUser.setUser(contextUserCopy);
     };
     const updateFollowers = async () => {
       const clickedUserCopy: User = { ...clickedUser };

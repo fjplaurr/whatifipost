@@ -4,7 +4,7 @@
   "description": "PostApp's Frontend",
   "private": true,
   "scripts": {
-    "dev": "cd frontend/ && npx tsc && npm install && npm run build",
+    "dev-build": "cd frontend/ && npx tsc && npm install && npm run build",
     "start": "node server"
   },
   "keywords": [],
