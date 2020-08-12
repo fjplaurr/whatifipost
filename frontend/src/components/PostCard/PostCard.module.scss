@@ -18,10 +18,10 @@
 .nameAndTimestampWrapper{
   display: flex;
   margin-bottom: 5px;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.nameMessageWrapper, .nameMessageWrapperSeeingProfile{
+.nameMessageWrapper{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -47,26 +47,34 @@
   border-radius: 50%;
 }
 
-.name{
-  font-size: calc(12px + (16 - 12) * ((100vw - 300px) / (1600 - 300)));
-  font-weight: 600;
-  margin-right: 20px;
-  text-align: left;
-}
-
 .time{
   font-size: calc(10px + (12 - 10) * ((100vw - 300px) / (1600 - 300)));
   font-weight: 400;
   color: $lightBlack;
   text-align: left;
+  margin-left: 15px;
+  white-space: nowrap;
 }
 
 .message{
   font-size: calc(10px + (14 - 10) * ((100vw - 300px) / (1600 - 300)));
   font-weight: 400;
   text-align: left;
+  margin-top: 5px;
 }
 
+.messageAndTimestampWrapper{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+  align-items: flex-end;
+}
+
+.name {
+  font-weight: 600;
+  font-size: calc(12px + (16 - 12) * ((100vw - 300px) / (1600 - 300)));
+  text-align: left;
+}
 
 @media only screen and (max-width: 767px) {
   .name {

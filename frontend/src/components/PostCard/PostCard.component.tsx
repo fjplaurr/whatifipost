@@ -21,10 +21,9 @@ const PostCard = ({
   if (contextUser.watchingOtherProfileId) {
     return (
       <div className={last ? styles.lastContainer : styles.container}>
-        <div className={styles.nameMessageWrapperSeeingProfile}>
-          <p className={styles.message}>
-            {message}
-          </p>
+        <div className={styles.messageAndTimestampWrapper}>
+          <p className={styles.message}>{message}</p>
+          <p className={styles.time}>{getTimeInterval(timestamp)}</p>
         </div>
       </div>
     );
@@ -48,14 +47,10 @@ const PostCard = ({
       </button>
       <div className={styles.nameMessageWrapper}>
         <div className={styles.nameAndTimestampWrapper}>
-          <p className={styles.name}>
-            {`${name} ${surname}`}
-          </p>
+          <p className={styles.name}>{`${name} ${surname}`}</p>
           <p className={styles.time}>{getTimeInterval(timestamp)}</p>
         </div>
-        <p className={styles.message}>
-          {message}
-        </p>
+        <p className={styles.message}>{message}</p>
       </div>
     </div>
   );

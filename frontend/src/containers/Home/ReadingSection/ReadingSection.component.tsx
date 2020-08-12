@@ -29,14 +29,12 @@ const ReadingSection = () => {
       const allposts:
         Post[] = await userEndpoints.getOwnAndOthersPosts(contextUser.user!._id!);
       // Parse each date string to Date type
-      allposts.forEach(post => post.date = new Date(post.date));
-      setPosts(allposts);
+      setPosts([...parseDate(allposts)]);
     };
     const getPostsFromOneUser = async () => {
       const usersPosts:
         Post[] = await userEndpoints.getUsersPosts(contextUser.watchingOtherProfileId);
       // Parse each date string to Date type
-      usersPosts.forEach(post => post.date = new Date(post.date));
       setPosts([...parseDate(usersPosts)]);
     };
     contextUser.watchingOtherProfileId ? getPostsFromOneUser() : getAllPosts();
