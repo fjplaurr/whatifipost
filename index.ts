@@ -17,7 +17,8 @@ import {
 const app = express();
 
 // Database connection
-const uri = config.NODE_ENV !== 'production' ? 'mongodb://localhost/postApp' : config.MLAB_URI;
+const uri = config.MLAB_URI;
+console.log(`Connecting to database ${uri}`);
 const startMongoConnection = async () => {
   try {
     uri && await mongoose.connect(uri, {
@@ -25,6 +26,7 @@ const startMongoConnection = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    console.log(`Connected to ${uri}`);
   } catch (error) {
     console.log('The connection to Mongodb was not successful');
   }
@@ -32,16 +34,16 @@ const startMongoConnection = async () => {
 startMongoConnection();
 
 // Middlewares
-app.use(cors());
+app.use(cors<Request>());
 app.use(express.json());
 
 // Routes
-app.use('/api/users', usersRoutes);
-app.use('/api/posts', postsRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/image-upload', fileRoutes);
+app.use('/users', usersRoutes);
+app.use('/posts', postsRoutes);
+app.use('/auth', authRoutes);
+app.use('/image-upload', fileRoutes);
 
-app.get('/api/error-test', (req: Request, res: Response, next: NextFunction) => {
+app.get('/error-test', (req: Request, res: Response, next: NextFunction) => {
   const error = new Error('el que sea');
   next(error);
 });
@@ -58,6 +60,6 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 app.use(errorHandler);
 
 // Server listening
-const port = config.PORT || 5000;
+const port = 5000;
 app.listen(port,
   () => console.log(`Server listening on port ${port}`));
