@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  api:
+    image: wetalk-server
+    build:
+      dockerfile: Dockerfile.dev # Use Dockerfile.dev for debug. Use Dockerfile for prod.
+      context: ./server
+    volumes:
+      - /app/node_modules
+      - /app/dist
+      - ./server:/app
+    ports:
+      - 5000:5000
+      - 9229:9229 # Enable for debug.
+    secrets:
+      - AUTHENTICATION_SECRET_KEY
+      - AWS_ACCESS_KEY
+      - AWS_SECRET_ACCESS
+      - MLAB_URI
+      - NODE_ENV
+    environment:
+      AUTHENTICATION_SECRET_KEY: /run/secrets/AUTHENTICATION_SECRET_KEY
+      AWS_ACCESS_KEY: /run/secrets/AWS_ACCESS_KEY
+      AWS_SECRET_ACCESS: /run/secrets/AWS_SECRET_ACCESS
+      MLAB_URI: /run/secrets/MLAB_URI
+  client:
+    image: wetalk-client
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - /app/build
+      - ./client:/app
+  nginx:
+    image: wetalk-nginx
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+        - '3050:80'
+secrets:
+  AUTHENTICATION_SECRET_KEY:
+    external: true
+  AWS_ACCESS_KEY:
+    external: true
+  AWS_SECRET_ACCESS:
+    external: true
+  MLAB_URI:
+    external: true
+  NODE_ENV:
+    external: true
