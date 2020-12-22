@@ -1,0 +1,139 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jest/globals": true
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "ignorePatterns": [
+        "serviceWorker.ts"
+    ],
+    "rules": {
+        "react/require-default-props": "off",
+        "no-use-before-define": "off",
+        "no-unused-expressions": "off",
+        "no-underscore-dangle": "off",
+        "react/button-has-type": "off",
+        "import/prefer-default-export": "off",
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        ],
+        "linebreak-style": 0,
+        "jsx-a11y/label-has-associated-control": [
+            "error",
+            {
+                "required": {
+                    "some": [
+                        "nesting",
+                        "id"
+                    ]
+                }
+            }
+        ],
+        "jsx-a11y/label-has-for": [
+            "error",
+            {
+                "required": {
+                    "some": [
+                        "nesting",
+                        "id"
+                    ]
+                }
+            }
+        ],
+        "react/jsx-props-no-spreading": [
+            1,
+            {
+                "custom": "ignore"
+            }
+        ],
+        //Next is a workaround until there is a fix for: https://github.com/benmosher/eslint-plugin-import/issues/1558
+        "import/extensions": [
+            "error",
+            "always",
+            {
+                "ts": "never",
+                "tsx": "never",
+                "js": "never",
+                "jsx": "never"
+            }
+        ],
+        // Allows to import dev dependencies into test files.
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": [
+                    "**/*.test.ts",
+                    "**/*.test.tsx",
+                    "**/setupTests.*"
+                ]
+            }
+        ],
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars-experimental": [
+            "error",
+            {
+                // Allows to declare first parameter of function if it's not used.
+                "ignoreArgsIfArgsAfterAreUsed": true
+            }
+        ],
+        "no-unused-vars": "off"
+    },
+    "overrides": [
+        {
+            "plugins": [
+                "jest"
+            ],
+            "rules": {
+                "jest/no-disabled-tests": "warn",
+                "jest/no-focused-tests": "error",
+                "jest/no-identical-title": "error",
+                "jest/prefer-to-have-length": "warn",
+                "jest/valid-expect": "error"
+            },
+            "files": [
+                "**/*.test.tsx",
+                "**/*.test.ts"
+            ]
+        }
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    }
+}
