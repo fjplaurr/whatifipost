@@ -4,17 +4,17 @@ import {
   Response,
 } from 'express';
 import * as jwt from 'jsonwebtoken';
-import { hash } from 'bcrypt';
+import { hash } from 'bcryptjs';
 import config from '../config';
-import * as db from '../models';
+import { UserModel } from '../models';
 
 async function signin(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await db.User.findOne({ email: req.body.email }).exec();
+    const user = await UserModel.findOne({ email: req.body.email }).exec();
     // if email found
     if (user) {
       const { id, email } = user;
-      const isMatch = await user.comparePassword(req.body.password);
+      const isMatch = await user.comparePassword(req.body.password, next);
       // if password is correct
       if (isMatch) {
         const token = jwt.sign(
@@ -43,7 +43,7 @@ async function signup(req: Request, res: Response, next: NextFunction) {
       ...req.body,
       password: hashedPassword,
     };
-    const user = await db.User.create(newUser);
+    const user = await UserModel.create(newUser);
     const token = jwt.sign(
       {
         id: user.id,

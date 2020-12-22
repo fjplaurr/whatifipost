@@ -1,20 +1,20 @@
 import * as express from 'express';
-import { Post } from '../models';
+import { PostModel } from '../models';
 import * as db from '../handlers/helpers';
 
 const router = express.Router();
 
 // get
-router.get('/', db.getAll(Post));
-router.get('/:id', db.getById(Post));
+router.get('/', db.getAll(PostModel));
+router.get('/:id', db.getById(PostModel));
 
 // post
-router.post('/', db.create(Post));
+router.post('/', db.create(PostModel));
 
 // put
-router.put('/:id', db.update(Post));
+router.put('/:id', db.update(PostModel));
 
 // delete
-router.delete('/:id', db.deleteById(Post));
+router.delete('/:id', db.deleteById(PostModel));
 
 export default router;

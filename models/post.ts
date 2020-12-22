@@ -1,10 +1,17 @@
-import * as mongoose from 'mongoose';
-import { PostSchema } from '../interfaces';
+import { prop, Ref, getModelForClass } from '@typegoose/typegoose';
+import { User } from '.';
 
-const postSchema = new mongoose.Schema({
-  text: String,
-  date: Date,
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-});
+class Post {
+  @prop()
+  public text?: string;
 
-export default mongoose.model<PostSchema>('Post', postSchema);
+  @prop()
+  public date?: Date;
+
+  @prop({ ref: () => User })
+  public author?: Ref<User>;
+}
+
+const PostModel = getModelForClass(Post);
+
+export { Post, PostModel };
