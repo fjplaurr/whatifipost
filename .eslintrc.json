@@ -15,7 +15,6 @@
         "@typescript-eslint"
     ],
     "ignorePatterns": "node_modules/",
-    
     "rules": {
         "no-use-before-define": "off",
         "import/prefer-default-export": "off",
@@ -31,6 +30,12 @@
             {
                 "ts": "never",
                 "tsx": "never"
+            }
+        ],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
             }
         ]
     },
