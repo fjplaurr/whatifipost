@@ -3,7 +3,7 @@ services:
   api:
     image: wetalk-server
     build:
-      dockerfile: Dockerfile.dev # Use Dockerfile.dev for debug. Use Dockerfile for prod.
+      dockerfile: Dockerfile # Use Dockerfile.dev for debug. Use Dockerfile for prod.
       context: ./server
     volumes:
       - /app/node_modules
