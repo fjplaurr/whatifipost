@@ -9,7 +9,7 @@ If you want to run the App in your computer, then follow the steps provided belo
 - Download the project from (https://github.com/fjplaurr/whatifipost) by pressing the green button "Clone or download".
 - Unzip the file downloaded.
 - Open a Command Line Interface and go to the root file of the project.
-- Type in the Command Line Interface: 'docker-compose build && docker stack deploy --compose-file=docker-compose.yml wetalk'.
+- Type in the Command Line Interface: 'docker-compose build && docker stack deploy --compose-file=docker-compose.yml whatifipost'.
 - Wait for the process to finish.
 - Open a browser like Google Chrome or Firefox. Go to http://localhost:3050 and enjoy 👍
 
