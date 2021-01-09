@@ -58,7 +58,6 @@
     "msw": "^0.20.3",
     "typescript-plugin-css-modules": "^2.4.0"
   },
-  "proxy": "http://server:5000"
   "jest": {
     "collectCoverageFrom": [
       "src/components/**",
@@ -67,4 +66,5 @@
       "src/helpers/**"
     ]
   },
+  "proxy": "http://localhost:3050"
 }
