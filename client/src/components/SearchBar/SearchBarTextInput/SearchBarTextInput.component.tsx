@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 import styles from './SearchBarTextInput.module.scss';
 
 type TextInputProps = {
@@ -10,16 +10,25 @@ type TextInputProps = {
   color?: 'white' | 'smokeWhite';
   idInput: string,
   maxLength: number;
+  empty: boolean;
 }
 
 const SearchBarTextInput = ({
-  type, onChange, placeholder, minLength, children, color = 'smokeWhite', idInput, maxLength,
+  empty = false, type, onChange, placeholder, minLength, children, color = 'smokeWhite', idInput, maxLength,
 }: TextInputProps) => {
   const [value, setValue] = useState('');
   const stateChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange && onChange(event);
     setValue(event.target.value);
   };
+
+  // Clears input if receives empty prop from parent
+  useEffect(() => {
+    if (empty) {
+      setValue('');
+    }
+  }, [empty]);
+
   const inputClass = color === 'white' ? styles.inputWhite : styles.inputSmokeWhite;
   return (
     <div className={styles.textInputWrapper}>
