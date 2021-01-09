@@ -4,12 +4,8 @@ export interface User {
   password: string,
   name: string,
   surname: string,
-  following?: {
-    user: string
-  }[],
-  followers?: {
-    user: string
-  }[],
+  following?: string[],
+  followers?: string[],
   description?: string,
   profileImage?: string,
 }

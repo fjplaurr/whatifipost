@@ -12,6 +12,7 @@ import { UserContext } from '../../containers/App';
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [userResults, setUserResults] = useState<User[]>([]);
+  const [ClearOut, setClearOut] = useState(false);
 
   // Ref for the broken down results div
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -27,7 +28,9 @@ const SearchBar = () => {
   // Makes a search every time the user inputs a carachter
   useEffect(() => {
     const fetchUsers = async () => {
-      const users: User[] = await userEndpoints.getFilteredUsers(searchTerm);
+      let users: User[] = await userEndpoints.getFilteredUsers(searchTerm);
+      // Removes searcher user from the search
+      users = users.filter((el) => el._id !== contextUser.user?._id);
       setUserResults(users);
     };
     // Performs search only if the searchTerm is not empty. If it is not
@@ -42,7 +45,7 @@ const SearchBar = () => {
   const handleUnfollow = (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
     const updateFollowing = async () => {
       const followingModified = contextUser.user!.following!
-        .filter((el: { user: string }) => el.user !== clickedUser._id);
+        .filter((el: string) => el !== clickedUser._id);
       const modifiedUser: User = { ...contextUser.user!, following: followingModified };
       // Modify list of followed users in database
       await userEndpoints.update(modifiedUser);
@@ -51,7 +54,7 @@ const SearchBar = () => {
     };
     const updateFollowers = async () => {
       const followersModified = clickedUser.followers!
-        .filter((el: { user: string }) => el.user !== contextUser.user!._id);
+        .filter((el: string) => el !== contextUser.user!._id);
       const modifiedUser: User = { ...clickedUser!, followers: followersModified };
       // Modify list of followers in database
       await userEndpoints.update(modifiedUser);
@@ -63,7 +66,7 @@ const SearchBar = () => {
   const handleFollow = async (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
     const updateFollowing = async () => {
       const contextUserCopy: User = { ...contextUser!.user! };
-      contextUserCopy.following!.push({ user: clickedUser._id! });
+      contextUserCopy.following!.push(clickedUser._id!);
       // Modify list of followed users in database
       await userEndpoints.update(contextUserCopy);
       // Modify user in context
@@ -71,7 +74,7 @@ const SearchBar = () => {
     };
     const updateFollowers = async () => {
       const clickedUserCopy: User = { ...clickedUser };
-      clickedUserCopy.followers!.push({ user: contextUser!.user!._id! });
+      clickedUserCopy.followers!.push(contextUser!.user!._id!);
       // Modify list of followers in database
       await userEndpoints.update(clickedUserCopy);
     };
@@ -98,7 +101,7 @@ const SearchBar = () => {
       );
     }
     const usersFollowing = contextUser.user?.following;
-    const allUserIds = usersFollowing?.map((element: { user: string }) => element.user);
+    const allUserIds = usersFollowing?.map((element: string) => element);
     const isFollowing = allUserIds?.includes(user._id!);
     if (isFollowing) {
       return (
@@ -157,6 +160,7 @@ const SearchBar = () => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         contextUser.setIsSearching(false);
         setSearchTerm('');
+        setClearOut(true);
       }
     };
     // Bind the event listener
@@ -196,6 +200,7 @@ const SearchBar = () => {
         onChange={handleChange}
         color="white"
         maxLength={50}
+        empty={ClearOut}
       >
         <Search />
       </SearchBarTextInput>

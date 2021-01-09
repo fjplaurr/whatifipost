@@ -1,9 +1,10 @@
+/* eslint-disable no-return-await */
 import React, {
   useState, useEffect, useContext,
 } from 'react';
 import ProfileCard from '../../../components/ProfileCard';
 import styles from './FollowSection.module.scss';
-import * as userEndpoints from '../../../endpoints/user';
+import { getFollowing, getFollowers, update } from '../../../endpoints/user';
 import { User } from '../../../interfaces';
 import { UserContext } from '../../App';
 
@@ -13,28 +14,26 @@ const FollowSection = () => {
 
   const [followingTabActive, setFollowingTabActive] = useState(true);
   const [followersTabActive, setFollowersTabActive] = useState(false);
-  const [following, setFollowing] = useState<{ user: User }[]>([]);
-  const [followers, setFollowers] = useState<{ user: User }[]>([]);
+  const [following, setFollowing] = useState<User[]>([]);
+  const [followers, setFollowers] = useState<User[]>([]);
 
-  // Loads followed users from database
-  const loadFollowing = async () => {
-    const data = await userEndpoints.getFollowing(contextUser.user?._id!);
-    data && setFollowing(data);
-  };
-
-  // Loads followers from database
-  const loadFollowers = async () => {
-    const data = await userEndpoints.getFollowers(contextUser.user?._id!);
-    data && setFollowers(data);
-  };
-
-  // Loads followed users and followers after first render
+  // Loads folloers after first render
   useEffect(() => {
-    const loadFollowingAndFollowers = async () => {
-      await loadFollowing();
-      await loadFollowers();
-    };
-    loadFollowingAndFollowers();
+    async function fetchAndSet() {
+      const pFollowers = await getFollowers(contextUser.user?._id!);
+      setFollowers(pFollowers);
+    }
+    fetchAndSet();
+    // eslint-disable-next-line
+  }, [contextUser.user?.followers?.length]);
+
+  // Loads following users after first render
+  useEffect(() => {
+    async function fetchAndSet() {
+      const pFollowing = await getFollowing(contextUser.user?._id!);
+      setFollowing(pFollowing);
+    }
+    fetchAndSet();
     // eslint-disable-next-line
   }, [contextUser.user?.following?.length]);
 
@@ -57,20 +56,19 @@ const FollowSection = () => {
   const handleUnfollow = (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
     const updateFollowing = async () => {
       const followingModified = contextUser.user!.following!
-        .filter((el: { user: string }) => el.user !== clickedUser._id);
+        .filter((el: string) => el !== clickedUser._id);
       const modifiedUser: User = { ...contextUser.user!, following: followingModified };
       // Modify list of followed users in database
-      await userEndpoints.update(modifiedUser);
+      await update(modifiedUser);
       // Modify user in context
-      await contextUser.setUser(modifiedUser);
+      contextUser.setUser(modifiedUser);
     };
-
     const updateFollowers = async () => {
       const followersModified = clickedUser.followers!
-        .filter((el: { user: string }) => el.user !== contextUser.user!._id);
+        .filter((el: string) => el !== contextUser.user!._id);
       const modifiedUser: User = { ...clickedUser!, followers: followersModified };
       // Modify list of followers in database
-      await userEndpoints.update(modifiedUser);
+      await update(modifiedUser);
     };
     updateFollowing();
     updateFollowers();
@@ -79,48 +77,43 @@ const FollowSection = () => {
   const handleFollow = async (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
     const updateFollowing = async () => {
       const contextUserCopy: User = { ...contextUser!.user! };
-      contextUserCopy.following!.push({ user: clickedUser._id! });
+      contextUserCopy.following!.push(clickedUser._id!);
       // Modify list of followed users in database
-      await userEndpoints.update(contextUserCopy);
+      await update(contextUserCopy);
       // Modify user in context
-      await contextUser.setUser(contextUserCopy);
+      contextUser.setUser(contextUserCopy);
     };
     const updateFollowers = async () => {
       const clickedUserCopy: User = { ...clickedUser };
-      clickedUserCopy.followers!.push({ user: contextUser!.user!._id! });
+      clickedUserCopy.followers!.push(contextUser!.user!._id!);
       // Modify list of followers in database
-      await userEndpoints.update(clickedUserCopy);
+      await update(clickedUserCopy);
     };
     await updateFollowing();
     await updateFollowers();
   };
 
-  const followingList = following.map((data) => {
-    const { user } = data;
-    return (
-      <div
-        key={user._id}
-        className={styles.targetWrapper}
-      >
-        <ProfileCard
-          description={user.description}
-          name={user.name}
-          surname={user.surname}
-          id={user._id!}
-          picture={user.profileImage}
-          onClick={(e) => handleUnfollow(e, user)}
-          textButton="Unfollow"
-          colorButton="red"
-        />
-      </div>
-    );
-  });
+  const followingList = following.map((user) => (
+    <div
+      key={user._id}
+      className={styles.targetWrapper}
+    >
+      <ProfileCard
+        description={user.description}
+        name={user.name}
+        surname={user.surname}
+        id={user._id!}
+        picture={user.profileImage}
+        onClick={(e) => handleUnfollow(e, user)}
+        textButton="Unfollow"
+        colorButton="red"
+      />
+    </div>
+  ));
 
-  const followersList = followers.map((data) => {
-    const { user: follower } = data;
+  const followersList = followers.map((follower) => {
     const usersFollowing = contextUser.user?.following;
-    const allUserIds = usersFollowing?.map((element: { user: string }) => element.user);
-    const isFollowing = allUserIds?.includes(follower._id!);
+    const isFollowing = usersFollowing?.includes(follower._id!);
     if (isFollowing) {
       return (
         <div
