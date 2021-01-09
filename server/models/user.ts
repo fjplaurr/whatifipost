@@ -95,7 +95,7 @@ class User {
       const UserModel = getModelForClass(User);
       const { id } = req.params;
       const user = await UserModel.findById(id).populate({
-        path: 'following.user',
+        path: 'following',
       });
       return res.status(200).json(user?.following);
     } catch (err) {
@@ -112,7 +112,7 @@ class User {
       const UserModel = getModelForClass(User);
       const { id } = req.params;
       const user = await UserModel.findById(id).populate({
-        path: 'followers.user',
+        path: 'followers',
       });
       return res.status(200).json(user?.followers);
     } catch (err) {
