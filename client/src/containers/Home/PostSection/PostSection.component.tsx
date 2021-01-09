@@ -4,7 +4,7 @@ import styles from './PostSection.module.scss';
 import Button from '../../../components/Button';
 import { Post } from '../../../interfaces';
 import { UserContext } from '../../App';
-import * as postEndpoints from '../../../endpoints/post';
+import { create } from '../../../endpoints/post';
 
 const PostSection = () => {
   const [post, setPost] = useState('');
@@ -17,15 +17,15 @@ const PostSection = () => {
   // Function triggered when sending a post
   const handlePost = async (event: React.FormEvent<HTMLFormElement>) => {
     setPost('');
+    contextUser.setIsPosting(true);
     event.preventDefault();
     const newPost: Post = {
       author: contextUser.user!,
       date: new Date(),
       text: post,
     };
-    const res: { post: Post } = await postEndpoints.create(newPost);
+    const res: { post: Post } = await create(newPost);
     if (res) {
-      contextUser.setIsPosting(true);
       contextUser.setIsPosting(false);
     }
   };
