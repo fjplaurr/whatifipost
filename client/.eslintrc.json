@@ -92,7 +92,8 @@
                 "devDependencies": [
                     "**/*.test.ts",
                     "**/*.test.tsx",
-                    "**/setupTests.*"
+                    "**/setupTests.*",
+                    "**/test/*.*"
                 ]
             }
         ],

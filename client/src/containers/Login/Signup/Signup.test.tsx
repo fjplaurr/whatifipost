@@ -1,44 +1,58 @@
 import React from 'react';
-import {
-  render, getByLabelText, fireEvent,
-} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/react';
+import { customRender, mockUser } from '../../../test/react-all-providers';
+import { signup } from '../../../endpoints/auth';
 import Signup from './Signup.component';
 
-const renderContainer = () => {
-  const utils = render(<Signup />);
-  const container: HTMLElement = utils.getByTestId('signupContainer');
-  return container;
-};
+// Mocks auth module
+jest.mock('../../../endpoints/auth');
+const mockedSignUp = signup as any;
 
-test('elements are rendered', () => {
-  const container = renderContainer();
-  expect(container).toHaveTextContent('Name');
-  expect(container).toHaveTextContent('Surname');
-  expect(container).toHaveTextContent('Email');
-  expect(container).toHaveTextContent('Password');
-  expect(container).toHaveTextContent('Join');
-});
+// Mocks history.push from react-router
+const mockHistoryPush = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom') as any,
+  __esModule: true,
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
 
-test('allows user to fill the inputs', () => {
-  const container = renderContainer();
+test('Fill name, surname, email and password', () => {
+  customRender(<Signup />);
 
-  // input name
-  let input = getByLabelText(container, 'Name');
-  fireEvent.change(input, { target: { value: 'mockName' } });
-  expect(input).toHaveValue('mockName');
+  // input Name
+  const inputName = screen.getByLabelText(/^name/i);
+  userEvent.type(inputName, mockUser.name);
+  expect(inputName).toHaveValue(mockUser.name);
 
-  // input surname
-  input = getByLabelText(container, 'Surname');
-  fireEvent.change(input, { target: { value: 'mockSurname' } });
-  expect(input).toHaveValue('mockSurname');
+  // input Surname
+  const inputSurname = screen.getByLabelText(/surname/i);
+  userEvent.type(inputSurname, mockUser.surname);
+  expect(inputSurname).toHaveValue(mockUser.surname);
 
   // input Email
-  input = getByLabelText(container, 'Email');
-  fireEvent.change(input, { target: { value: 'mockEmail' } });
-  expect(input).toHaveValue('mockEmail');
+  const inputEmail = screen.getByLabelText(/email/i);
+  userEvent.type(inputEmail, mockUser.email);
+  expect(inputEmail).toHaveValue(mockUser.email);
 
   // input Password
-  input = getByLabelText(container, 'Password');
-  fireEvent.change(input, { target: { value: 'mockPassword' } });
-  expect(input).toHaveValue('mockPassword');
+  const inputPassword = screen.getByLabelText(/password/i);
+  userEvent.type(inputPassword, mockUser.password);
+  expect(inputPassword).toHaveValue(mockUser.password);
+
+  // click button
+  const submitButton = screen.getByRole('button');
+  mockedSignUp.mockResolvedValueOnce({
+    user: {
+      id: 'mockId',
+      name: mockUser.name,
+      surname: mockUser.surname,
+      email: mockUser.email,
+    },
+    token: 'mockToken',
+  });
+  userEvent.click(submitButton);
+  expect(mockedSignUp).toHaveBeenCalledTimes(1);
 });

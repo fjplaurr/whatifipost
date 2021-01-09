@@ -1,30 +1,68 @@
 import React from 'react';
-import { render, fireEvent, getByLabelText } from '@testing-library/react';
-import Signin from './Signin.component';
+import userEvent from '@testing-library/user-event';
+import { act, screen } from '@testing-library/react';
+import { customRender, mockUser } from '../../../test/react-all-providers';
+import { signin } from '../../../endpoints/auth';
+import Signin from '.';
 
-const renderContainer = () => {
-  const utils = render(<Signin />);
-  const container: HTMLElement = utils.getByTestId('signinContainer');
-  return container;
-};
+// Mocks auth module
+jest.mock('../../../endpoints/auth');
+const mockedSignin = signin as any;
 
-test('elements are rendered', () => {
-  const container = renderContainer();
-  expect(container).toHaveTextContent('Email');
-  expect(container).toHaveTextContent('Password');
-  expect(container).toHaveTextContent('Sign in');
-});
+// Mocks history.push from react-router
+const mockHistoryPush = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom') as any,
+  __esModule: true,
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
 
-test('allows user to fill the inputs', () => {
-  const container = renderContainer();
+test('Fill user and password correctly', async () => {
+  customRender(<Signin />);
 
   // input Email
-  let input = getByLabelText(container, 'Email');
-  fireEvent.change(input, { target: { value: 'mockEmail' } });
-  expect(input).toHaveValue('mockEmail');
+  const inputEmail = screen.getByLabelText(/email/i);
+  userEvent.type(inputEmail, mockUser.email);
+  expect(inputEmail).toHaveValue(mockUser.email);
 
   // input Password
-  input = getByLabelText(container, 'Password');
-  fireEvent.change(input, { target: { value: 'mockPassword' } });
-  expect(input).toHaveValue('mockPassword');
+  const inputPassword = screen.getByLabelText(/password/i);
+  userEvent.type(inputPassword, mockUser.password);
+  expect(inputPassword).toHaveValue(mockUser.password);
+
+  // click button
+  const submitButton = screen.getByRole('button');
+  mockedSignin.mockResolvedValueOnce({
+    user: {
+      id: 'mockId',
+      email: mockUser.email,
+    },
+    token: 'mockToken',
+  });
+  userEvent.click(submitButton);
+  expect(mockedSignin).toHaveBeenCalledTimes(1);
+});
+
+test('Fill user and password incorrectly', async () => {
+  const { getByLabelText, getByRole, getByText } = customRender(<Signin />);
+
+  // input Email
+  const inputEmail = getByLabelText(/email/i);
+  userEvent.type(inputEmail, mockUser.email);
+  expect(inputEmail).toHaveValue(mockUser.email);
+
+  // input Password
+  const inputPassword = getByLabelText(/password/i);
+  userEvent.type(inputPassword, mockUser.password);
+  expect(inputPassword).toHaveValue(mockUser.password);
+
+  // click button
+  const submitButton = getByRole('button');
+  mockedSignin.mockResolvedValueOnce({ message: 'Invalid email or password' });
+  userEvent.click(submitButton);
+  await act(() => Promise.resolve());
+  expect(mockedSignin).toHaveBeenCalledTimes(1);
+  expect(getByText(/The email and/i)).toBeInTheDocument();
 });
