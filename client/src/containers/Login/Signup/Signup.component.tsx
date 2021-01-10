@@ -74,7 +74,7 @@ const Signup = () => {
   };
 
   return (
-    <div className={styles.container} data-testid="signupContainer">
+    <div className={styles.container}>
       <div className={styles.titleWrapper}>
         <h1 className={styles.title}>Don&apos;t have an account?</h1>
       </div>

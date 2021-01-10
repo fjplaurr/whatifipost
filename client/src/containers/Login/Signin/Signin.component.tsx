@@ -64,7 +64,7 @@ const Signin = () => {
   }, [contextUser.user, history]);
 
   return (
-    <div className={styles.signinContainer} data-testid="signinContainer">
+    <div className={styles.signinContainer}>
       <div className={styles.titleWrapper}>
         <h1 className={styles.title}>Already have an account?</h1>
       </div>
