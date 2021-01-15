@@ -25,7 +25,7 @@ const PostSection = () => {
       text: post,
     };
     const res: { post: Post } = await create(newPost);
-    if (res) {
+    if (res.post) {
       contextUser.setIsPosting(false);
     }
   };
