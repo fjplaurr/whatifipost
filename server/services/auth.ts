@@ -56,6 +56,9 @@ async function signup(req: Request, res: Response, next: NextFunction) {
       token,
     });
   } catch (err) {
+    if (err.code === 11000) {
+      res.statusCode = 409;
+    }
     return next(err);
   }
 }

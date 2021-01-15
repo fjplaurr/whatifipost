@@ -54,8 +54,10 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
   if (res.headersSent) {
     return next(err);
   }
-  const serializedError = serializeError(err);
-  return res.status(500).send({ error: serializedError });
+  const error = serializeError(err);
+  // If a code !== 200 comes, that is because it has manually been handled
+  const status = res.statusCode !== 200 ? res.statusCode : 500;
+  return res.status(status).send({ error });
 };
 app.use(errorHandler);
 
