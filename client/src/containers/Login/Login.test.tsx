@@ -7,7 +7,3 @@ test('Renders correctly', () => {
   expect(screen.getByRole('button', { name: /join/i })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
 });
-
-test('sums correctly', () => {
-  expect(1).toEqual(1);
-})
