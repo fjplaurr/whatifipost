@@ -62,7 +62,7 @@ const Signup = () => {
   const createUser = async (newUser: User) => {
     try {
       const res: { user: User, token: string } = await authEndpoints.signup(newUser);
-      if (res) {
+      if (res.user) {
         // Sets current user in context
         await contextUser.setUser(res.user);
         // Pushes to home screen
