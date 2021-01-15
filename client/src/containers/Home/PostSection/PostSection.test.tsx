@@ -28,5 +28,5 @@ test('Write and send a post', async () => {
   mockedCreate.mockResolvedValueOnce(mockPost);
   userEvent.click(button);
   await waitFor(() => expect(mockedCreate).toHaveBeenCalledTimes(1));
-  expect(defaultProviderProps.value.setIsPosting).toHaveBeenCalledTimes(2);
+  expect(defaultProviderProps.value.setIsPosting).toHaveBeenCalledTimes(1);
 });
