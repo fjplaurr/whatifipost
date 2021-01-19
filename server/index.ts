@@ -9,6 +9,7 @@ import * as mongoose from 'mongoose';
 import * as express from 'express';
 import * as cors from 'cors';
 import { serializeError } from 'serialize-error';
+import * as jwt from 'jsonwebtoken';
 import {
   postsRoutes, usersRoutes, authRoutes, fileRoutes,
 } from './routes';
@@ -37,16 +38,26 @@ startMongoConnection();
 app.use(cors<Request>());
 app.use(express.json());
 
-// Routes
-app.use('/users', usersRoutes);
-app.use('/posts', postsRoutes);
-app.use('/auth', authRoutes);
-app.use('/image-upload', fileRoutes);
+const verifyToken = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) {
+    return res.sendStatus(401);
+  }
+  jwt.verify(token, config.AUTHENTICATION_SECRET_KEY, (err) => {
+    if (err) {
+      return res.sendStatus(403);
+    }
+    return next();
+  });
+  return null;
+};
 
-app.get('/error-test', (req: Request, res: Response, next: NextFunction) => {
-  const error = new Error('el que sea');
-  next(error);
-});
+// Routes
+app.use('/users', verifyToken, usersRoutes);
+app.use('/posts', verifyToken, postsRoutes);
+app.use('/auth', authRoutes);
+app.use('/image-upload', verifyToken, fileRoutes);
 
 // Express default error handling
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -62,6 +73,4 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 app.use(errorHandler);
 
 // Server listening
-const port = 5000;
-app.listen(port,
-  () => console.log(`Server listening on port ${port}`));
+app.listen(config.PORT, () => console.log(`Server listening on port ${config.PORT}`));
