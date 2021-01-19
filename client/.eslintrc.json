@@ -3,7 +3,8 @@
         "serviceWorker.ts",
         "node_modules/",
         "build/",
-        "coverage/"
+        "coverage/",
+        "cypress/"
     ],
     "env": {
         "browser": true,
@@ -34,6 +35,8 @@
         "import/resolver": {
             "node": {
                 "extensions": [
+                    ".js",
+                    ".jsx",
                     ".ts",
                     ".tsx"
                 ]
