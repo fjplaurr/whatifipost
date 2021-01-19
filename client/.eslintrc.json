@@ -1,4 +1,10 @@
 {
+    "ignorePatterns": [
+        "serviceWorker.ts",
+        "node_modules/",
+        "build/",
+        "coverage/"
+    ],
     "env": {
         "browser": true,
         "es6": true,
@@ -24,8 +30,33 @@
         "react",
         "@typescript-eslint"
     ],
-    "ignorePatterns": [
-        "serviceWorker.ts"
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".ts",
+                    ".tsx"
+                ]
+            }
+        }
+    },
+    "overrides": [
+        {
+            "plugins": [
+                "jest"
+            ],
+            "rules": {
+                "jest/no-disabled-tests": "warn",
+                "jest/no-focused-tests": "error",
+                "jest/no-identical-title": "error",
+                "jest/prefer-to-have-length": "warn",
+                "jest/valid-expect": "error"
+            },
+            "files": [
+                "**/*.test.tsx",
+                "**/*.test.ts"
+            ]
+        }
     ],
     "rules": {
         "react/require-default-props": "off",
@@ -105,35 +136,5 @@
             }
         ],
         "no-unused-vars": "off"
-    },
-    "overrides": [
-        {
-            "plugins": [
-                "jest"
-            ],
-            "rules": {
-                "jest/no-disabled-tests": "warn",
-                "jest/no-focused-tests": "error",
-                "jest/no-identical-title": "error",
-                "jest/prefer-to-have-length": "warn",
-                "jest/valid-expect": "error"
-            },
-            "files": [
-                "**/*.test.tsx",
-                "**/*.test.ts"
-            ]
-        }
-    ],
-    "settings": {
-        "import/resolver": {
-            "node": {
-                "extensions": [
-                    ".js",
-                    ".jsx",
-                    ".ts",
-                    ".tsx"
-                ]
-            }
-        }
     }
 }
