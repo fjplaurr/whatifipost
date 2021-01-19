@@ -1,4 +1,8 @@
 {
+    "ignorePatterns": [
+        "dist/",
+        "node_modules/"
+    ],
     "env": {
         "es2020": true,
         "node": true
@@ -14,7 +18,31 @@
     "plugins": [
         "@typescript-eslint"
     ],
-    "ignorePatterns": "node_modules/",
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [
+                    ".ts"
+                ]
+            }
+        }
+    },
+    //Next is workaround to avoid no-unused-vars rule for types in typescript. https://github.com/typescript-eslint/typescript-eslint/issues/46#issuecomment-470486034
+    "overrides": [
+        {
+            "files": [
+                "*.ts"
+            ],
+            "rules": {
+                "@typescript-eslint/no-unused-vars": [
+                    2,
+                    {
+                        "args": "none"
+                    }
+                ]
+            }
+        }
+    ],
     "rules": {
         "no-use-before-define": "off",
         "import/prefer-default-export": "off",
@@ -39,29 +67,4 @@
             }
         ]
     },
-    //Next is workaround to avoid no-unused-vars rule for types in typescript. https://github.com/typescript-eslint/typescript-eslint/issues/46#issuecomment-470486034
-    "overrides": [
-        {
-            "files": [
-                "*.ts"
-            ],
-            "rules": {
-                "@typescript-eslint/no-unused-vars": [
-                    2,
-                    {
-                        "args": "none"
-                    }
-                ]
-            }
-        }
-    ],
-    "settings": {
-        "import/resolver": {
-            "node": {
-                "extensions": [
-                    ".ts"
-                ]
-            }
-        }
-    }
 }
