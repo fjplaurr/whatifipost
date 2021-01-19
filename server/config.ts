@@ -6,6 +6,7 @@ const config = {
   AWS_ACCESS_KEY: readSecret('AWS_ACCESS_KEY'),
   NODE_ENV: readSecret('NODE_ENV'),
   MLAB_URI: readSecret('MLAB_URI'),
+  PORT: 5000,
 };
 
 export default config;
