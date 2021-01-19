@@ -5,3 +5,5 @@ node_modules/
 build/
 coverage
 .eslintcache
+cypress/videos
+cypress/screenshots
