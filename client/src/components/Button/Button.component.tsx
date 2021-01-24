@@ -4,7 +4,7 @@ import styles from './Button.module.scss';
 type ButtonProps = {
   backgroundFull?: boolean;
   text: string;
-  color: 'blue' | 'red';
+  color: 'blue' | 'red' | 'darkWhite';
   type?: 'submit' | 'button' | 'reset';
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   small?: boolean,
@@ -25,6 +25,9 @@ const Button = ({
   }
   if (!backgroundFull && color === 'red') {
     style = styles.emptyRedButton;
+  }
+  if (backgroundFull && color === 'darkWhite') {
+    style = styles.fullDarkWhiteButton;
   }
   if (small) {
     style = `${style} ${styles.smallButton}`;

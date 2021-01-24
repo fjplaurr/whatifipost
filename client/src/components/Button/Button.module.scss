@@ -3,7 +3,8 @@
 .fullBlueButton,
 .emptyBlueButton,
 .fullRedButton,
-.emptyRedButton {
+.emptyRedButton,
+.fullDarkWhiteButton {
     width: 70px;
     height: 30px;
     font-size: calc(12px + (14 - 12) * ((100vw - 300px) / (1600 - 300)));
@@ -28,6 +29,12 @@
     color: $white;
     background-color: $red;
     border: 1px solid $red;
+}
+
+.fullDarkWhiteButton {
+    color: $white;
+    background-color: $lightBlack;
+    border: 1px solid $lightBlack;
 }
 
 .emptyRedButton {
