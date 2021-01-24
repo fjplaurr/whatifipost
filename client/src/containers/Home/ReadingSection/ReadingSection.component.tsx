@@ -3,12 +3,18 @@ import style from './ReadingSection.module.scss';
 import PostCard from '../../../components/PostCard';
 import { Post } from '../../../interfaces/Post';
 import { UserContext } from '../../App';
-import * as userEndpoints from '../../../endpoints/user';
+import { useUserFetch } from '../../../endpoints/user';
 import ProfileHeader from './ProfileHeader';
 
 const ReadingSection = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  // Reads current connected user from Context
   const contextUser = useContext(UserContext);
+
+  // State
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  // Endpoints
+  const { getOwnAndOthersPosts, getUsersPosts } = useUserFetch();
 
   // Loops an array of posts and transforms every string date into Date type
   const parseDate = (arr: Post[]) => {
@@ -27,13 +33,13 @@ const ReadingSection = () => {
   useEffect(() => {
     const getAllPosts = async () => {
       const allposts:
-        Post[] = await userEndpoints.getOwnAndOthersPosts(contextUser.user!._id!);
+        Post[] = await getOwnAndOthersPosts(contextUser.user!._id!);
       // Parse each date string to Date type
       setPosts([...parseDate(allposts)]);
     };
     const getPostsFromOneUser = async () => {
       const usersPosts:
-        Post[] = await userEndpoints.getUsersPosts(contextUser.watchingOtherProfileId);
+        Post[] = await getUsersPosts(contextUser.watchingOtherProfileId);
       // Parse each date string to Date type
       setPosts([...parseDate(usersPosts)]);
     };

@@ -3,28 +3,27 @@ import { useHistory } from 'react-router-dom';
 import TextInput from '../../../components/TextInput';
 import { User } from '../../../interfaces';
 import UserContext from '../../../helpers/context';
+import { saveUser } from '../../../helpers/localStorage';
 import styles from './Signup.module.scss';
-import * as authEndpoints from '../../../endpoints/auth';
+import { useAuthFetch } from '../../../endpoints/auth';
 import Button from '../../../components/Button';
 
 const Signup = () => {
+  // React-router history
+  const history = useHistory();
+
   // React-context to access current connected user
   const contextUser = useContext(UserContext);
 
-  // Signup state
+  // State
   const initialState = {
     signupName: '',
     signupSurname: '',
     signupEmail: '',
     signupPassword: '',
   };
-
-  // React-router history
-  const history = useHistory();
-
   type SignupActionType = 'supName' | 'supSurname' | 'supEmail' | 'supPassword'
   type SignupAction = { type: SignupActionType; payload: string };
-
   const reducer = (state: typeof initialState, action: SignupAction) => {
     switch (action.type) {
       case 'supName':
@@ -40,6 +39,9 @@ const Signup = () => {
     }
   };
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // Endpoints
+  const { signup } = useAuthFetch();
 
   // Signup email change handler
   const onstateHandler = (e: React.ChangeEvent<HTMLInputElement>,
@@ -61,8 +63,9 @@ const Signup = () => {
 
   const createUser = async (newUser: User) => {
     try {
-      const res: { user: User, token: string } = await authEndpoints.signup(newUser);
+      const res: { user: User, token: string } = await signup(newUser);
       if (res.user) {
+        saveUser({ token: res.token, id: res.user._id! });
         // Sets current user in context
         await contextUser.setUser(res.user);
         // Pushes to home screen

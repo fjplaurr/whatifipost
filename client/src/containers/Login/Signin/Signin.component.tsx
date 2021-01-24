@@ -4,20 +4,23 @@ import TextInput from '../../../components/TextInput';
 import { User } from '../../../interfaces';
 import UserContext from '../../../helpers/context';
 import styles from './Signin.module.scss';
-import * as authEndpoints from '../../../endpoints/auth';
+import { useAuthFetch } from '../../../endpoints/auth';
 import Button from '../../../components/Button';
 
 const Signin = () => {
-  // React-context to access current connected user
-  const contextUser = useContext(UserContext);
-
   // React-router history
   const history = useHistory();
 
-  // Signin state
+  // React-context to access current connected user
+  const contextUser = useContext(UserContext);
+
+  // State
   const [signinEmail, setSigninEmail] = useState('');
   const [signinPassword, setSigninPassword] = useState('');
   const [incorrectUserPasswordError, setIncorrectUserPasswordError] = useState('');
+
+  // Endpoints
+  const { signin } = useAuthFetch();
 
   // Signin email change handler
   const onSigninEmailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,9 +39,8 @@ const Signin = () => {
       email: signinEmail,
       password: signinPassword,
     };
-
     try {
-      const res: { user: User, token: string } = await authEndpoints.signin(login);
+      const res: { user: User, token: string } = await signin(login);
       // checks if res has an user property
       if (res.user) {
         // Sets current user in context

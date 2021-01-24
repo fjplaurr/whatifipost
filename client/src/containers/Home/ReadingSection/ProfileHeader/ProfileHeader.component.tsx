@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 import style from './ProfileHeader.module.scss';
 import { User } from '../../../../interfaces/User';
-import * as userEndpoints from '../../../../endpoints/user';
+import { useUserFetch } from '../../../../endpoints/user';
 import profileImage from '../../../../assets/images/profileImage.png';
 import { UserContext } from '../../../App';
 
@@ -11,15 +11,19 @@ type ProfileHeaderProps = {
 }
 
 const ProfileHeader = ({ userId }: ProfileHeaderProps) => {
-  const [user, setUser] = useState<User>();
-
   // Reads current connected user from Context
   const contextUser = useContext(UserContext);
+
+  // State
+  const [user, setUser] = useState<User>();
+
+  // Endpoints
+  const { getSingle } = useUserFetch();
 
   // Reads user from database
   useEffect(() => {
     const getUser = async () => {
-      const userFromDB = await userEndpoints.getSingle(userId);
+      const userFromDB = await getSingle(userId);
       setUser(userFromDB);
     };
     getUser();

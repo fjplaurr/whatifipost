@@ -4,15 +4,20 @@ import styles from './PostSection.module.scss';
 import Button from '../../../components/Button';
 import { Post } from '../../../interfaces';
 import { UserContext } from '../../App';
-import { create } from '../../../endpoints/post';
+import { usePostFetch } from '../../../endpoints/post';
 
 const PostSection = () => {
+  // Reads current connected user from Context
+  const contextUser = useContext(UserContext);
+
+  // State
   const [post, setPost] = useState('');
   const onChangeTextHandler: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setPost(event.target.value);
   };
-  // Reads current connected user from Context
-  const contextUser = useContext(UserContext);
+
+  // Endpoints
+  const { create } = usePostFetch();
 
   // Function triggered when sending a post
   const handlePost = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,8 +29,8 @@ const PostSection = () => {
       date: new Date(),
       text: post,
     };
-    const res: { post: Post } = await create(newPost);
-    if (res.post) {
+    const res: Post = await create(newPost);
+    if (res) {
       contextUser.setIsPosting(false);
     }
   };

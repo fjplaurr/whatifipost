@@ -1,10 +1,16 @@
 import { post } from '../helpers/fetch';
 import { User } from '../interfaces';
+import { getHeadersIfLocalStorage } from '../helpers/localStorage';
 
-const url = '/api/auth/';
+const useAuthFetch = () => {
+  const url = '/api/auth/';
+  const headers = getHeadersIfLocalStorage();
 
-// Post
-const signup = (user: User) => post(`${url}signup`, user);
-const signin = ({ email, password }: { email: string, password: string }) => post(`${url}signin`, { email, password });
+  // Post
+  const signup = (user: User) => post(`${url}signup`, user);
+  const signin = ({ email, password }: { email: string, password: string }) => post(`${url}signin`, { email, password }, headers);
 
-export { signup, signin };
+  return { signup, signin };
+};
+
+export { useAuthFetch };

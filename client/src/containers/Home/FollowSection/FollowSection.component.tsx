@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import ProfileCard from '../../../components/ProfileCard';
 import styles from './FollowSection.module.scss';
-import { getFollowing, getFollowers, update } from '../../../endpoints/user';
+import { useUserFetch } from '../../../endpoints/user';
 import { User } from '../../../interfaces';
 import { UserContext } from '../../App';
 
@@ -12,12 +12,16 @@ const FollowSection = () => {
   // Reads current connected user from Context
   const contextUser = useContext(UserContext);
 
+  // State
   const [followingTabActive, setFollowingTabActive] = useState(true);
   const [followersTabActive, setFollowersTabActive] = useState(false);
   const [following, setFollowing] = useState<User[]>([]);
   const [followers, setFollowers] = useState<User[]>([]);
 
-  // Loads folloers after first render
+  // Endpoints
+  const { getFollowers, getFollowing, update } = useUserFetch();
+
+  // Loads followers after first render
   useEffect(() => {
     async function fetchAndSet() {
       const pFollowers = await getFollowers(contextUser.user?._id!);
@@ -153,7 +157,7 @@ const FollowSection = () => {
   });
 
   return (
-    <section className={styles.followSection}>
+    <section data-testid="followersSection" className={styles.followSection}>
       <div className={styles.tabList}>
         <button
           onClick={tabFollowingClick}
