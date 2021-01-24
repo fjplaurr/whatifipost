@@ -2,9 +2,7 @@
     "ignorePatterns": [
         "serviceWorker.ts",
         "node_modules/",
-        "build/",
-        "coverage/",
-        "cypress/"
+        "build/"
     ],
     "env": {
         "browser": true,

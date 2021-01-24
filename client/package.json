@@ -21,6 +21,7 @@
   },
   "scripts": {
     "lint": "npx eslint './**/*.{ts,tsx}' --fix",
+    "cypress": "npx cypress open",
     "check-types": "npx tsc",
     "build": "react-scripts build",
     "validate": "npm run lint && npm run check-types && npm run test && npm run build",

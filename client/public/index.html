@@ -9,6 +9,11 @@
   <meta name="description" content="WeTalk - Chat app for Lookiero" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>WeTalk</title>
+  <script>
+    if (window.Cypress) {
+      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__
+    }
+  </script>
 </head>
 
 <body>
