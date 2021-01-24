@@ -76,7 +76,12 @@
   margin-left: 8px;
 }
 
-.buttonWrapper {
+.saveButtonWrapper {
+  align-self: flex-end;
+  margin-top: 10px;
+}
+
+.logoutButtonWrapper {
   align-self: flex-end;
   margin-top: 10px;
 }
@@ -94,7 +99,7 @@
   color: $black;
 }
 
-.formWrapper {
+.wrapper {
   margin-top: 20px;
   width: 100%;
   height: 100%;

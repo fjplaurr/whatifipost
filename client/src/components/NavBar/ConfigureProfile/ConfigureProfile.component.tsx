@@ -3,13 +3,15 @@ import React, {
 } from 'react';
 import { FiUser } from 'react-icons/fi';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useHistory } from 'react-router-dom';
 import styles from './ConfigureProfile.module.scss';
 import { UserContext } from '../../../containers/App';
 import profileImage from '../../../assets/images/profileImage.png';
 import { User } from '../../../interfaces/User';
-import * as userEndpoints from '../../../endpoints/user';
-import * as uploadEndpoints from '../../../endpoints/upload';
+import { useUserFetch } from '../../../endpoints/user';
+import { useUploadFetch } from '../../../endpoints/upload';
 import Button from '../../Button';
+import { removeUser } from '../../../helpers/localStorage';
 
 const ConfigureProfile = () => {
   const [description, setDescription] = useState<string | undefined>('');
@@ -23,14 +25,31 @@ const ConfigureProfile = () => {
   // Ref for the input to select picture
   const pictureRef = useRef<HTMLInputElement>(null);
 
+  const { update } = useUserFetch();
+  const { postPicture } = useUploadFetch();
+
+  const history = useHistory();
+
   // Closes the profile configuration window if the user clicks outside
   useEffect(() => {
     // Detects if clicked on outside of element
     const handleClickOutside = (event: MouseEvent) => {
-      // If the event.target is not in the wrapper, it means it is another html element
-      // the one that was clicked
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      // If the clickedElement is not in the wrapper then close the wrapper if it's opened.
+      // We know it's opened whhen the user isConfiguring
+      if (!contextUser.isConfiguringProfile) {
+        return;
+      }
+      const wrapper = wrapperRef.current;
+      const clickedElement = event.target;
+      if (wrapper && !wrapper.contains(clickedElement as Node)) {
+        // The user is not configuring the profile anymore
         contextUser.setIsConfiguringProfile(false);
+        // Updates description in database
+        const modifiedUser: User = { ...contextUser.user!, description };
+        // Updates description in database
+        update(modifiedUser);
+        // Updates description in context user
+        contextUser.setUser(modifiedUser);
       }
     };
     // Bind the event listener
@@ -39,7 +58,7 @@ const ConfigureProfile = () => {
       // Unbind the event listener on clean up
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [wrapperRef, contextUser]);
+  }, [wrapperRef, contextUser.isConfiguringProfile]);
 
   const handleDescriptionChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setDescription(event.target.value);
@@ -47,26 +66,14 @@ const ConfigureProfile = () => {
 
   const handleChangePicture = async () => {
     const file: File = pictureRef?.current?.files![0]!;
-    const response: { location?: string } = await uploadEndpoints.postPicture(file!);
+    const response: { location?: string } = await postPicture(file!);
     if (response.location) {
       const modifUser: User = { ...contextUser.user!, profileImage: response.location };
       // Updates profile image url in database
-      userEndpoints.update(modifUser);
+      update(modifUser);
       // Updates profile image url in context user
       contextUser.setUser(modifUser);
     }
-  };
-
-  const onConfigurationSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // Updates description in database
-    const modifiedUser: User = { ...contextUser.user!, description };
-    // Updates description in database
-    userEndpoints.update(modifiedUser);
-    // Updates description in context user
-    contextUser.setUser(modifiedUser);
-    // Closes configuration window
-    contextUser.setIsConfiguringProfile(false);
   };
 
   const imagePicker = (
@@ -93,17 +100,21 @@ const ConfigureProfile = () => {
     </>
   );
 
-  // Sets if the user is writing in the search input or not
   const handleClick = () => {
+    // The user is configuring the profile
     contextUser.setIsConfiguringProfile(true);
+  };
+
+  const handleLogout = () => {
+    removeUser();
+    contextUser.setUser(undefined);
+    contextUser.setIsConfiguringProfile(false);
+    history.push('/');
   };
 
   const configurationForm = (
     <>
-      <form
-        onSubmit={onConfigurationSubmit}
-        className={styles.formWrapper}
-      >
+      <div className={styles.wrapper}>
         <TextareaAutosize
           className={styles.textArea}
           id="descriptionInput"
@@ -111,36 +122,42 @@ const ConfigureProfile = () => {
           onChange={handleDescriptionChange}
           maxLength={100}
         />
-        <div className={styles.buttonWrapper}>
+        <div className={styles.logoutButtonWrapper}>
           <Button
+            onClick={handleLogout}
             backgroundFull
-            text="Save"
-            color="blue"
+            text="Logout"
+            color="darkWhite"
             type="submit"
             small
           />
         </div>
-      </form>
+      </div>
     </>
+  );
+
+  const imageButton = (
+    <button
+      className={styles.iconButton}
+      onClick={handleClick}
+      data-testid="profile-button"
+    >
+      {
+        contextUser?.user?.profileImage ? (
+          <img
+            className={styles.smallImageWrapper}
+            src={contextUser?.user?.profileImage || profileImage}
+            alt="Profile"
+          />
+        )
+          : <FiUser className={styles.profileIcon} />
+      }
+    </button>
   );
 
   return (
     <div className={styles.configureProfileContainer}>
-      <button
-        className={styles.iconButton}
-        onClick={handleClick}
-      >
-        {
-          contextUser?.user?.profileImage ? (
-            <img
-              className={styles.smallImageWrapper}
-              src={contextUser?.user?.profileImage || profileImage}
-              alt="Profile"
-            />
-          )
-            : <FiUser className={styles.profileIcon} />
-        }
-      </button>
+      {imageButton}
       <div
         ref={wrapperRef}
         className={
