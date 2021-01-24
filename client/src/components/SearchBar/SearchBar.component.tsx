@@ -4,7 +4,7 @@ import React, {
 import SearchBarTextInput from './SearchBarTextInput';
 import ProfileCard from '../ProfileCard';
 import { User } from '../../interfaces/User';
-import * as userEndpoints from '../../endpoints/user';
+import { useUserFetch } from '../../endpoints/user';
 import { Search } from '../../assets/icons';
 import styles from './SearchBar.module.scss';
 import { UserContext } from '../../containers/App';
@@ -13,6 +13,7 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [userResults, setUserResults] = useState<User[]>([]);
   const [ClearOut, setClearOut] = useState(false);
+  const { getFilteredUsers, update } = useUserFetch();
 
   // Ref for the broken down results div
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -25,21 +26,24 @@ const SearchBar = () => {
     setSearchTerm(e.currentTarget.value);
   };
 
-  // Makes a search every time the user inputs a carachter
+  // Makes a search at 500ms since last tyiping from the user
   useEffect(() => {
-    const fetchUsers = async () => {
-      let users: User[] = await userEndpoints.getFilteredUsers(searchTerm);
-      // Removes searcher user from the search
-      users = users.filter((el) => el._id !== contextUser.user?._id);
-      setUserResults(users);
-    };
-    // Performs search only if the searchTerm is not empty. If it is not
-    // empty (e.g., cleaning the input), then the results must change to empty
-    if (searchTerm) {
-      fetchUsers();
-    } else {
-      setUserResults([]);
-    }
+    const delayId = setTimeout(() => {
+      const fetchUsers = async () => {
+        let users: User[] = await getFilteredUsers(searchTerm);
+        // Removes searcher user from the search
+        users = users.filter((el) => el._id !== contextUser.user?._id);
+        setUserResults(users);
+      };
+      // Performs search only if the searchTerm is not empty. If it is not
+      // empty (e.g., cleaning the input), then the results must change to empty
+      if (searchTerm) {
+        fetchUsers();
+      } else {
+        setUserResults([]);
+      }
+    }, 500);
+    return () => clearTimeout(delayId);
   }, [searchTerm]);
 
   const handleUnfollow = (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
@@ -48,7 +52,7 @@ const SearchBar = () => {
         .filter((el: string) => el !== clickedUser._id);
       const modifiedUser: User = { ...contextUser.user!, following: followingModified };
       // Modify list of followed users in database
-      await userEndpoints.update(modifiedUser);
+      await update(modifiedUser);
       // Modify user in context
       await contextUser.setUser(modifiedUser);
     };
@@ -57,7 +61,7 @@ const SearchBar = () => {
         .filter((el: string) => el !== contextUser.user!._id);
       const modifiedUser: User = { ...clickedUser!, followers: followersModified };
       // Modify list of followers in database
-      await userEndpoints.update(modifiedUser);
+      await update(modifiedUser);
     };
     updateFollowing();
     updateFollowers();
@@ -68,7 +72,7 @@ const SearchBar = () => {
       const contextUserCopy: User = { ...contextUser!.user! };
       contextUserCopy.following!.push(clickedUser._id!);
       // Modify list of followed users in database
-      await userEndpoints.update(contextUserCopy);
+      await update(contextUserCopy);
       // Modify user in context
       await contextUser.setUser(contextUserCopy);
     };
@@ -76,7 +80,7 @@ const SearchBar = () => {
       const clickedUserCopy: User = { ...clickedUser };
       clickedUserCopy.followers!.push(contextUser!.user!._id!);
       // Modify list of followers in database
-      await userEndpoints.update(clickedUserCopy);
+      await update(clickedUserCopy);
     };
     await updateFollowing();
     await updateFollowers();
