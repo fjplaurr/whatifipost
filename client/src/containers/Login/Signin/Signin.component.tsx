@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import TextInput from '../../../components/TextInput';
 import { User } from '../../../interfaces';
-import UserContext from '../../../helpers/context';
+import { UserContext } from '../../App/App.component';
 import styles from './Signin.module.scss';
 import { useAuthFetch } from '../../../endpoints/auth';
 import Button from '../../../components/Button';

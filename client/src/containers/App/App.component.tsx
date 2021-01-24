@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import {
   BrowserRouter,
   Switch,
@@ -6,32 +6,36 @@ import {
   Redirect,
   RouteProps,
 } from 'react-router-dom';
-import { User } from '../../interfaces';
-import UserContext from '../../helpers/context';
-import { loadUser, saveUser } from '../../helpers/localStorage';
-import * as userEndpoints from '../../endpoints/user';
+import { User, Context } from '../../interfaces';
+import { loadUser } from '../../helpers/localStorage';
+import { useUserFetch } from '../../endpoints/user';
 import NavBar from '../../components/NavBar';
 import Login from '../Login';
 import Home from '../Home';
 import NotFound from '../NotFound';
 
+// Context
+const UserContext = createContext<Context>({} as Context);
+
 const App = () => {
+  // Global context state
   const [user, setUser] = useState<User>();
   const [isSearching, setIsSearching] = useState(false);
   const [isConfiguringProfile, setIsConfiguringProfile] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [watchingOtherProfileId, setWatchingOtherProfileId] = useState('');
+  const [token, setToken] = useState('');
 
-  useEffect(() => {
-    user && saveUser(user._id!);
-  });
+  // Endpoints
+  const { getSingle } = useUserFetch();
 
   // Loads user after first render
   useEffect(() => {
     const getUser = async () => {
       const parsedObject = loadUser();
       if (parsedObject) {
-        const userFromDatabase = await userEndpoints.getSingle(parsedObject.id);
+        await setToken(parsedObject.token);
+        const userFromDatabase = await getSingle(parsedObject.id);
         setUser(userFromDatabase);
       }
     };
@@ -57,6 +61,8 @@ const App = () => {
           setWatchingOtherProfileId,
           setIsConfiguringProfile,
           isConfiguringProfile,
+          token,
+          setToken,
         }}
       >
         <BrowserRouter>

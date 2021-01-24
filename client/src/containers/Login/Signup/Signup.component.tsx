@@ -2,7 +2,7 @@ import React, { useContext, useReducer } from 'react';
 import { useHistory } from 'react-router-dom';
 import TextInput from '../../../components/TextInput';
 import { User } from '../../../interfaces';
-import UserContext from '../../../helpers/context';
+import { UserContext } from '../../App/App.component';
 import { saveUser } from '../../../helpers/localStorage';
 import styles from './Signup.module.scss';
 import { useAuthFetch } from '../../../endpoints/auth';

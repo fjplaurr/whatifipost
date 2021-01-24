@@ -4,7 +4,7 @@ import styles from './Home.module.scss';
 import FollowSection from './FollowSection';
 import PostSection from './PostSection';
 import ReadingSection from './ReadingSection';
-import UserContext from '../../helpers/context';
+import { UserContext } from '../App';
 
 const Home = () => {
   const contextUser = useContext(UserContext);
@@ -13,7 +13,7 @@ const Home = () => {
   const classContainer = contextUser.isSearching || contextUser.isConfiguringProfile
     ? `${styles.homeContainer} ${styles.opacity}` : styles.homeContainer;
   return (
-    <div className={classContainer}>
+    <div data-testid="readingSection" className={classContainer}>
       {!isMobile && (
         <div className={styles.followSectionWrapper}>
           <FollowSection />
