@@ -11,6 +11,7 @@
       {
         "devDependencies": true
       }
-    ]
+    ],
+    "@typescript-eslint/no-unused-vars-experimental": "off"
   }
 }
