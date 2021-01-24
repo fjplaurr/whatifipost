@@ -12,4 +12,6 @@ export interface Context {
   setWatchingOtherProfileId: React.Dispatch<React.SetStateAction<string>>,
   isConfiguringProfile: boolean,
   setIsConfiguringProfile: React.Dispatch<React.SetStateAction<boolean>>,
+  token: string,
+  setToken: React.Dispatch<React.SetStateAction<string>>,
 }
