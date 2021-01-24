@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-// in your TS file
+
 import { User } from '../../src/interfaces/User';
 
 declare global {
