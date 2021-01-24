@@ -127,8 +127,8 @@ class User {
   public static async getFilteredUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const UserModel = getModelForClass(User);
-      const { term } = req.params;
-      const regex = new RegExp(`${term}`, 'i');
+      const word = req.params.term.split(' ')[0];
+      const regex = new RegExp(`${word}`, 'i');
       const conditions = { $or: [{ name: { $regex: regex } }, { surname: { $regex: regex } }] };
       const users = await UserModel.find(conditions);
       return res.status(200).json(users);
