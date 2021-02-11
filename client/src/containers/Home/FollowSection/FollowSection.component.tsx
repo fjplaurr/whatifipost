@@ -19,27 +19,28 @@ const FollowSection = () => {
   const [followers, setFollowers] = useState<User[]>([]);
 
   // Endpoints
-  const { getFollowers, getFollowing, update } = useUserFetch();
+  const { getFollowingAndFollowers, update } = useUserFetch();
 
-  // Loads followers after first render
-  useEffect(() => {
-    async function fetchAndSet() {
-      const pFollowers = await getFollowers(contextUser.user?._id!);
-      setFollowers(pFollowers);
-    }
-    fetchAndSet();
-    // eslint-disable-next-line
-  }, [contextUser.user?.followers?.length]);
+  // // Loads followers after first render
+  // useEffect(() => {
+  //   async function fetchAndSet() {
+  //     const pFollowers = await getFollowers(contextUser.user?._id!);
+  //     setFollowers(pFollowers);
+  //   }
+  //   fetchAndSet();
+  //   // eslint-disable-next-line
+  // }, [contextUser.user?.followers?.length]);
 
   // Loads following users after first render
   useEffect(() => {
     async function fetchAndSet() {
-      const pFollowing = await getFollowing(contextUser.user?._id!);
-      setFollowing(pFollowing);
+      const pFollowingAndFollowers = await getFollowingAndFollowers(contextUser.user?._id!);
+      setFollowing(pFollowingAndFollowers.following);
+      setFollowers(pFollowingAndFollowers.followers);
     }
     fetchAndSet();
     // eslint-disable-next-line
-  }, [contextUser.user?.following?.length]);
+  }, [contextUser.user?.following?.length, contextUser.user?.followers?.length]);
 
   // Set following tab active
   const tabFollowingClick = () => {
