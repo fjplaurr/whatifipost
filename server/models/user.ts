@@ -124,6 +124,22 @@ class User {
   }
 
   // eslint-disable-next-line prefer-arrow-callback
+  public static async getFollowingAndFollowers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const UserModel = getModelForClass(User);
+      const { id } = req.params;
+      const populateQuery = [{ path: 'followers' }, { path: 'following' }];
+      const user = await UserModel.findById(id).populate(populateQuery);
+      return res.status(200).json({ followers: user?.followers, following: user?.following });
+    } catch (err) {
+      return next({
+        status: 400,
+        message: err.message,
+      });
+    }
+  }
+
+  // eslint-disable-next-line prefer-arrow-callback
   public static async getFilteredUsers(req: Request, res: Response, next: NextFunction) {
     try {
       const UserModel = getModelForClass(User);

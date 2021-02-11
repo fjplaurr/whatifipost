@@ -13,6 +13,7 @@ const useUserFetch = () => {
   const getSingle = (id: string) => get(`${url}${id}`, headers);
   const getFollowing = (id: string) => get(`${url}following/${id}`, headers);
   const getFollowers = (id: string) => get(`${url}followers/${id}`, headers);
+  const getFollowingAndFollowers = (id: string): Promise<{ following: User[], followers: User[] }> => get(`${url}followingandfollowers/${id}`, headers);
   const getOwnAndOthersPosts = (userId: string) => get(`${url}${userId}/following/posts`, headers);
   const getUsersPosts = (userId: string) => get(`${url}${userId}/posts`, headers);
   const getFilteredUsers = (term: string) => get(`${url}term/${term}`, headers);
@@ -30,6 +31,7 @@ const useUserFetch = () => {
     deleteSingle,
     getFollowing,
     getFollowers,
+    getFollowingAndFollowers,
     getOwnAndOthersPosts,
     getUsersPosts,
     getFilteredUsers,

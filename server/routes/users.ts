@@ -12,6 +12,7 @@ router.get('/:id/following/posts', UserModel.getOwnAndOthersPosts);
 router.get('/:id', db.getById(UserModel));
 router.get('/following/:id', UserModel.getFollowing);
 router.get('/followers/:id', UserModel.getFollowers);
+router.get('/followingandfollowers/:id', UserModel.getFollowingAndFollowers);
 router.get('/term/:term', UserModel.getFilteredUsers);
 
 // post
