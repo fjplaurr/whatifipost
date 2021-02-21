@@ -1,4 +1,4 @@
-import { getHeadersIfLocalStorage } from '../../src/helpers/localStorage';
+import { loadUser } from '../../src/helpers/localStorage';
 import { postBuilder } from '../support/generate';
 
 describe('Follow and unfollow users', () => {
@@ -28,15 +28,18 @@ describe('Follow and unfollow users', () => {
     const { text } = postBuilder();
     cy.createUserProgrammatically().then((user) => {
       const fullName = `${user.name} ${user.surname}`;
-      searchAnUserToFollow(fullName);
       // Next request creates a post made by the followed user
+      const parsedObject = loadUser();
       cy.request({
         url: `${Cypress.config().baseUrl}/api/posts/`,
         method: 'POST',
         failOnStatusCode: false,
         body: { text, author: user._id },
-        headers: getHeadersIfLocalStorage(),
+        headers: {
+          authorization: `Bearer ${parsedObject.token}`,
+        },
       });
+      searchAnUserToFollow(fullName);
       // Unfollow the user and check the post they wrote it's not anymore
       cy.findByTestId('readingSection').should('contain', text);
       cy.findByTestId('followersSection').contains('Unfollow').click();

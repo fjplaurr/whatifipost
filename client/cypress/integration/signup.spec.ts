@@ -9,7 +9,6 @@ describe('Signup', () => {
     cy.get('#signupEmail').type(user.email);
     cy.get('#signupPassword').type(user.password);
     cy.findByRole('button', { name: /join/i }).click();
-    cy.assertAccesToHome();
     cy.window().its('localStorage.user').should('be.a', 'string');
   });
 });

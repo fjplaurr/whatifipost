@@ -15,10 +15,6 @@ Cypress.Commands.add('createUserProgrammatically', () => {
   });
 });
 
-Cypress.Commands.add('assertAccesToHome', () => {
-  cy.url().should('eq', `${Cypress.config().baseUrl}/home`);
-});
-
 Cypress.Commands.add('createUserAndAutologin', () => {
   cy.createUserProgrammatically();
   cy.visit('/home');

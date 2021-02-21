@@ -11,7 +11,6 @@ describe('Signin', () => {
       cy.get('#signinPassword').type(u.password);
       cy.findByRole('button', { name: /sign in/i }).click();
     });
-    cy.assertAccesToHome();
   });
 
   it('Should show an error message when signing in a not existing user', () => {
