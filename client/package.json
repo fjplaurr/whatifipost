@@ -18,9 +18,11 @@
   "scripts": {
     "lint": "npx eslint './**/*.{ts,tsx}' --fix",
     "cypress": "npx cypress open",
+    "cypress:headless": "npx cypress run",
+    "cypress:test": "start-server-and-test start http://localhost:3000 cypress:headless",
     "check-types": "npx tsc",
     "build": "react-scripts build",
-    "validate": "npm run lint && npm run check-types && npm run test && npm run build",
+    "validate": "npm run lint && npm run check-types && npm run cypress:test && npm run build",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -57,6 +59,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "start-server-and-test": "^1.12.0",
     "typescript-plugin-css-modules": "^2.4.0"
   },
   "jest": {
