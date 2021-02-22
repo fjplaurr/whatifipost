@@ -7,6 +7,8 @@ import {
   RouteProps,
 } from 'react-router-dom';
 import { User, Context } from '../../interfaces';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loadUser } from '../../helpers/localStorage';
 import { useUserFetch } from '../../endpoints/user';
 import NavBar from '../../components/NavBar';
@@ -79,3 +81,10 @@ const App = () => {
 };
 
 export { UserContext, App };
+const Spinner = (
+  <div className={styles.spinnerWrapper}>
+    <FontAwesomeIcon className={styles.spinner} size="6x" icon={faSpinner} pulse />
+  </div>
+);
+
+export default App;
