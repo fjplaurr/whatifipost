@@ -1,8 +1,10 @@
 // Gets generic data
-const get = async (url: string, headers = {}) => {
-  const request = {
+export const get = async (url: string, headers = {}) => {
+  const request: RequestInit = {
     method: 'GET',
-    headers,
+    headers: {
+      ...headers,
+    },
   };
   const response = await fetch(url, request);
   const json = await response.json();
@@ -10,9 +12,9 @@ const get = async (url: string, headers = {}) => {
 };
 
 // Posts generic data
-const post = async (url: string, data: {}, headers = {}) => {
+export const post = async (url: string, data: {}, headers = {}) => {
   const body = JSON.stringify(data);
-  const request = {
+  const request: RequestInit = {
     method: 'POST',
     body,
     headers: {
@@ -26,9 +28,9 @@ const post = async (url: string, data: {}, headers = {}) => {
 };
 
 // Puts generic data
-const put = async (url: string, data: {}, headers = {}) => {
+export const put = async (url: string, data: {}, headers = {}) => {
   const body = JSON.stringify(data);
-  const request = {
+  const request: RequestInit = {
     method: 'PUT',
     body,
     headers: {
@@ -42,8 +44,8 @@ const put = async (url: string, data: {}, headers = {}) => {
 };
 
 // Deletes single file by id
-const deleteById = async (url: string, headers = {}) => {
-  const request = {
+export const deleteById = async (url: string, headers = {}) => {
+  const request: RequestInit = {
     method: 'DELETE',
     headers,
   };
@@ -53,10 +55,10 @@ const deleteById = async (url: string, headers = {}) => {
 };
 
 // Posts a file using FormData
-const postFile = async (url: string, file: File, headers = {}) => {
+export const postFile = async (url: string, file: File, headers = {}) => {
   const formData = new FormData();
   formData.append('image', file);
-  const request = {
+  const request: RequestInit = {
     method: 'POST',
     body: formData,
     headers,
@@ -64,8 +66,4 @@ const postFile = async (url: string, file: File, headers = {}) => {
   const response = await fetch(url, request);
   const json = await response.json();
   return json;
-};
-
-export {
-  get, post, put, deleteById, postFile,
 };
