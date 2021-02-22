@@ -1,13 +1,17 @@
+import { useSelector } from 'react-redux';
 import { postFile } from '../helpers/fetch';
-import { getHeadersIfLocalStorage } from '../helpers/localStorage';
+import { RootState } from '../context/redux';
 
-const useUploadFetch = () => {
+export const useUploadFetch = () => {
   const url = '/api/image-upload/';
-  const headers = getHeadersIfLocalStorage();
+
+  // Headers
+  const token = useSelector((state: RootState) => state.auth.token);
+  const headers = {
+    authorization: `Bearer ${token}`,
+  };
 
   // Post
   const postPicture = (picture: File) => postFile(url, picture, headers);
   return { postPicture };
 };
-
-export { useUploadFetch };

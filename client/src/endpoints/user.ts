@@ -1,12 +1,18 @@
+import { useSelector } from 'react-redux';
 import {
   get, put, deleteById,
 } from '../helpers/fetch';
 import { User } from '../interfaces';
-import { getHeadersIfLocalStorage } from '../helpers/localStorage';
+import { RootState } from '../context/redux';
 
-const useUserFetch = () => {
+export const useUserFetch = () => {
   const url = '/api/users/';
-  const headers = getHeadersIfLocalStorage();
+
+  // Headers
+  const token = useSelector((state: RootState) => state.auth.token);
+  const headers = {
+    authorization: `Bearer ${token}`,
+  };
 
   // Get
   const getAll = () => get(`${url}`, headers);
@@ -37,5 +43,3 @@ const useUserFetch = () => {
     getFilteredUsers,
   };
 };
-
-export { useUserFetch };

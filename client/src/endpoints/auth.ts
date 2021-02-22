@@ -1,16 +1,23 @@
+import { useSelector } from 'react-redux';
 import { post } from '../helpers/fetch';
 import { User } from '../interfaces';
-import { getHeadersIfLocalStorage } from '../helpers/localStorage';
+import { RootState } from '../context/redux';
 
-const useAuthFetch = () => {
+export const useAuthFetch = () => {
   const url = '/api/auth/';
-  const headers = getHeadersIfLocalStorage();
+
+  // Headers
+  const token = useSelector((state: RootState) => state.auth.token);
+  const headers = {
+    authorization: `Bearer ${token}`,
+  };
 
   // Post
   const signup = (user: User) => post(`${url}signup`, user);
   const signin = ({ email, password }: { email: string, password: string }) => post(`${url}signin`, { email, password }, headers);
 
-  return { signup, signin };
+  return {
+    signup,
+    signin,
+  };
 };
-
-export { useAuthFetch };
