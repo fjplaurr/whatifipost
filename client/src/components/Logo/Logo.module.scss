@@ -1,6 +1,12 @@
 @import '../../variables.scss';
 
-.iconButton{
+.bigLogo{
+  cursor: pointer;
+  background-color: $white;   
+  margin-right: 8px;
+}
+
+.smallLogo{
   cursor: pointer;
   background-color: $white;   
 }
