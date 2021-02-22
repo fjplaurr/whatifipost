@@ -16,7 +16,9 @@
     "react-icons": "^3.10.0",
     "react-router-dom": "^5.2.0",
     "react-textarea-autosize": "^8.2.0",
+    "react-redux": "^7.2.2",
     "react-scripts": "4.0.1",
+    "redux": "^4.0.5",
     "typescript": "4.0.5"
   },
   "scripts": {
@@ -50,6 +52,7 @@
     "@testing-library/cypress": "^7.0.3",
     "@testing-library/jest-dom": "^5.11.2",
     "@testing-library/react": "^10.4.8",
+    "@types/react-redux": "^7.1.16",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
     "cypress": "^6.2.1",
