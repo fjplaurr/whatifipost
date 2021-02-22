@@ -1,11 +1,4 @@
 import React, { useState, useEffect, createContext } from 'react';
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  Redirect,
-  RouteProps,
-} from 'react-router-dom';
 import { User, Context } from '../../interfaces';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
