@@ -2,6 +2,9 @@ const getTimeInterval = (a: Date) => {
   let seconds = Math.floor((Date.now() - a.getTime()) / 1000);
   let unit = 'second';
   let direction = 'ago';
+  if (seconds === 0) {
+    return 'Just now';
+  }
   if (seconds < 0) {
     seconds = -seconds;
     direction = 'from now';
