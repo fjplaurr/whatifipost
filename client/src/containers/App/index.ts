@@ -1,3 +1,3 @@
-import { App, UserContext } from './App.component';
+import App from './App.component';
 
-export { App, UserContext };
+export default App;

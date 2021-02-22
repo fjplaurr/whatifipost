@@ -1,20 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { IoIosArrowRoundBack } from 'react-icons/io';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import style from './ProfileHeader.module.scss';
 import { User } from '../../../../interfaces/User';
-import { useUserFetch } from '../../../../endpoints/user';
+import { useUserFetch } from '../../../../endpoints';
 import profileImage from '../../../../assets/images/profileImage.png';
-import { UserContext } from '../../../App';
+import { setWatchingOtherProfileId } from '../../../../context/redux';
 
 type ProfileHeaderProps = {
   userId: string,
 }
 
 const ProfileHeader = ({ userId }: ProfileHeaderProps) => {
-  // Reads current connected user from Context
-  const contextUser = useContext(UserContext);
+  // Global state
+  const dispatch = useDispatch();
 
-  // State
+  // Local State
   const [user, setUser] = useState<User>();
 
   // Endpoints
@@ -31,7 +33,7 @@ const ProfileHeader = ({ userId }: ProfileHeaderProps) => {
 
   // stops watching a particular profile and comes back to see posts from all followed users
   const stopWatchingProfile = () => {
-    contextUser.setWatchingOtherProfileId('');
+    dispatch(setWatchingOtherProfileId(''));
   };
 
   return (
@@ -42,7 +44,7 @@ const ProfileHeader = ({ userId }: ProfileHeaderProps) => {
           onClick={stopWatchingProfile}
           className={style.backArrowButton}
         >
-          <IoIosArrowRoundBack className={style.backArrow} />
+          <FontAwesomeIcon className={style.backArrow} icon={faArrowLeft} size="3x" />
         </button>
         <div
           className={style.imageWrapper}
@@ -51,7 +53,7 @@ const ProfileHeader = ({ userId }: ProfileHeaderProps) => {
           }}
         />
         <div className={style.container}>
-          <p className={style.name}>{`${user?.name} ${user?.surname}`}</p>
+          <p className={style.nameWhatTheFuck}>{`${user?.name} ${user?.surname}`}</p>
           <p className={style.description}>{user?.description}</p>
           <ul className={style.infoWrapper}>
             <li className={style.listItem}>

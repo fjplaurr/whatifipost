@@ -1,19 +1,22 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { isMobile } from 'react-device-detect';
+import { useSelector } from 'react-redux';
 import styles from './Home.module.scss';
 import FollowSection from './FollowSection';
 import PostSection from './PostSection';
 import ReadingSection from './ReadingSection';
-import { UserContext } from '../App';
+import { RootState } from '../../context/redux';
 
 const Home = () => {
-  const contextUser = useContext(UserContext);
   // If the user is using the bar to search or is configuring profile,
   // then make the background darker
-  const classContainer = contextUser.isSearching || contextUser.isConfiguringProfile
+  const isConfiguringProfile = useSelector((state: RootState) => state.user.isConfiguringProfile);
+  const isSearching = useSelector((state: RootState) => state.user.isSearching);
+  const classContainer = isSearching || isConfiguringProfile
     ? `${styles.homeContainer} ${styles.opacity}` : styles.homeContainer;
+
   return (
-    <div data-testid="readingSection" className={classContainer}>
+    <div className={classContainer}>
       {!isMobile && (
         <div className={styles.followSectionWrapper}>
           <FollowSection />

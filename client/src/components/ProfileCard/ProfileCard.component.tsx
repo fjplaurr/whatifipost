@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './ProfileCard.module.scss';
 import Button from '../Button';
 import profileImage from '../../assets/images/profileImage.png';
-import { UserContext } from '../../containers/App';
+import { setWatchingOtherProfileId } from '../../context/redux';
 
 type ProfileCardProps = {
   name: string,
@@ -16,14 +17,15 @@ type ProfileCardProps = {
   id: string,
 }
 
-const ProfileCard = ({
-  name, surname, description = '', picture, onClick, textButton, colorButton, backgroundFull, id,
+const ProfileCard = React.memo(({
+  name, surname, description = '', picture, onClick,
+  textButton, colorButton, backgroundFull, id,
 }: ProfileCardProps) => {
-  // Reads current connected user from Context
-  const contextUser = useContext(UserContext);
+  // Global state
+  const dispatch = useDispatch();
 
   const handleClickOnUser = () => {
-    contextUser.setWatchingOtherProfileId(id);
+    dispatch(setWatchingOtherProfileId(id));
   };
 
   return (
@@ -57,5 +59,6 @@ const ProfileCard = ({
       </div>
     </div>
   );
-};
+});
+
 export default ProfileCard;

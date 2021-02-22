@@ -1,20 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import TextInput from '../../../components/TextInput';
 import { User } from '../../../interfaces';
-import { UserContext } from '../../App/App.component';
 import styles from './Signin.module.scss';
-import { useAuthFetch } from '../../../endpoints/auth';
+import { useAuthFetch } from '../../../endpoints';
 import Button from '../../../components/Button';
+import { setUser, setToken } from '../../../context/redux';
+import { saveUser } from '../../../helpers/localStorage';
 
 const Signin = () => {
-  // React-router history
-  const history = useHistory();
+  // Global state
+  const dispatch = useDispatch();
 
-  // React-context to access current connected user
-  const contextUser = useContext(UserContext);
-
-  // State
+  // Local state
   const [signinEmail, setSigninEmail] = useState('');
   const [signinPassword, setSigninPassword] = useState('');
   const [incorrectUserPasswordError, setIncorrectUserPasswordError] = useState('');
@@ -39,31 +37,17 @@ const Signin = () => {
       email: signinEmail,
       password: signinPassword,
     };
-    try {
-      const res: { user: User, token: string } = await signin(login);
-      // checks if res has an user property
-      if (res.user) {
-        // Sets current user in context
-        await contextUser.setUser(res.user);
-        // Pushes to home screen
-        history.push('./home');
-      } else {
-        setIncorrectUserPasswordError('The email and/or password are not correct');
-      }
-    } catch (err) {
-      history.push('./notfound');
+    const res: { user: User, token: string } = await signin(login);
+    // checks if res has an user property
+    if (res.user) {
+      saveUser({ token: res.token, id: res.user._id! });
+      // Sets current user in global state
+      dispatch(setUser(res.user));
+      dispatch(setToken(res.token));
+    } else {
+      setIncorrectUserPasswordError('The email and/or password are not correct');
     }
   };
-
-  // Autologin after user is set if the local storage contains it
-  useEffect(() => {
-    const autologin = () => {
-      if (contextUser.user) {
-        history.push('./home');
-      }
-    };
-    autologin();
-  }, [contextUser.user, history]);
 
   return (
     <div className={styles.signinContainer}>

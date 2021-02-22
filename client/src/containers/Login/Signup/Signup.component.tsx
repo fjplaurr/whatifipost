@@ -1,29 +1,28 @@
-import React, { useContext, useReducer } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useReducer } from 'react';
+import { useDispatch } from 'react-redux';
 import TextInput from '../../../components/TextInput';
 import { User } from '../../../interfaces';
-import { UserContext } from '../../App/App.component';
 import { saveUser } from '../../../helpers/localStorage';
 import styles from './Signup.module.scss';
-import { useAuthFetch } from '../../../endpoints/auth';
+import { useAuthFetch } from '../../../endpoints';
 import Button from '../../../components/Button';
+import { setUser, setToken } from '../../../context/redux';
 
 const Signup = () => {
-  // React-router history
-  const history = useHistory();
+  // Global state
+  const globalDispatch = useDispatch();
 
-  // React-context to access current connected user
-  const contextUser = useContext(UserContext);
-
-  // State
+  // Local state
   const initialState = {
     signupName: '',
     signupSurname: '',
     signupEmail: '',
     signupPassword: '',
   };
+
   type SignupActionType = 'supName' | 'supSurname' | 'supEmail' | 'supPassword'
   type SignupAction = { type: SignupActionType; payload: string };
+
   const reducer = (state: typeof initialState, action: SignupAction) => {
     switch (action.type) {
       case 'supName':
@@ -38,6 +37,7 @@ const Signup = () => {
         return state;
     }
   };
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // Endpoints
@@ -58,21 +58,12 @@ const Signup = () => {
       name: state.signupName,
       surname: state.signupSurname,
     };
-    createUser(newUser);
-  };
-
-  const createUser = async (newUser: User) => {
-    try {
-      const res: { user: User, token: string } = await signup(newUser);
-      if (res.user) {
-        saveUser({ token: res.token, id: res.user._id! });
-        // Sets current user in context
-        await contextUser.setUser(res.user);
-        // Pushes to home screen
-        history.push('./home');
-      }
-    } catch (err) {
-      history.push('./notfound');
+    const res: { user: User, token: string } = await signup(newUser);
+    if (res.user) {
+      saveUser({ token: res.token, id: res.user._id! });
+      // Sets current user in global state
+      globalDispatch(setUser(res.user));
+      globalDispatch(setToken(res.token));
     }
   };
 

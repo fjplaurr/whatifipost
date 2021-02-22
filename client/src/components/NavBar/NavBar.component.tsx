@@ -1,22 +1,23 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { isMobile } from 'react-device-detect';
+import { useSelector } from 'react-redux';
 import Logo from '../Logo';
 import styles from './NavBar.module.scss';
-import { UserContext } from '../../containers/App';
 import SearchBar from '../SearchBar';
 import ConfigureProfile from './ConfigureProfile';
+import { RootState } from '../../context/redux';
 
 const NavBar = () => {
-  // Reads current connected user from Context
-  const contextUser = useContext(UserContext);
+  // Global state
+  const user = useSelector((state: RootState) => state.user.user);
   // Only if the user is logged in, the navbar is sticky
-  const navBarClass = contextUser.user ? `${styles.navBar} ${styles.navBarSticky}` : styles.navBar;
+  const navBarClass = user ? `${styles.navBar} ${styles.navBarSticky}` : styles.navBar;
   return (
     <div className={navBarClass}>
       {/* When clicking the logo, it will redirect to login */}
       {isMobile ? <Logo small /> : <Logo />}
-      {contextUser.user && <SearchBar />}
-      {contextUser.user && <ConfigureProfile />}
+      {user && <SearchBar />}
+      {user && <ConfigureProfile />}
     </div>
   );
 };

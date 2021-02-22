@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './PostCard.module.scss';
 import profileImage from '../../assets/images/profileImage.png';
-import { UserContext } from '../../containers/App';
 import { getTimeInterval } from '../../helpers/functions';
+import { setWatchingOtherProfileId, RootState } from '../../context/redux';
 
 type PostCardProps = {
   name: string,
@@ -14,11 +15,15 @@ type PostCardProps = {
   authorId?: string,
 }
 
-const PostCard = ({
+const PostCard = React.memo(({
   name, surname, message = '', picture, last, timestamp, authorId,
 }: PostCardProps) => {
-  const contextUser = useContext(UserContext);
-  if (contextUser.watchingOtherProfileId) {
+  // Global state
+  const watchingOtherProfileId = useSelector(
+    (state: RootState) => state.user.watchingOtherProfileId,
+  );
+  const dispatch = useDispatch();
+  if (watchingOtherProfileId) {
     return (
       <div className={last ? styles.lastContainer : styles.container}>
         <div className={styles.messageAndTimestampWrapper}>
@@ -30,7 +35,7 @@ const PostCard = ({
   }
 
   const handleClickOnUser = () => {
-    authorId && contextUser.setWatchingOtherProfileId(authorId);
+    authorId && dispatch(setWatchingOtherProfileId(authorId));
   };
 
   return (
@@ -54,6 +59,6 @@ const PostCard = ({
       </div>
     </div>
   );
-};
+});
 
 export default PostCard;

@@ -1,46 +1,44 @@
 /* eslint-disable no-return-await */
 import React, {
-  useState, useEffect, useContext,
+  useState, useEffect,
 } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ProfileCard from '../../../components/ProfileCard';
 import styles from './FollowSection.module.scss';
-import { useUserFetch } from '../../../endpoints/user';
+import { useUserFetch } from '../../../endpoints';
 import { User } from '../../../interfaces';
-import { UserContext } from '../../App';
+import { setFollowing, RootState } from '../../../context/redux';
+import { useFollow } from '../../../hooks';
 
 const FollowSection = () => {
-  // Reads current connected user from Context
-  const contextUser = useContext(UserContext);
+  // Global state
+  const user = useSelector((state: RootState) => state.user.user);
+  const following = useSelector((state: RootState) => state.user.following);
+  const dispatch = useDispatch();
 
-  // State
+  // Hooks
+  const { handleFollow, handleUnfollow } = useFollow();
+
+  // Local State
   const [followingTabActive, setFollowingTabActive] = useState(true);
   const [followersTabActive, setFollowersTabActive] = useState(false);
-  const [following, setFollowing] = useState<User[]>([]);
   const [followers, setFollowers] = useState<User[]>([]);
 
   // Endpoints
-  const { getFollowingAndFollowers, update } = useUserFetch();
-
-  // // Loads followers after first render
-  // useEffect(() => {
-  //   async function fetchAndSet() {
-  //     const pFollowers = await getFollowers(contextUser.user?._id!);
-  //     setFollowers(pFollowers);
-  //   }
-  //   fetchAndSet();
-  //   // eslint-disable-next-line
-  // }, [contextUser.user?.followers?.length]);
+  const { getFollowingAndFollowers } = useUserFetch();
 
   // Loads following users after first render
   useEffect(() => {
     async function fetchAndSet() {
-      const pFollowingAndFollowers = await getFollowingAndFollowers(contextUser.user?._id!);
-      setFollowing(pFollowingAndFollowers.following);
+      const pFollowingAndFollowers = await getFollowingAndFollowers(user?._id!);
+      // setFollowing(pFollowingAndFollowers.following);
       setFollowers(pFollowingAndFollowers.followers);
+      dispatch(setFollowing(pFollowingAndFollowers.following));
     }
-    fetchAndSet();
-    // eslint-disable-next-line
-  }, [contextUser.user?.following?.length, contextUser.user?.followers?.length]);
+    if (!following.length && !followers.length) {
+      fetchAndSet();
+    }
+  }, []);
 
   // Set following tab active
   const tabFollowingClick = () => {
@@ -58,66 +56,26 @@ const FollowSection = () => {
     }
   };
 
-  const handleUnfollow = (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
-    const updateFollowing = async () => {
-      const followingModified = contextUser.user!.following!
-        .filter((el: string) => el !== clickedUser._id);
-      const modifiedUser: User = { ...contextUser.user!, following: followingModified };
-      // Modify list of followed users in database
-      await update(modifiedUser);
-      // Modify user in context
-      contextUser.setUser(modifiedUser);
-    };
-    const updateFollowers = async () => {
-      const followersModified = clickedUser.followers!
-        .filter((el: string) => el !== contextUser.user!._id);
-      const modifiedUser: User = { ...clickedUser!, followers: followersModified };
-      // Modify list of followers in database
-      await update(modifiedUser);
-    };
-    updateFollowing();
-    updateFollowers();
-  };
-
-  const handleFollow = async (event: React.MouseEvent<HTMLButtonElement>, clickedUser: User) => {
-    const updateFollowing = async () => {
-      const contextUserCopy: User = { ...contextUser!.user! };
-      contextUserCopy.following!.push(clickedUser._id!);
-      // Modify list of followed users in database
-      await update(contextUserCopy);
-      // Modify user in context
-      contextUser.setUser(contextUserCopy);
-    };
-    const updateFollowers = async () => {
-      const clickedUserCopy: User = { ...clickedUser };
-      clickedUserCopy.followers!.push(contextUser!.user!._id!);
-      // Modify list of followers in database
-      await update(clickedUserCopy);
-    };
-    await updateFollowing();
-    await updateFollowers();
-  };
-
-  const followingList = following.map((user) => (
+  const followingList = following?.map((followingUser: User) => (
     <div
-      key={user._id}
+      key={followingUser._id}
       className={styles.targetWrapper}
     >
       <ProfileCard
-        description={user.description}
-        name={user.name}
-        surname={user.surname}
-        id={user._id!}
-        picture={user.profileImage}
-        onClick={(e) => handleUnfollow(e, user)}
+        description={followingUser.description}
+        name={followingUser.name}
+        surname={followingUser.surname}
+        id={followingUser._id!}
+        picture={followingUser.profileImage}
+        onClick={(e: any) => handleUnfollow(e, followingUser)}
         textButton="Unfollow"
         colorButton="red"
       />
     </div>
   ));
 
-  const followersList = followers.map((follower) => {
-    const usersFollowing = contextUser.user?.following;
+  const followersList = followers?.map((follower) => {
+    const usersFollowing = user?.following;
     const isFollowing = usersFollowing?.includes(follower._id!);
     if (isFollowing) {
       return (
@@ -131,7 +89,7 @@ const FollowSection = () => {
             surname={follower.surname}
             picture={follower.profileImage}
             id={follower._id!}
-            onClick={(e) => handleUnfollow(e, follower)}
+            onClick={(e: any) => handleUnfollow(e, follower)}
             textButton="Unfollow"
             colorButton="red"
           />
@@ -149,7 +107,7 @@ const FollowSection = () => {
           surname={follower.surname}
           picture={follower.profileImage}
           id={follower._id!}
-          onClick={(e) => handleFollow(e, follower)}
+          onClick={(e: any) => handleFollow(e, follower)}
           textButton="Follow"
           colorButton="blue"
         />

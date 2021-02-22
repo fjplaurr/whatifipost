@@ -1,79 +1,48 @@
-import React, { useState, useEffect, createContext } from 'react';
-import { User, Context } from '../../interfaces';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loadUser } from '../../helpers/localStorage';
-import { useUserFetch } from '../../endpoints/user';
-import NavBar from '../../components/NavBar';
-import Login from '../Login';
-import Home from '../Home';
-import NotFound from '../NotFound';
+import { useUserFetch } from '../../endpoints';
+import {
+  setToken, setUser, RootState,
+} from '../../context/redux';
+import styles from './App.module.scss';
 
-// Context
-const UserContext = createContext<Context>({} as Context);
+const Login = React.lazy(() => import('../Login'));
+const Home = React.lazy(() => import('../Home'));
 
 const App = () => {
-  // Global context state
-  const [user, setUser] = useState<User>();
-  const [isSearching, setIsSearching] = useState(false);
-  const [isConfiguringProfile, setIsConfiguringProfile] = useState(false);
-  const [isPosting, setIsPosting] = useState(false);
-  const [watchingOtherProfileId, setWatchingOtherProfileId] = useState('');
-  const [token, setToken] = useState('');
+  // Global state
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
+  const token = useSelector((state: RootState) => state.auth.token);
 
   // Endpoints
   const { getSingle } = useUserFetch();
 
-  // Loads user after first render
+  // Reads token from local storage, fetches user from DB and sets it in global context
   useEffect(() => {
     const getUser = async () => {
       const parsedObject = loadUser();
       if (parsedObject) {
-        await setToken(parsedObject.token);
-        const userFromDatabase = await getSingle(parsedObject.id);
-        setUser(userFromDatabase);
+        dispatch(setToken(parsedObject.token));
+        if (token) {
+          const userFromDB = await getSingle(parsedObject.id);
+          dispatch(setUser(userFromDB));
+        }
       }
     };
     getUser();
-  }, []);
-
-  type PrivateRouteProps = { isLoggedIn: boolean } & RouteProps;
-  const PrivateRoute = ({ isLoggedIn, ...rest }: PrivateRouteProps) => (
-    isLoggedIn ? <Route {...rest} /> : <Redirect to="/" />
-  );
+  }, [token]);
 
   return (
-    <React.StrictMode>
-      <UserContext.Provider
-        value={{
-          user,
-          setUser,
-          isSearching,
-          setIsSearching,
-          isPosting,
-          setIsPosting,
-          watchingOtherProfileId,
-          setWatchingOtherProfileId,
-          setIsConfiguringProfile,
-          isConfiguringProfile,
-          token,
-          setToken,
-        }}
-      >
-        <BrowserRouter>
-          <NavBar />
-          <Switch>
-            <Route exact path="/" component={Login} />
-            <PrivateRoute isLoggedIn={!!user} path="/home" component={Home} />
-            <Route path="/notfound" component={NotFound} />
-          </Switch>
-        </BrowserRouter>
-      </UserContext.Provider>
-    </React.StrictMode>
+    <React.Suspense fallback={Spinner}>
+      {(user && token) ? <Home /> : <Login />}
+    </React.Suspense>
   );
 };
 
-export { UserContext, App };
 const Spinner = (
   <div className={styles.spinnerWrapper}>
     <FontAwesomeIcon className={styles.spinner} size="6x" icon={faSpinner} pulse />

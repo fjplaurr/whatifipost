@@ -109,6 +109,10 @@
   align-items: center;
 }
 
+.userIcon {
+  color: $lightBlack
+}
+
 @media only screen and (max-width: 767px) {
   .configurationTargetShow,
   .configurationTargetHide {

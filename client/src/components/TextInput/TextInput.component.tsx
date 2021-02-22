@@ -29,7 +29,7 @@ const TextInput = ({
   // not focused but contains data writen by the user.
   useEffect(() => {
     if (inputRef.current?.value) {
-      labelRef!.current!.className = `${styles.label} ${styles.labelOnTop}`;
+      // labelRef!.current!.className = `${styles.label} ${styles.labelOnTop}`;
     } else {
       labelRef!.current!.className = `${styles.label}`;
     }

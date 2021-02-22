@@ -1,16 +1,18 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './PostSection.module.scss';
 import Button from '../../../components/Button';
 import { Post } from '../../../interfaces';
-import { UserContext } from '../../App';
-import { usePostFetch } from '../../../endpoints/post';
+import { usePostFetch } from '../../../endpoints';
+import { addPost, RootState } from '../../../context/redux';
 
 const PostSection = () => {
-  // Reads current connected user from Context
-  const contextUser = useContext(UserContext);
+  // Global state
+  const user = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
 
-  // State
+  // Local state
   const [post, setPost] = useState('');
   const onChangeTextHandler: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setPost(event.target.value);
@@ -22,17 +24,14 @@ const PostSection = () => {
   // Function triggered when sending a post
   const handlePost = async (event: React.FormEvent<HTMLFormElement>) => {
     setPost('');
-    contextUser.setIsPosting(true);
     event.preventDefault();
     const newPost: Post = {
-      author: contextUser.user!,
+      author: user!,
       date: new Date(),
       text: post,
     };
-    const res: Post = await create(newPost);
-    if (res) {
-      contextUser.setIsPosting(false);
-    }
+    await create(newPost);
+    dispatch(addPost(newPost));
   };
 
   return (
