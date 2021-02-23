@@ -6,12 +6,10 @@ script:
   # Build images
   - docker build -t fjplaurr/whatifipost-client ./client
   - docker build -t fjplaurr/whatifipost-nginx ./nginx
-  - docker build -t fjplaurr/whatifipost-worker ./worker
   - docker build -t fjplaurr/whatifipost-server ./server
   # Log in to the Docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # Push those images to Docker Hub
   - docker push fjplaurr/whatifipost-client
   - docker push fjplaurr/whatifipost-nginx
-  - docker push fjplaurr/whatifipost-worker
   - docker push fjplaurr/whatifipost-server
