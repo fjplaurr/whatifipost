@@ -2,6 +2,10 @@ sudo: required
 services:
   - docker
 
+cache:
+  directories:
+  - "$HOME/.npm"
+
 script:
   # Build images
   - docker build -t fjplaurr/whatifipost-client ./client
