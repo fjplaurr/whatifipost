@@ -1,4 +1,4 @@
-import { loadUser } from '../../src/helpers/localStorage';
+import { loadUser } from '../../client/src/helpers/localStorage';
 import { postBuilder } from '../support/generate';
 
 describe('Follow and unfollow users', () => {

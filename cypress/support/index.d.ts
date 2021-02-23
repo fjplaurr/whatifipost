@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { User } from '../../src/interfaces/User';
+import { User } from '../../client/src/interfaces/User';
 
 declare global {
   namespace Cypress {

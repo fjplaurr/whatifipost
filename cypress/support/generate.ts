@@ -1,6 +1,6 @@
 import { build, fake } from '@jackfranklin/test-data-bot';
-import { User } from '../../src/interfaces/User';
-import { Post } from '../../src/interfaces/Post';
+import { User } from '../../client/src/interfaces/User';
+import { Post } from '../../client/src/interfaces/Post';
 
 const userBuilder = build<User>({
   fields: {

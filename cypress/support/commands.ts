@@ -1,6 +1,6 @@
 import '@testing-library/cypress/add-commands';
 import { userBuilder } from './generate';
-import { saveUser } from '../../src/helpers/localStorage';
+import { saveUser } from '../../client/src/helpers/localStorage';
 
 Cypress.Commands.add('createUserProgrammatically', () => {
   const user = userBuilder();
