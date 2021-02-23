@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   api:
-    image: wetalk-server
+    image: whatifipost-server
     build:
       dockerfile: Dockerfile # Use Dockerfile.dev for debug. Use Dockerfile for prod.
       context: ./server
@@ -24,7 +24,7 @@ services:
       AWS_SECRET_ACCESS: /run/secrets/AWS_SECRET_ACCESS
       MLAB_URI: /run/secrets/MLAB_URI
   client:
-    image: wetalk-client
+    image: whatifipost-client
     build:
       dockerfile: Dockerfile
       context: ./client
@@ -33,7 +33,7 @@ services:
       - /app/build
       - ./client:/app
   nginx:
-    image: wetalk-nginx
+    image: whatifipost-nginx
     restart: always
     build:
       dockerfile: Dockerfile
