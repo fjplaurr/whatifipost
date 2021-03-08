@@ -14,8 +14,7 @@ const NavBar = () => {
   const navBarClass = user ? `${styles.navBar} ${styles.navBarSticky}` : styles.navBar;
   return (
     <div className={navBarClass}>
-      {/* When clicking the logo, it will redirect to login */}
-      {isMobile ? <Logo small /> : <Logo />}
+      {isMobile ? <Logo height={22} width={53} /> : <Logo />}
       {user && <SearchBar />}
       {user && <ConfigureProfile />}
     </div>
