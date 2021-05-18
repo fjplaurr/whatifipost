@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  api:
+    image: fjplaurr/whatifipost-server
+    secrets:
+      - AUTHENTICATION_SECRET_KEY
+      - AWS_ACCESS_KEY
+      - AWS_SECRET_ACCESS
+      - MLAB_URI
+      - NODE_ENV
+    ports:
+      - 5000:5000
+  client:
+    image: fjplaurr/whatifipost-client
+  nginx:
+    image: fjplaurr/whatifipost-nginx
+    ports:
+        - '3050:80'
+secrets:
+  AUTHENTICATION_SECRET_KEY:
+    external: true
+  AWS_ACCESS_KEY:
+    external: true
+  AWS_SECRET_ACCESS:
+    external: true
+  MLAB_URI:
+    external: true
+  NODE_ENV:
+    external: true
