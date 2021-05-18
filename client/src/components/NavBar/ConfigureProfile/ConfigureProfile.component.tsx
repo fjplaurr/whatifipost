@@ -12,7 +12,7 @@ import { useUserFetch, useUploadFetch } from '../../../endpoints';
 import Button from '../../Button';
 import { removeUser } from '../../../helpers/localStorage';
 import {
-  setUser, setIsConfiguringProfile, RootState, setLogOut,
+  setUser, setIsConfiguringProfile, RootState,
 } from '../../../context/redux';
 
 const ConfigureProfile = () => {
@@ -90,7 +90,7 @@ const ConfigureProfile = () => {
   const handleLogout = () => {
     dispatch(setIsConfiguringProfile(false));
     removeUser();
-    dispatch(setLogOut(true));
+    dispatch(setUser(undefined));
   };
 
   const imagePicker = (

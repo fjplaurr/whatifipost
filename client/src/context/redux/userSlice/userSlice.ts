@@ -63,7 +63,7 @@ export const userReducer = (state = initialState, action: UserActionTypes): User
       return { ...state, following: action.payload };
     case SETUNFOLLOW:
     {
-      const followingUpdate = state.following.filter((el: any) => el._id !== action.payload._id);
+      const followingUpdate = state.following.filter((el: User) => el._id !== action.payload._id);
       return { ...state, following: followingUpdate };
     }
     default:

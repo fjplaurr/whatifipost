@@ -5,14 +5,8 @@ interface setToken {
   payload: string
 }
 
-interface setLogOut {
-  type: typeof actions.SETLOGOUT,
-  payload: boolean
-}
-
-export type AuthActionTypes = setToken | setLogOut
+export type AuthActionTypes = setToken;
 
 export interface AuthState {
   token: string,
-  logsOut: boolean,
 }
