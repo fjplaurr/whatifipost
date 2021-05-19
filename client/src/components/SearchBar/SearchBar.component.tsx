@@ -26,6 +26,7 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [userResults, setUserResults] = useState<User[]>([]);
   const [ClearOut, setClearOut] = useState(false);
+  const [fetchDone, setFetchDone] = useState(false);
 
   // Endpoints
   const { getFilteredUsers } = useUserFetch();
@@ -38,11 +39,13 @@ const SearchBar = () => {
     setSearchTerm(e.currentTarget.value);
   };
 
-  // Makes a search at 300ms since last tyiping from the user
+  // Makes a search at 300ms since last typing from the user
   useEffect(() => {
+    setFetchDone(false);
     const delayId = setTimeout(() => {
       const fetchUsers = async () => {
         let users: User[] = await getFilteredUsers(searchTerm);
+        setFetchDone(true);
         // Removes searcher user from the search
         users = users.filter((el) => el._id !== user?._id);
         setUserResults(users);
@@ -123,6 +126,9 @@ const SearchBar = () => {
     if (searchTerm && !isSearching) {
       dispatch(setIsSearching(true));
     }
+    if (!searchTerm) {
+      dispatch(setIsSearching(false));
+    }
   }, [searchTerm]);
 
   // Closes the search results if the user clicks outside
@@ -145,18 +151,25 @@ const SearchBar = () => {
   }, [wrapperRef]);
 
   const brokenDownSearch = () => {
-    if (isSearching && userResults.length > 0) {
+    if (fetchDone && userResults.length > 0) {
       return (
         <div className={styles.resultsWrapperShow} ref={wrapperRef}>
           {usersList}
         </div>
       );
     }
-    if (isSearching && userResults.length === 0) {
+    if (fetchDone && userResults.length === 0) {
+      return (
+        <div className={styles.resultsWrapperNoResults} ref={wrapperRef}>
+          No users were found wit that name
+        </div>
+      );
+    }
+    if (!fetchDone && isSearching) {
       return (
         <div className={styles.resultsWrapperShow} ref={wrapperRef}>
           <div className={styles.cardWrapper}>
-            <FontAwesomeIcon size="3x" icon={faSpinner} pulse />
+            <FontAwesomeIcon size="2x" icon={faSpinner} pulse />
           </div>
         </div>
       );
