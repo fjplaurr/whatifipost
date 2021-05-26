@@ -58,6 +58,7 @@ app.use('/users', verifyToken, usersRoutes);
 app.use('/posts', verifyToken, postsRoutes);
 app.use('/auth', authRoutes);
 app.use('/image-upload', verifyToken, fileRoutes);
+app.use('/test', (req: Request, res: Response) => res.send('Test done successfully'));
 
 // Express default error handling
 const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {

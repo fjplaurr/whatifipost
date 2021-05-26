@@ -5,7 +5,6 @@ import * as db from '../handlers/helpers';
 const router = express.Router();
 
 // get
-router.get('/test', db.test());
 router.get('/', db.getAll(UserModel));
 router.get('/:id/posts', UserModel.getUsersPosts);
 router.get('/:id/following/posts', UserModel.getOwnAndOthersPosts);
