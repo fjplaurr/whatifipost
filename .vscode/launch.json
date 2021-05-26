@@ -1,7 +1,7 @@
 {
   "configurations": [
     {
-      "name": "Docker: Attach to Node",
+      "name": "Docker: Attach to Server",
       "type": "node",
       "request": "attach",
       "remoteRoot": "/app/",
@@ -12,7 +12,19 @@
       "restart": true
     },
     {
-      "name": "Chrome",
+      "name": "Local: Launch Server",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/server/index.ts",
+      "runtimeExecutable": "nodemon",
+      "runtimeArgs": ["--inspect"],
+      "preLaunchTask": "tsc: watch - server/tsconfig.json",
+    },
+    {
+      "name": "Local: Launch Client",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
