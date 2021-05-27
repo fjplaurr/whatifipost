@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   api:
-    image: whatifipost-server
+    image: fjplaurr/whatifipost-server
     build:
       dockerfile: Dockerfile # Use Dockerfile.dev for debug. Use Dockerfile for prod.
       context: ./server
@@ -11,7 +11,7 @@ services:
       - ./server:/app
     ports:
       - 5000:5000
-      # - 9229:9229 # Enable for debug.
+      - 9229:9229 # For debug.
     secrets:
       - AUTHENTICATION_SECRET_KEY
       - AWS_ACCESS_KEY
@@ -24,7 +24,7 @@ services:
       AWS_SECRET_ACCESS: /run/secrets/AWS_SECRET_ACCESS
       MLAB_URI: /run/secrets/MLAB_URI
   client:
-    image: whatifipost-client
+    image: fjplaurr/whatifipost-client
     build:
       dockerfile: Dockerfile
       context: ./client
@@ -33,7 +33,7 @@ services:
       - /app/build
       - ./client:/app
   nginx:
-    image: whatifipost-nginx
+    image: fjplaurr/whatifipost-nginx
     restart: always
     build:
       dockerfile: Dockerfile
