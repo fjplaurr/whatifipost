@@ -13,21 +13,24 @@
   margin-bottom: 0px;
   border-bottom: none;
   padding-bottom: 0px;
+  width: 100%;
 }
 
-.nameAndTimestampWrapper{
+.horizontalWrapper{
   display: flex;
   margin-bottom: 5px;
-  align-items: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
-.nameMessageWrapper{
+.verticalWrapper{
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
   align-items: flex-start;
   margin-left: 20px;
+  width: 100%;
 }
 
 .nameMessageWrapperSeeingProfile{
@@ -37,6 +40,16 @@
 .buttonImageWrapper{
   background: none;
   cursor: pointer;
+}
+
+.buttonDelete{
+  cursor: pointer;
+  align-self: flex-end;
+  margin-left: auto;
+  font-weight: 500;
+  color: $red;
+  background: none;
+  font-size: calc(10px + (14 - 10) * ((100vw - 300px) / (1600 - 300)));
 }
 
 .imageWrapper {

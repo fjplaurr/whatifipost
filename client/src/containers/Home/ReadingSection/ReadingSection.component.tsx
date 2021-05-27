@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import style from './ReadingSection.module.scss';
 import PostCard from '../../../components/PostCard';
 import { Post } from '../../../interfaces/Post';
-import { useUserFetch } from '../../../endpoints';
+import { useUserFetch, usePostFetch } from '../../../endpoints';
 import ProfileHeader from './ProfileHeader';
-import { RootState, setPosts } from '../../../context/redux';
+import { RootState, setPosts, deletePost } from '../../../context/redux';
 
 const ReadingSection = () => {
   // Global state
@@ -19,6 +19,7 @@ const ReadingSection = () => {
 
   // Endpoints
   const { getOwnAndOthersPosts, getUsersPosts } = useUserFetch();
+  const { deleteSingle } = usePostFetch();
 
   // Loops an array of posts and transforms every string date into Date type
   const parseDate = React.useCallback((arr: Post[]) => {
@@ -45,36 +46,25 @@ const ReadingSection = () => {
     watchingOtherProfileId ? getPostsFromOneUser() : getAllPosts();
   }, [following]);
 
-  const friendsPosts = posts.map((post: Post, index: number) => {
-    if (watchingOtherProfileId) {
-      return (
-        <React.Fragment key={post.date.getTime()}>
-          <PostCard
-            name={post.author.name}
-            surname={post.author.surname}
-            message={post.text}
-            picture={post.author.profileImage}
-            last={posts.length - 1 === index}
-            timestamp={post.date}
-            authorId={post.author._id}
-          />
-        </React.Fragment>
-      );
-    }
-    return (
-      <React.Fragment key={post.date.getTime()}>
-        <PostCard
-          name={post.author.name}
-          surname={post.author.surname}
-          message={post.text}
-          picture={post.author.profileImage}
-          last={posts.length - 1 === index}
-          timestamp={post.date}
-          authorId={post.author._id}
-        />
-      </React.Fragment>
-    );
-  });
+  async function deleteMessage(post: Post) {
+    await deleteSingle(post._id!);
+    dispatch(deletePost(post._id!));
+  }
+
+  const friendsPosts = posts.map((post: Post, index: number) => (
+    <React.Fragment key={post.date.getTime()}>
+      <PostCard
+        name={post.author.name}
+        surname={post.author.surname}
+        message={post.text}
+        picture={post.author.profileImage}
+        last={posts.length - 1 === index}
+        timestamp={post.date}
+        authorId={post.author._id}
+        deletePost={() => deleteMessage(post)}
+      />
+    </React.Fragment>
+  ));
 
   return (
     <section className={style.readingSection} data-testid="readingSection">

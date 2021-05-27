@@ -11,7 +11,12 @@ interface addPost {
   payload: Post
 }
 
-export type PostsActionTypes = setPosts | addPost
+interface deletePost {
+  type: typeof actions.DELETEPOST,
+  payload: string
+}
+
+export type PostsActionTypes = setPosts | addPost | deletePost
 
 export interface PostsState {
   posts: Post [],

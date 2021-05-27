@@ -22,22 +22,23 @@ const PostSection = () => {
   const { create } = usePostFetch();
 
   // Function triggered when sending a post
-  const handlePost = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     setPost('');
     event.preventDefault();
-    const newPost: Post = {
+    let newPost: Post = {
       author: user!,
       date: new Date(),
       text: post,
     };
-    await create(newPost);
+    const postReturned = await create(newPost);
+    newPost = { ...newPost, _id: postReturned._id };
     dispatch(addPost(newPost));
   };
 
   return (
     <section className={styles.postSection}>
       <form
-        onSubmit={handlePost}
+        onSubmit={handleSubmit}
         className={styles.container}
       >
         <TextareaAutosize
