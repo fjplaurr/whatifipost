@@ -9,7 +9,11 @@ export const rootReducer = combineReducers({
   posts: postsReducer,
 });
 
+const devTools = process.env.NODE_ENV !== 'production' && (window as any).__REDUX_DEVTOOLS_EXTENSION__
+  ? (window as any).__REDUX_DEVTOOLS_EXTENSION__
+  && (window as any).__REDUX_DEVTOOLS_EXTENSION__() : (a: any) => a;
+
 export const store = createStore(
   rootReducer,
-  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+  devTools,
 );
